@@ -1,0 +1,3479 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>StockFlow Tecnologia</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --blue:#1769e0;
+    --blue-dark:#0e3f8c;
+    --navy:#10233f;
+    --text:#172b4d;
+    --muted:#68778d;
+    --border:#e5eaf0;
+    --bg:#f6f8fb;
+    --white:#fff;
+    --success:#198754;
+    --warning:#d98b00;
+    --danger:#d64545;
+}
+
+body{
+    font-family:"DM Sans",sans-serif;
+    color:var(--text);
+    background:var(--white);
+}
+
+button,
+input,
+select{
+    font-family:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+/* =========================
+   LANDING
+========================= */
+
+#landing{
+    min-height:100vh;
+    display:block;
+}
+
+.header{
+    height:76px;
+    padding:0 7%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid #edf0f4;
+    background:#fff;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:"Manrope",sans-serif;
+    font-weight:800;
+    font-size:21px;
+    color:var(--navy);
+}
+
+.logo-mark{
+    width:34px;
+    height:34px;
+    border-radius:9px;
+    background:var(--blue);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:800;
+}
+
+.nav{
+    display:flex;
+    gap:30px;
+    align-items:center;
+}
+
+.nav a{
+    color:#52627a;
+    text-decoration:none;
+    font-size:14px;
+    font-weight:500;
+}
+
+.nav a:hover{
+    color:var(--blue);
+}
+
+.nav-button{
+    border:0;
+    background:var(--navy);
+    color:white;
+    padding:11px 19px;
+    border-radius:7px;
+    font-weight:600;
+}
+
+.nav-login{
+    border:1px solid #d8e0ea;
+    background:#fff;
+    color:var(--navy);
+    padding:10px 17px;
+    border-radius:7px;
+    font-weight:600;
+    font-size:14px;
+}
+
+.nav-login:hover{
+    border-color:var(--blue);
+    color:var(--blue);
+}
+
+.hero{
+    min-height:650px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    align-items:center;
+    gap:70px;
+    padding:80px 7%;
+}
+
+.hero-tag{
+    color:var(--blue);
+    font-weight:700;
+    font-size:13px;
+    margin-bottom:20px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.hero h1{
+    font-family:"Manrope",sans-serif;
+    font-size:58px;
+    line-height:1.06;
+    letter-spacing:-2.5px;
+    max-width:620px;
+    color:var(--navy);
+}
+
+.hero p{
+    margin-top:25px;
+    font-size:18px;
+    line-height:1.7;
+    color:var(--muted);
+    max-width:550px;
+}
+
+.hero-actions{
+    margin-top:32px;
+    display:flex;
+    gap:12px;
+}
+
+.primary-button{
+    border:0;
+    background:var(--blue);
+    color:#fff;
+    padding:14px 22px;
+    border-radius:7px;
+    font-weight:700;
+    font-size:14px;
+}
+
+.secondary-button{
+    border:1px solid var(--border);
+    background:#fff;
+    color:var(--navy);
+    padding:14px 22px;
+    border-radius:7px;
+    font-weight:700;
+    font-size:14px;
+}
+
+.dashboard-preview{
+    border:1px solid #dfe5ed;
+    border-radius:13px;
+    background:#fff;
+    box-shadow:0 25px 60px rgba(20,45,80,.12);
+    overflow:hidden;
+}
+
+.preview-top{
+    height:46px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    gap:6px;
+    padding:0 15px;
+}
+
+.dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#cfd6df;
+}
+
+.preview-body{
+    display:grid;
+    grid-template-columns:145px 1fr;
+    min-height:390px;
+}
+
+.preview-side{
+    border-right:1px solid var(--border);
+    padding:18px 12px;
+}
+
+.preview-line{
+    height:9px;
+    width:75%;
+    border-radius:5px;
+    background:#e9edf2;
+    margin-bottom:20px;
+}
+
+.preview-line.active{
+    width:90%;
+    background:#dceaff;
+}
+
+.preview-main{
+    padding:24px;
+}
+
+.preview-title{
+    width:180px;
+    height:16px;
+    background:#dce2e9;
+    border-radius:5px;
+    margin-bottom:25px;
+}
+
+.preview-stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+}
+
+.preview-stat{
+    height:85px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:15px;
+}
+
+.preview-stat span{
+    display:block;
+    width:50px;
+    height:8px;
+    background:#e3e7ec;
+    border-radius:4px;
+    margin-bottom:13px;
+}
+
+.preview-stat strong{
+    display:block;
+    width:35px;
+    height:13px;
+    background:#bfc8d4;
+    border-radius:4px;
+}
+
+.preview-table{
+    margin-top:18px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:15px;
+}
+
+.table-line{
+    height:10px;
+    background:#edf0f4;
+    margin-bottom:13px;
+    border-radius:4px;
+}
+
+.section{
+    padding:100px 7%;
+}
+
+.section.gray{
+    background:var(--bg);
+}
+
+.section-title{
+    max-width:700px;
+}
+
+.section-title span{
+    color:var(--blue);
+    font-size:13px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.section-title h2{
+    margin-top:14px;
+    font-family:"Manrope",sans-serif;
+    font-size:42px;
+    line-height:1.15;
+    color:var(--navy);
+}
+
+.section-title p{
+    margin-top:18px;
+    color:var(--muted);
+    font-size:17px;
+    line-height:1.7;
+}
+
+.flow{
+    margin-top:55px;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    border-top:1px solid var(--border);
+}
+
+.flow-item{
+    padding:25px 20px 20px 0;
+    border-right:1px solid var(--border);
+}
+
+.flow-item:not(:first-child){
+    padding-left:25px;
+}
+
+.flow-number{
+    color:var(--blue);
+    font-size:13px;
+    font-weight:700;
+}
+
+.flow-item h3{
+    margin-top:15px;
+    font-size:17px;
+}
+
+.flow-item p{
+    margin-top:8px;
+    color:var(--muted);
+    font-size:14px;
+    line-height:1.6;
+}
+
+.product-section{
+    background:var(--navy);
+    color:white;
+}
+
+.product-section .section-title h2{
+    color:white;
+}
+
+.product-section .section-title p{
+    color:#b7c4d6;
+}
+
+.product-screen{
+    margin-top:55px;
+    background:#fff;
+    color:var(--text);
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 25px 70px rgba(0,0,0,.2);
+}
+
+.product-header{
+    height:58px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 22px;
+}
+
+.product-header strong{
+    color:var(--navy);
+}
+
+.product-content{
+    padding:25px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+}
+
+.product-box{
+    padding:20px;
+    border:1px solid var(--border);
+    border-radius:8px;
+}
+
+.product-box small{
+    color:var(--muted);
+}
+
+.product-box strong{
+    display:block;
+    margin-top:10px;
+    font-size:25px;
+}
+
+.about{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:80px;
+    align-items:start;
+}
+
+.about-text h2{
+    font-family:"Manrope";
+    font-size:42px;
+    color:var(--navy);
+}
+
+.about-text p{
+    margin-top:20px;
+    line-height:1.8;
+    color:var(--muted);
+}
+
+.values{
+    display:grid;
+    gap:20px;
+}
+
+.value{
+    padding-bottom:20px;
+    border-bottom:1px solid var(--border);
+}
+
+.value strong{
+    font-size:16px;
+}
+
+.value p{
+    margin-top:7px;
+    color:var(--muted);
+    font-size:14px;
+}
+
+.cta{
+    padding:90px 7%;
+    background:#eef5ff;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:30px;
+}
+
+.cta h2{
+    font-family:"Manrope";
+    color:var(--navy);
+    font-size:38px;
+}
+
+.cta p{
+    margin-top:10px;
+    color:var(--muted);
+}
+
+footer{
+    padding:30px 7%;
+    display:flex;
+    justify-content:space-between;
+    border-top:1px solid var(--border);
+    font-size:13px;
+    color:var(--muted);
+}
+
+/* =========================
+   APP ADMINISTRATIVO
+========================= */
+
+#app{
+    display:none;
+    min-height:100vh;
+    background:var(--bg);
+}
+
+.app-layout{
+    min-height:100vh;
+    display:flex;
+}
+
+.sidebar{
+    width:245px;
+    background:#fff;
+    border-right:1px solid var(--border);
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    padding:25px 15px;
+}
+
+.sidebar .logo{
+    padding:0 12px 30px;
+}
+
+.menu-label{
+    font-size:11px;
+    color:#9aa6b5;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    padding:0 12px;
+    margin:20px 0 9px;
+}
+
+.menu-button{
+    width:100%;
+    border:0;
+    background:transparent;
+    text-align:left;
+    padding:11px 12px;
+    border-radius:7px;
+    color:#617087;
+    font-size:14px;
+    margin-bottom:3px;
+}
+
+.menu-button:hover,
+.menu-button.active{
+    background:#eef5ff;
+    color:var(--blue);
+    font-weight:600;
+}
+
+.main{
+    margin-left:245px;
+    width:calc(100% - 245px);
+}
+
+.app-top{
+    height:72px;
+    background:#fff;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 35px;
+}
+
+.back-button{
+    border:1px solid var(--border);
+    background:white;
+    padding:9px 14px;
+    border-radius:6px;
+    color:#53647a;
+    font-size:13px;
+}
+
+.user-profile{
+    font-size:13px;
+    color:#65748a;
+}
+
+.page{
+    display:none;
+    padding:35px;
+}
+
+.page.active{
+    display:block;
+}
+
+.page-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-bottom:28px;
+}
+
+.page-header h1{
+    font-family:"Manrope";
+    font-size:28px;
+    color:var(--navy);
+}
+
+.page-header p{
+    color:var(--muted);
+    font-size:14px;
+    margin-top:7px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.stat-card{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:20px;
+}
+
+.stat-card small{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.stat-card strong{
+    display:block;
+    font-size:28px;
+    margin-top:8px;
+    color:var(--navy);
+}
+
+.stat-card .blue{
+    color:var(--blue);
+}
+
+.stat-card .green{
+    color:var(--success);
+}
+
+.stat-card .orange{
+    color:var(--warning);
+}
+
+.content-box{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:8px;
+    overflow:hidden;
+}
+
+.box-header{
+    padding:18px 20px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.box-header h3{
+    font-size:15px;
+}
+
+.table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.table th,
+.table td{
+    text-align:left;
+    padding:15px 20px;
+    border-bottom:1px solid #edf0f3;
+    font-size:13px;
+}
+
+.table th{
+    color:#78869a;
+    font-weight:600;
+    background:#fafbfd;
+}
+
+.table td{
+    color:#45556d;
+}
+
+.status{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:700;
+}
+
+.status.available{
+    color:var(--success);
+    background:#eaf7f0;
+}
+
+.status.cautioned{
+    color:var(--blue);
+    background:#eaf2ff;
+}
+
+.status.maintenance{
+    color:var(--warning);
+    background:#fff5df;
+}
+
+.form{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:25px;
+    max-width:800px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.field{
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+}
+
+.field.full{
+    grid-column:1 / -1;
+}
+
+.field label{
+    font-size:13px;
+    font-weight:600;
+    color:#45556d;
+}
+
+.field input,
+.field select{
+    border:1px solid #dce2e9;
+    padding:12px;
+    border-radius:6px;
+    outline:none;
+    color:var(--text);
+    background:#fff;
+}
+
+.field input:focus,
+.field select:focus{
+    border-color:var(--blue);
+}
+
+.form-actions{
+    margin-top:25px;
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+}
+
+.action-button{
+    border:0;
+    background:var(--blue);
+    color:white;
+    padding:11px 17px;
+    border-radius:6px;
+    font-weight:600;
+}
+
+.cancel-button{
+    border:1px solid var(--border);
+    background:white;
+    padding:11px 17px;
+    border-radius:6px;
+}
+
+.module-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.module{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:22px;
+    cursor:pointer;
+    transition:.15s;
+}
+
+.module:hover{
+    border-color:#bfd5f7;
+    transform:translateY(-2px);
+}
+
+.module-number{
+    font-size:12px;
+    color:var(--blue);
+    font-weight:700;
+}
+
+.module h3{
+    margin-top:12px;
+    font-size:17px;
+}
+
+.module p{
+    margin-top:8px;
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.6;
+}
+
+.alert{
+    padding:13px 16px;
+    background:#eef5ff;
+    color:#285d9f;
+    border-radius:6px;
+    margin-bottom:20px;
+    font-size:13px;
+    display:none;
+}
+
+/* =========================
+   LOGIN CLIENTE
+========================= */
+
+#client-login{
+    display:none;
+    min-height:100vh;
+    background:#f6f8fb;
+}
+
+.login-wrapper{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:30px;
+}
+
+.login-card{
+    width:100%;
+    max-width:420px;
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:38px;
+    box-shadow:0 20px 50px rgba(20,45,80,.08);
+}
+
+.login-logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:"Manrope";
+    font-size:20px;
+    font-weight:800;
+    color:var(--navy);
+    margin-bottom:35px;
+}
+
+.login-card h1{
+    font-family:"Manrope";
+    color:var(--navy);
+    font-size:27px;
+}
+
+.login-card > p{
+    color:var(--muted);
+    font-size:14px;
+    line-height:1.6;
+    margin-top:9px;
+    margin-bottom:28px;
+}
+
+.login-form{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+}
+
+.login-field{
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+}
+
+.login-field label{
+    font-size:13px;
+    font-weight:600;
+    color:#45556d;
+}
+
+.login-field input{
+    width:100%;
+    padding:13px;
+    border:1px solid #dce2e9;
+    border-radius:7px;
+    outline:none;
+    font-size:14px;
+}
+
+.login-field input:focus{
+    border-color:var(--blue);
+}
+
+.login-button{
+    margin-top:5px;
+    width:100%;
+    border:0;
+    background:var(--blue);
+    color:#fff;
+    padding:13px;
+    border-radius:7px;
+    font-weight:700;
+    font-size:14px;
+}
+
+.login-button:hover{
+    background:#125bc5;
+}
+
+.login-error{
+    display:none;
+    padding:11px 13px;
+    background:#fff0f0;
+    color:var(--danger);
+    border-radius:6px;
+    font-size:13px;
+}
+
+.demo-login{
+    margin-top:20px;
+    padding-top:18px;
+    border-top:1px solid var(--border);
+    text-align:center;
+    font-size:12px;
+    color:#8a97a8;
+}
+
+.login-back{
+    margin-top:22px;
+    width:100%;
+    border:0;
+    background:transparent;
+    color:#607087;
+    font-size:13px;
+}
+
+/* =========================
+   PORTAL DO CLIENTE
+========================= */
+
+#client-portal{
+    display:none;
+    min-height:100vh;
+    background:var(--bg);
+}
+
+.client-layout{
+    min-height:100vh;
+    display:flex;
+}
+
+.client-sidebar{
+    width:235px;
+    position:fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    background:#fff;
+    border-right:1px solid var(--border);
+    padding:25px 15px;
+}
+
+.client-sidebar .logo{
+    padding:0 12px 30px;
+}
+
+.client-client-label{
+    padding:12px;
+    margin-bottom:20px;
+    background:#f6f8fb;
+    border-radius:8px;
+}
+
+.client-client-label small{
+    display:block;
+    color:#8996a8;
+    font-size:11px;
+}
+
+.client-client-label strong{
+    display:block;
+    margin-top:4px;
+    color:var(--navy);
+    font-size:14px;
+}
+
+.client-menu{
+    width:100%;
+    border:0;
+    background:transparent;
+    text-align:left;
+    padding:11px 12px;
+    border-radius:7px;
+    color:#617087;
+    font-size:14px;
+    margin-bottom:3px;
+}
+
+.client-menu:hover,
+.client-menu.active{
+    background:#eef5ff;
+    color:var(--blue);
+    font-weight:600;
+}
+
+.client-logout{
+    position:absolute;
+    bottom:25px;
+    left:15px;
+    width:calc(100% - 30px);
+    border:1px solid var(--border);
+    background:#fff;
+    color:#65748a;
+    padding:10px;
+    border-radius:7px;
+    font-size:13px;
+}
+
+.client-main{
+    margin-left:235px;
+    width:calc(100% - 235px);
+}
+
+.client-top{
+    height:72px;
+    background:#fff;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 35px;
+}
+
+.client-top-title{
+    font-size:14px;
+    color:#65748a;
+}
+
+.client-top-user{
+    font-size:13px;
+    color:#52627a;
+}
+
+.client-page{
+    display:none;
+    padding:35px;
+}
+
+.client-page.active{
+    display:block;
+}
+
+.client-welcome{
+    margin-bottom:28px;
+}
+
+.client-welcome h1{
+    font-family:"Manrope";
+    font-size:29px;
+    color:var(--navy);
+}
+
+.client-welcome p{
+    color:var(--muted);
+    font-size:14px;
+    margin-top:7px;
+}
+
+.client-stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.client-stat{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:22px;
+}
+
+.client-stat small{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.client-stat strong{
+    display:block;
+    font-size:29px;
+    color:var(--navy);
+    margin-top:8px;
+}
+
+.client-stat .blue{
+    color:var(--blue);
+}
+
+.client-stat .green{
+    color:var(--success);
+}
+
+.client-stat .orange{
+    color:var(--warning);
+}
+
+.client-info{
+    padding:18px 20px;
+    background:#eef5ff;
+    border:1px solid #dceaff;
+    border-radius:8px;
+    margin-bottom:25px;
+}
+
+.client-info strong{
+    color:var(--navy);
+    font-size:14px;
+}
+
+.client-info p{
+    margin-top:5px;
+    color:#617087;
+    font-size:13px;
+}
+
+.client-empty{
+    padding:45px;
+    text-align:center;
+    color:var(--muted);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:900px){
+
+    .nav{
+        display:none;
+    }
+
+    .hero{
+        grid-template-columns:1fr;
+        padding-top:60px;
+    }
+
+    .hero h1{
+        font-size:45px;
+    }
+
+    .flow{
+        grid-template-columns:1fr;
+    }
+
+    .flow-item,
+    .flow-item:not(:first-child){
+        padding:20px 0;
+        border-right:0;
+        border-bottom:1px solid var(--border);
+    }
+
+    .about{
+        grid-template-columns:1fr;
+    }
+
+    .product-content{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .sidebar,
+    .client-sidebar{
+        width:190px;
+    }
+
+    .main{
+        margin-left:190px;
+        width:calc(100% - 190px);
+    }
+
+    .client-main{
+        margin-left:190px;
+        width:calc(100% - 190px);
+    }
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .module-grid{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media(max-width:650px){
+
+    .header{
+        padding:0 20px;
+    }
+
+    .hero,
+    .section,
+    .cta{
+        padding-left:20px;
+        padding-right:20px;
+    }
+
+    .hero h1{
+        font-size:38px;
+    }
+
+    .hero-actions{
+        flex-direction:column;
+    }
+
+    .preview-body{
+        grid-template-columns:75px 1fr;
+    }
+
+    .preview-stats{
+        grid-template-columns:1fr;
+    }
+
+    .product-content{
+        grid-template-columns:1fr;
+    }
+
+    footer,
+    .cta{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .sidebar,
+    .client-sidebar{
+        display:none;
+    }
+
+    .main,
+    .client-main{
+        margin-left:0;
+        width:100%;
+    }
+
+    .app-top,
+    .client-top{
+        padding:0 15px;
+    }
+
+    .page,
+    .client-page{
+        padding:20px 15px;
+    }
+
+    .page-header{
+        flex-direction:column;
+        gap:15px;
+    }
+
+    .stats,
+    .client-stats{
+        grid-template-columns:1fr;
+    }
+
+    .module-grid{
+        grid-template-columns:1fr;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .field.full{
+        grid-column:auto;
+    }
+
+    .content-box{
+        overflow-x:auto;
+    }
+
+    .table{
+        min-width:650px;
+    }
+
+    .login-card{
+        padding:28px 22px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     LANDING PAGE
+========================= -->
+
+<div id="landing">
+
+<header class="header">
+
+    <div class="logo">
+        <div class="logo-mark">S</div>
+        StockFlow
+    </div>
+
+    <nav class="nav">
+
+        <a href="#produto">Produto</a>
+
+        <a href="#como-funciona">
+            Como funciona
+        </a>
+
+        <a href="#sobre">
+            Sobre nós
+        </a>
+
+        <button class="nav-login" onclick="openClientLogin()">
+            Entrar / Cadastro
+        </button>
+
+        <button class="nav-button" onclick="openApp()">
+            Explorar sistema
+        </button>
+
+    </nav>
+
+</header>
+
+
+<section class="hero">
+
+    <div>
+
+        <div class="hero-tag">
+            StockFlow Tecnologia
+        </div>
+
+        <h1>
+            Saiba exatamente onde está o que é seu.
+        </h1>
+
+        <p>
+            Controle de estoque e patrimônio em um só lugar.
+            Registre, acompanhe movimentações e saiba quem é
+            responsável por cada bem.
+        </p>
+
+        <div class="hero-actions">
+
+            <button class="primary-button" onclick="openApp()">
+                Explorar o sistema
+            </button>
+
+            <button class="secondary-button"
+                    onclick="document.getElementById('produto').scrollIntoView()">
+                Conhecer o produto
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="dashboard-preview">
+
+        <div class="preview-top">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+
+        <div class="preview-body">
+
+            <div class="preview-side">
+
+                <div class="preview-line active"></div>
+                <div class="preview-line"></div>
+                <div class="preview-line"></div>
+                <div class="preview-line"></div>
+                <div class="preview-line"></div>
+
+            </div>
+
+            <div class="preview-main">
+
+                <div class="preview-title"></div>
+
+                <div class="preview-stats">
+
+                    <div class="preview-stat">
+                        <span></span>
+                        <strong></strong>
+                    </div>
+
+                    <div class="preview-stat">
+                        <span></span>
+                        <strong></strong>
+                    </div>
+
+                    <div class="preview-stat">
+                        <span></span>
+                        <strong></strong>
+                    </div>
+
+                </div>
+
+                <div class="preview-table">
+                    <div class="table-line"></div>
+                    <div class="table-line"></div>
+                    <div class="table-line"></div>
+                    <div class="table-line"></div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="section gray" id="como-funciona">
+
+    <div class="section-title">
+
+        <span>Controle de ponta a ponta</span>
+
+        <h2>
+            O patrimônio passa por várias etapas.
+            O sistema acompanha todas elas.
+        </h2>
+
+        <p>
+            Do momento em que um item é cadastrado até sua
+            devolução, transferência ou manutenção, cada
+            movimentação fica registrada.
+        </p>
+
+    </div>
+
+
+    <div class="flow">
+
+        <div class="flow-item">
+            <span class="flow-number">01</span>
+            <h3>Cadastro</h3>
+            <p>Registre produtos, usuários e patrimônios.</p>
+        </div>
+
+        <div class="flow-item">
+            <span class="flow-number">02</span>
+            <h3>Disponível</h3>
+            <p>Identifique o que está disponível para utilização.</p>
+        </div>
+
+        <div class="flow-item">
+            <span class="flow-number">03</span>
+            <h3>Cautela</h3>
+            <p>Associe um patrimônio ao responsável.</p>
+        </div>
+
+        <div class="flow-item">
+            <span class="flow-number">04</span>
+            <h3>Movimentação</h3>
+            <p>Registre transferências e alterações.</p>
+        </div>
+
+        <div class="flow-item">
+            <span class="flow-number">05</span>
+            <h3>Devolução</h3>
+            <p>Finalize a responsabilidade e atualize o status.</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="section product-section" id="produto">
+
+    <div class="section-title">
+
+        <span>O produto</span>
+
+        <h2>
+            Menos planilhas espalhadas.
+            Mais controle sobre a operação.
+        </h2>
+
+        <p>
+            Uma interface criada para transformar informações
+            dispersas em uma visão clara do estoque e do patrimônio.
+        </p>
+
+    </div>
+
+
+    <div class="product-screen">
+
+        <div class="product-header">
+            <strong>StockFlow</strong>
+            <span>Visão geral</span>
+        </div>
+
+        <div class="product-content">
+
+            <div class="product-box">
+                <small>Patrimônios</small>
+                <strong>248</strong>
+            </div>
+
+            <div class="product-box">
+                <small>Cautelados</small>
+                <strong>173</strong>
+            </div>
+
+            <div class="product-box">
+                <small>Disponíveis</small>
+                <strong>52</strong>
+            </div>
+
+            <div class="product-box">
+                <small>Manutenção</small>
+                <strong>23</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="section" id="sobre">
+
+    <div class="about">
+
+        <div class="about-text">
+
+            <h2>
+                Tecnologia para uma operação mais organizada.
+            </h2>
+
+            <p>
+                A StockFlow Tecnologia desenvolve soluções
+                simples e eficientes para organizações que
+                precisam ter mais controle sobre seus recursos.
+            </p>
+
+            <p>
+                O StockFlow nasceu para transformar processos
+                que antes dependiam de planilhas, anotações e
+                controles separados em uma experiência única
+                e organizada.
+            </p>
+
+        </div>
+
+
+        <div class="values">
+
+            <div class="value">
+                <strong>Organização e eficiência</strong>
+                <p>
+                    Informação estruturada para facilitar decisões.
+                </p>
+            </div>
+
+            <div class="value">
+                <strong>Segurança da informação</strong>
+                <p>
+                    Dados e movimentações tratados com responsabilidade.
+                </p>
+            </div>
+
+            <div class="value">
+                <strong>Transparência</strong>
+                <p>
+                    Histórico claro das movimentações realizadas.
+                </p>
+            </div>
+
+            <div class="value">
+                <strong>Qualidade</strong>
+                <p>
+                    Soluções pensadas para problemas reais.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="cta">
+
+    <div>
+
+        <h2>
+            Menos dúvida. Mais controle.
+        </h2>
+
+        <p>
+            Conheça na prática como o StockFlow funciona.
+        </p>
+
+    </div>
+
+    <button class="primary-button" onclick="openApp()">
+        Explorar sistema
+    </button>
+
+</section>
+
+
+<footer>
+
+    <span>
+        © 2026 StockFlow Tecnologia. Todos os direitos reservados.
+    </span>
+
+    <span>
+        stockflow2026@gmail.com
+    </span>
+
+</footer>
+
+</div>
+
+
+<!-- =========================
+     SISTEMA ADMINISTRATIVO
+========================= -->
+
+<div id="app">
+
+<div class="app-layout">
+
+
+<aside class="sidebar">
+
+    <div class="logo">
+        <div class="logo-mark">S</div>
+        StockFlow
+    </div>
+
+
+    <div class="menu-label">
+        Principal
+    </div>
+
+    <button class="menu-button active"
+            data-screen="dashboard"
+            onclick="navigate('dashboard')">
+        Dashboard
+    </button>
+
+
+    <div class="menu-label">
+        Patrimônio
+    </div>
+
+    <button class="menu-button"
+            data-screen="patrimonios"
+            onclick="navigate('patrimonios')">
+        Patrimônios
+    </button>
+
+    <button class="menu-button"
+            data-screen="cadastro-patrimonio"
+            onclick="navigate('cadastro-patrimonio')">
+        Novo patrimônio
+    </button>
+
+
+    <div class="menu-label">
+        Pessoas
+    </div>
+
+    <button class="menu-button"
+            data-screen="usuarios"
+            onclick="navigate('usuarios')">
+        Usuários
+    </button>
+
+    <button class="menu-button"
+            data-screen="cadastro-usuario"
+            onclick="navigate('cadastro-usuario')">
+        Novo usuário
+    </button>
+
+
+    <div class="menu-label">
+        Estoque
+    </div>
+
+    <button class="menu-button"
+            data-screen="estoque"
+            onclick="navigate('estoque')">
+        Estoque
+    </button>
+
+    <button class="menu-button"
+            data-screen="movimentacoes"
+            onclick="navigate('movimentacoes')">
+        Movimentações
+    </button>
+
+</aside>
+
+
+<main class="main">
+
+    <header class="app-top">
+
+        <button class="back-button" onclick="goBack()">
+            ← Voltar
+        </button>
+
+        <div class="user-profile">
+            Yasmin · Administrador
+        </div>
+
+    </header>
+
+
+    <!-- DASHBOARD -->
+
+    <section class="page active" id="dashboard">
+
+        <div class="page-header">
+
+            <div>
+                <h1>Visão geral</h1>
+                <p>Acompanhe o patrimônio e o estoque.</p>
+            </div>
+
+        </div>
+
+
+        <div class="stats">
+
+            <div class="stat-card">
+                <small>Total de patrimônios</small>
+                <strong>248</strong>
+            </div>
+
+            <div class="stat-card">
+                <small>Disponíveis</small>
+                <strong class="blue">52</strong>
+            </div>
+
+            <div class="stat-card">
+                <small>Cautelados</small>
+                <strong class="green">173</strong>
+            </div>
+
+            <div class="stat-card">
+                <small>Em manutenção</small>
+                <strong class="orange">23</strong>
+            </div>
+
+        </div>
+
+
+        <div class="module-grid">
+
+            <div class="module"
+                 onclick="navigate('patrimonios')">
+
+                <span class="module-number">01</span>
+
+                <h3>Patrimônios</h3>
+
+                <p>
+                    Consulte todos os bens cadastrados,
+                    seus responsáveis e respectivos status.
+                </p>
+
+            </div>
+
+
+            <div class="module"
+                 onclick="navigate('usuarios')">
+
+                <span class="module-number">02</span>
+
+                <h3>Usuários</h3>
+
+                <p>
+                    Gerencie os usuários responsáveis
+                    pelos patrimônios.
+                </p>
+
+            </div>
+
+
+            <div class="module"
+                 onclick="navigate('estoque')">
+
+                <span class="module-number">03</span>
+
+                <h3>Estoque</h3>
+
+                <p>
+                    Acompanhe entradas, saídas e níveis
+                    de estoque.
+                </p>
+
+            </div>
+
+
+            <div class="module"
+                 onclick="navigate('movimentacoes')">
+
+                <span class="module-number">04</span>
+
+                <h3>Movimentações</h3>
+
+                <p>
+                    Consulte o histórico de movimentações
+                    realizadas no sistema.
+                </p>
+
+            </div>
+
+
+            <div class="module"
+                 onclick="navigate('cadastro-patrimonio')">
+
+                <span class="module-number">05</span>
+
+                <h3>Cadastrar patrimônio</h3>
+
+                <p>
+                    Adicione um novo bem ao controle patrimonial.
+                </p>
+
+            </div>
+
+
+            <div class="module"
+                 onclick="navigate('cadastro-usuario')">
+
+                <span class="module-number">06</span>
+
+                <h3>Cadastrar usuário</h3>
+
+                <p>
+                    Cadastre uma nova pessoa responsável.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- PATRIMÔNIOS -->
+
+    <section class="page" id="patrimonios">
+
+        <div class="page-header">
+
+            <div>
+                <h1>Patrimônios</h1>
+                <p>Controle todos os bens cadastrados.</p>
+            </div>
+
+            <button class="action-button"
+                    onclick="navigate('cadastro-patrimonio')">
+                + Novo patrimônio
+            </button>
+
+        </div>
+
+
+        <div class="alert" id="patrimonioAlert">
+            Patrimônio cadastrado com sucesso.
+        </div>
+
+
+        <div class="content-box">
+
+            <div class="box-header">
+                <h3>Patrimônios cadastrados</h3>
+            </div>
+
+            <table class="table">
+
+                <thead>
+
+                    <tr>
+                        <th>Patrimônio</th>
+                        <th>Descrição</th>
+                        <th>Categoria</th>
+                        <th>Responsável</th>
+                        <th>Status</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="patrimonioTable">
+
+                    <tr>
+                        <td>PT-0001</td>
+                        <td>Notebook Dell Latitude</td>
+                        <td>Informática</td>
+                        <td>João Silva</td>
+                        <td>
+                            <span class="status cautioned">
+                                Cautelado
+                            </span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>PT-0002</td>
+                        <td>Monitor 24"</td>
+                        <td>Informática</td>
+                        <td>—</td>
+                        <td>
+                            <span class="status available">
+                                Disponível
+                            </span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>PT-0003</td>
+                        <td>Impressora HP</td>
+                        <td>Equipamentos</td>
+                        <td>Maria Souza</td>
+                        <td>
+                            <span class="status cautioned">
+                                Cautelado
+                            </span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>PT-0004</td>
+                        <td>Computador Desktop</td>
+                        <td>Informática</td>
+                        <td>—</td>
+                        <td>
+                            <span class="status maintenance">
+                                Manutenção
+                            </span>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- CADASTRO PATRIMÔNIO -->
+
+    <section class="page" id="cadastro-patrimonio">
+
+        <div class="page-header">
+
+            <div>
+                <h1>Novo patrimônio</h1>
+                <p>Cadastre um novo bem no sistema.</p>
+            </div>
+
+        </div>
+
+
+        <form class="form" onsubmit="cadastrarPatrimonio(event)">
+
+            <div class="form-grid">
+
+                <div class="field">
+
+                    <label>Número do patrimônio</label>
+
+                    <input
+                        id="numeroPatrimonio"
+                        type="text"
+                        placeholder="Ex.: PT-0005"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Categoria</label>
+
+                    <select id="categoriaPatrimonio" required>
+
+                        <option value="">
+                            Selecione
+                        </option>
+
+                        <option>
+                            Informática
+                        </option>
+
+                        <option>
+                            Mobiliário
+                        </option>
+
+                        <option>
+                            Equipamentos
+                        </option>
+
+                        <option>
+                            Veículos
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="field full">
+
+                    <label>Descrição</label>
+
+                    <input
+                        id="descricaoPatrimonio"
+                        type="text"
+                        placeholder="Ex.: Notebook Lenovo ThinkPad"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Estado de conservação</label>
+
+                    <select required>
+
+                        <option>
+                            Bom
+                        </option>
+
+                        <option>
+                            Regular
+                        </option>
+
+                        <option>
+                            Necessita manutenção
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Data de cadastro</label>
+
+                    <input
+                        type="date"
+                        id="dataCadastro"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="form-actions">
+
+                <button
+                    type="button"
+                    class="cancel-button"
+                    onclick="goBack()">
+                    Cancelar
+                </button>
+
+                <button
+                    type="submit"
+                    class="action-button">
+                    Cadastrar patrimônio
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+
+    <!-- USUÁRIOS -->
+
+    <section class="page" id="usuarios">
+
+        <div class="page-header">
+
+            <div>
+                <h1>Usuários</h1>
+                <p>Pessoas cadastradas para receber patrimônios.</p>
+            </div>
+
+            <button
+                class="action-button"
+                onclick="navigate('cadastro-usuario')">
+                + Novo usuário
+            </button>
+
+        </div>
+
+
+        <div class="content-box">
+
+            <div class="box-header">
+                <h3>Usuários cadastrados</h3>
+            </div>
+
+            <table class="table">
+
+                <thead>
+
+                    <tr>
+                        <th>Nome</th>
+                        <th>Departamento</th>
+                        <th>Patrimônios</th>
+                        <th>Status</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>João Silva</td>
+                        <td>Tecnologia da Informação</td>
+                        <td>4</td>
+                        <td>
+                            <span class="status available">
+                                Ativo
+                            </span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Maria Souza</td>
+                        <td>Administrativo</td>
+                        <td>2</td>
+                        <td>
+                            <span class="status available">
+                                Ativo
+                            </span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Carlos Oliveira</td>
+                        <td>Financeiro</td>
+                        <td>1</td>
+                        <td>
+                            <span class="status available">
+                                Ativo
+                            </span>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- CADASTRO USUÁRIO -->
+
+    <section class="page" id="cadastro-usuario">
+
+        <div class="page-header">
+
+            <div>
+                <h1>Novo usuário</h1>
+                <p>Cadastre uma pessoa responsável.</p>
+            </div>
+
+        </div>
+
+
+        <form class="form" onsubmit="cadastrarUsuario(event)">
+
+            <div class="form-grid">
+
+                <div class="field full">
+
+                    <label>Nome completo</label>
+
+                    <input
+                        id="nomeUsuario"
+                        type="text"
+                        placeholder="Digite o nome completo"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Departamento</label>
+
+                    <select required>
+
+                        <option value="">
+                            Selecione
+                        </option>
+
+                        <option>
+                            Administrativo
+                        </option>
+
+                        <option>
+                            Financeiro
+                        </option>
+
+                        <option>
+                            Recursos Humanos
+                        </option>
+
+                        <option>
+                            Tecnologia da Informação
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Matrícula</label>
+
+                    <input
+                        type="text"
+                        placeholder="Ex.: 001245"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="form-actions">
+
+                <button
+                    type="button"
+                    class="cancel-button"
+                    onclick="goBack()">
+                    Cancelar
+                </button>
+
+                <button
+                    type="submit"
+                    class="action-button">
+                    Cadastrar usuário
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+
+    <!-- ESTOQUE -->
+
+    <section class="page" id="estoque">
+
+        <div class="page-header">
+
+            <div>
+                <h1>Estoque</h1>
+                <p>Acompanhe produtos e materiais disponíveis.</p>
+            </div>
+
+        </div>
+
+
+        <div class="stats">
+
+            <div class="stat-card">
+                <small>Total de itens</small>
+                <strong>1.248</strong>
+            </div>
+
+            <div class="stat-card">
+                <small>Entradas no mês</small>
+                <strong class="green">184</strong>
+            </div>
+
+            <div class="stat-card">
+                <small>Saídas no mês</small>
+                <strong class="blue">132</strong>
+            </div>
+
+            <div class="stat-card">
+                <small>Estoque baixo</small>
+                <strong class="orange">8</strong>
+            </div>
+
+        </div>
+
+
+        <div class="content-box">
+
+            <div class="box-header">
+                <h3>Itens em estoque</h3>
+            </div>
+
+            <table class="table">
+
+                <thead>
+
+                    <tr>
+                        <th>Produto</th>
+                        <th>Categoria</th>
+                        <th>Quantidade</th>
+                        <th>Mínimo</th>
+                        <th>Situação</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>Papel A4</td>
+                        <td>Material de escritório</td>
+                        <td>320</td>
+                        <td>100</td>
+                        <td>
+                            <span class="status available">
+                                Normal
+                            </span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Caneta azul</td>
+                        <td>Material de escritório</td>
+                        <td>42</td>
+                        <td>50</td>
+                        <td>
+                            <span class="status maintenance">
+                                Estoque baixo
+                            </span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Mouse USB</td>
+                        <td>Informática</td>
+                        <td>87</td>
+                        <td>30</td>
+                        <td>
+                            <span class="status available">
+                                Normal
+                            </span>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- MOVIMENTAÇÕES -->
+
+    <section class="page" id="movimentacoes">
+
+        <div class="page-header">
+
+            <div>
+                <h1>Movimentações</h1>
+                <p>Histórico das ações realizadas no sistema.</p>
+            </div>
+
+        </div>
+
+
+        <div class="content-box">
+
+            <div class="box-header">
+                <h3>Histórico</h3>
+            </div>
+
+            <table class="table">
+
+                <thead>
+
+                    <tr>
+                        <th>Data</th>
+                        <th>Patrimônio</th>
+                        <th>Ação</th>
+                        <th>Responsável</th>
+                        <th>Registrado por</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>04/09/2026</td>
+                        <td>PT-0001</td>
+                        <td>Cautela</td>
+                        <td>João Silva</td>
+                        <td>Administrador</td>
+                    </tr>
+
+                    <tr>
+                        <td>03/09/2026</td>
+                        <td>PT-0003</td>
+                        <td>Transferência</td>
+                        <td>Maria Souza</td>
+                        <td>Administrador</td>
+                    </tr>
+
+                    <tr>
+                        <td>02/09/2026</td>
+                        <td>PT-0004</td>
+                        <td>Manutenção</td>
+                        <td>—</td>
+                        <td>Administrador</td>
+                    </tr>
+
+                    <tr>
+                        <td>01/09/2026</td>
+                        <td>PT-0002</td>
+                        <td>Devolução</td>
+                        <td>—</td>
+                        <td>Administrador</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     LOGIN CLIENTE
+========================= -->
+
+<div id="client-login">
+
+    <div class="login-wrapper">
+
+        <div class="login-card">
+
+            <div class="login-logo">
+
+                <div class="logo-mark">
+                    S
+                </div>
+
+                StockFlow
+
+            </div>
+
+
+            <h1>
+                Acesse seu StockFlow
+            </h1>
+
+            <p>
+                Entre para acompanhar os patrimônios
+                sob sua responsabilidade.
+            </p>
+
+
+            <form class="login-form"
+                  onsubmit="loginCliente(event)">
+
+                <div class="login-field">
+
+                    <label>
+                        Usuário
+                    </label>
+
+                    <input
+                        type="text"
+                        id="loginUsuario"
+                        placeholder="Digite seu usuário"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="login-field">
+
+                    <label>
+                        Senha
+                    </label>
+
+                    <input
+                        type="password"
+                        id="loginSenha"
+                        placeholder="Digite sua senha"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="login-error" id="loginError">
+                    Usuário ou senha incorretos.
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="login-button">
+                    Entrar
+                </button>
+
+            </form>
+
+
+            <div class="demo-login">
+                Demonstração: admin / admin
+            </div>
+
+
+            <button
+                class="login-back"
+                onclick="backToLanding()">
+                ← Voltar para o site
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     PORTAL DO CLIENTE
+========================= -->
+
+<div id="client-portal">
+
+<div class="client-layout">
+
+
+    <aside class="client-sidebar">
+
+        <div class="logo">
+
+            <div class="logo-mark">
+                S
+            </div>
+
+            StockFlow
+
+        </div>
+
+
+        <div class="client-client-label">
+
+            <small>
+                CLIENTE
+            </small>
+
+            <strong>
+                Anderson
+            </strong>
+
+        </div>
+
+
+        <button
+            class="client-menu active"
+            data-client-screen="client-dashboard"
+            onclick="showClientScreen('client-dashboard')">
+            Visão geral
+        </button>
+
+
+        <button
+            class="client-menu"
+            data-client-screen="client-patrimonios"
+            onclick="showClientScreen('client-patrimonios')">
+            Meus patrimônios
+        </button>
+
+
+        <button
+            class="client-menu"
+            data-client-screen="client-movimentacoes"
+            onclick="showClientScreen('client-movimentacoes')">
+            Minhas movimentações
+        </button>
+
+
+        <button
+            class="client-logout"
+            onclick="logoutCliente()">
+            Sair da conta
+        </button>
+
+    </aside>
+
+
+    <main class="client-main">
+
+
+        <header class="client-top">
+
+            <div class="client-top-title">
+                Área do cliente
+            </div>
+
+            <div class="client-top-user">
+                Anderson · Cliente
+            </div>
+
+        </header>
+
+
+        <!-- CLIENTE DASHBOARD -->
+
+        <section
+            class="client-page active"
+            id="client-dashboard">
+
+            <div class="client-welcome">
+
+                <h1>
+                    Olá, Anderson.
+                </h1>
+
+                <p>
+                    Aqui você acompanha os patrimônios
+                    que estão sob sua responsabilidade.
+                </p>
+
+            </div>
+
+
+            <div class="client-stats">
+
+                <div class="client-stat">
+
+                    <small>
+                        Meus patrimônios
+                    </small>
+
+                    <strong>
+                        8
+                    </strong>
+
+                </div>
+
+
+                <div class="client-stat">
+
+                    <small>
+                        Disponíveis
+                    </small>
+
+                    <strong class="blue">
+                        14
+                    </strong>
+
+                </div>
+
+
+                <div class="client-stat">
+
+                    <small>
+                        Em manutenção
+                    </small>
+
+                    <strong class="orange">
+                        3
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="client-info">
+
+                <strong>
+                    Controle de responsabilidade
+                </strong>
+
+                <p>
+                    Os dados apresentados nesta área são
+                    referentes ao seu acesso como cliente.
+                </p>
+
+            </div>
+
+
+            <div class="content-box">
+
+                <div class="box-header">
+
+                    <h3>
+                        Meus patrimônios
+                    </h3>
+
+                    <button
+                        class="secondary-button"
+                        onclick="showClientScreen('client-patrimonios')">
+                        Ver todos
+                    </button>
+
+                </div>
+
+
+                <table class="table">
+
+                    <thead>
+
+                        <tr>
+                            <th>Patrimônio</th>
+                            <th>Descrição</th>
+                            <th>Categoria</th>
+                            <th>Status</th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>
+                                PT-0108
+                            </td>
+
+                            <td>
+                                Notebook Lenovo ThinkPad
+                            </td>
+
+                            <td>
+                                Informática
+                            </td>
+
+                            <td>
+                                <span class="status cautioned">
+                                    Em uso
+                                </span>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                PT-0114
+                            </td>
+
+                            <td>
+                                Monitor Dell 24"
+                            </td>
+
+                            <td>
+                                Informática
+                            </td>
+
+                            <td>
+                                <span class="status cautioned">
+                                    Em uso
+                                </span>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                PT-0121
+                            </td>
+
+                            <td>
+                                Teclado Logitech
+                            </td>
+
+                            <td>
+                                Informática
+                            </td>
+
+                            <td>
+                                <span class="status cautioned">
+                                    Em uso
+                                </span>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- MEUS PATRIMÔNIOS -->
+
+        <section
+            class="client-page"
+            id="client-patrimonios">
+
+            <div class="client-welcome">
+
+                <h1>
+                    Meus patrimônios
+                </h1>
+
+                <p>
+                    Bens atualmente vinculados à sua responsabilidade.
+                </p>
+
+            </div>
+
+
+            <div class="content-box">
+
+                <div class="box-header">
+
+                    <h3>
+                        Patrimônios sob minha responsabilidade
+                    </h3>
+
+                </div>
+
+
+                <table class="table">
+
+                    <thead>
+
+                        <tr>
+                            <th>Patrimônio</th>
+                            <th>Descrição</th>
+                            <th>Categoria</th>
+                            <th>Data da cautela</th>
+                            <th>Status</th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+                            <td>PT-0108</td>
+                            <td>Notebook Lenovo ThinkPad</td>
+                            <td>Informática</td>
+                            <td>12/08/2026</td>
+                            <td>
+                                <span class="status cautioned">
+                                    Em uso
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>PT-0114</td>
+                            <td>Monitor Dell 24"</td>
+                            <td>Informática</td>
+                            <td>12/08/2026</td>
+                            <td>
+                                <span class="status cautioned">
+                                    Em uso
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>PT-0121</td>
+                            <td>Teclado Logitech</td>
+                            <td>Informática</td>
+                            <td>12/08/2026</td>
+                            <td>
+                                <span class="status cautioned">
+                                    Em uso
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>PT-0122</td>
+                            <td>Mouse Logitech</td>
+                            <td>Informática</td>
+                            <td>12/08/2026</td>
+                            <td>
+                                <span class="status cautioned">
+                                    Em uso
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>PT-0130</td>
+                            <td>Notebook Dell Latitude</td>
+                            <td>Informática</td>
+                            <td>15/08/2026</td>
+                            <td>
+                                <span class="status cautioned">
+                                    Em uso
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>PT-0134</td>
+                            <td>Webcam Logitech</td>
+                            <td>Equipamentos</td>
+                            <td>20/08/2026</td>
+                            <td>
+                                <span class="status cautioned">
+                                    Em uso
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>PT-0140</td>
+                            <td>Headset profissional</td>
+                            <td>Equipamentos</td>
+                            <td>20/08/2026</td>
+                            <td>
+                                <span class="status cautioned">
+                                    Em uso
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>PT-0148</td>
+                            <td>Monitor LG 27"</td>
+                            <td>Informática</td>
+                            <td>25/08/2026</td>
+                            <td>
+                                <span class="status cautioned">
+                                    Em uso
+                                </span>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- MOVIMENTAÇÕES DO CLIENTE -->
+
+        <section
+            class="client-page"
+            id="client-movimentacoes">
+
+            <div class="client-welcome">
+
+                <h1>
+                    Minhas movimentações
+                </h1>
+
+                <p>
+                    Histórico relacionado aos seus patrimônios.
+                </p>
+
+            </div>
+
+
+            <div class="content-box">
+
+                <div class="box-header">
+
+                    <h3>
+                        Histórico
+                    </h3>
+
+                </div>
+
+
+                <table class="table">
+
+                    <thead>
+
+                        <tr>
+                            <th>Data</th>
+                            <th>Patrimônio</th>
+                            <th>Ação</th>
+                            <th>Status</th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+                            <td>25/08/2026</td>
+                            <td>PT-0148</td>
+                            <td>Cautela</td>
+                            <td>
+                                <span class="status cautioned">
+                                    Em uso
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>20/08/2026</td>
+                            <td>PT-0140</td>
+                            <td>Cautela</td>
+                            <td>
+                                <span class="status cautioned">
+                                    Em uso
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>20/08/2026</td>
+                            <td>PT-0134</td>
+                            <td>Cautela</td>
+                            <td>
+                                <span class="status cautioned">
+                                    Em uso
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>12/08/2026</td>
+                            <td>PT-0108</td>
+                            <td>Cautela</td>
+                            <td>
+                                <span class="status cautioned">
+                                    Em uso
+                                </span>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   NAVEGAÇÃO ADMINISTRATIVA
+========================= */
+
+let currentScreen = "dashboard";
+
+let navigationHistory = [];
+
+
+function openApp(){
+
+    document.getElementById("landing").style.display = "none";
+
+    document.getElementById("app").style.display = "block";
+
+    document.getElementById("client-login").style.display = "none";
+
+    document.getElementById("client-portal").style.display = "none";
+
+    navigationHistory = [];
+
+    currentScreen = "dashboard";
+
+    showScreen("dashboard");
+
+}
+
+
+function navigate(screen){
+
+    if(screen === currentScreen){
+        return;
+    }
+
+    navigationHistory.push(currentScreen);
+
+    currentScreen = screen;
+
+    showScreen(screen);
+
+}
+
+
+function goBack(){
+
+    if(navigationHistory.length === 0){
+
+        document.getElementById("app").style.display = "none";
+
+        document.getElementById("landing").style.display = "block";
+
+        window.scrollTo(0,0);
+
+        return;
+    }
+
+    const previousScreen =
+        navigationHistory.pop();
+
+    currentScreen = previousScreen;
+
+    showScreen(previousScreen);
+
+}
+
+
+function showScreen(screen){
+
+    document.querySelectorAll(".page")
+        .forEach(page => {
+            page.classList.remove("active");
+        });
+
+    const target =
+        document.getElementById(screen);
+
+    if(target){
+        target.classList.add("active");
+    }
+
+
+    document.querySelectorAll(".menu-button")
+        .forEach(button => {
+
+            button.classList.remove("active");
+
+            if(button.dataset.screen === screen){
+                button.classList.add("active");
+            }
+
+        });
+
+    window.scrollTo(0,0);
+}
+
+
+/* =========================
+   LOGIN CLIENTE
+========================= */
+
+function openClientLogin(){
+
+    document.getElementById("landing").style.display = "none";
+
+    document.getElementById("app").style.display = "none";
+
+    document.getElementById("client-portal").style.display = "none";
+
+    document.getElementById("client-login").style.display = "block";
+
+    document.getElementById("loginUsuario").value = "";
+
+    document.getElementById("loginSenha").value = "";
+
+    document.getElementById("loginError").style.display = "none";
+
+    window.scrollTo(0,0);
+
+}
+
+
+function loginCliente(event){
+
+    event.preventDefault();
+
+    const usuario =
+        document.getElementById("loginUsuario").value.trim();
+
+    const senha =
+        document.getElementById("loginSenha").value;
+
+    const erro =
+        document.getElementById("loginError");
+
+
+    if(usuario === "admin" && senha === "admin"){
+
+        document.getElementById("client-login").style.display = "none";
+
+        document.getElementById("landing").style.display = "none";
+
+        document.getElementById("app").style.display = "none";
+
+        document.getElementById("client-portal").style.display = "block";
+
+        showClientScreen("client-dashboard");
+
+        erro.style.display = "none";
+
+        window.scrollTo(0,0);
+
+        return;
+    }
+
+
+    erro.style.display = "block";
+
+}
+
+
+function backToLanding(){
+
+    document.getElementById("client-login").style.display = "none";
+
+    document.getElementById("client-portal").style.display = "none";
+
+    document.getElementById("app").style.display = "none";
+
+    document.getElementById("landing").style.display = "block";
+
+    window.scrollTo(0,0);
+
+}
+
+
+/* =========================
+   PORTAL CLIENTE
+========================= */
+
+function showClientScreen(screen){
+
+    document.querySelectorAll(".client-page")
+        .forEach(page => {
+            page.classList.remove("active");
+        });
+
+
+    const target =
+        document.getElementById(screen);
+
+    if(target){
+        target.classList.add("active");
+    }
+
+
+    document.querySelectorAll(".client-menu")
+        .forEach(button => {
+
+            button.classList.remove("active");
+
+            if(button.dataset.clientScreen === screen){
+                button.classList.add("active");
+            }
+
+        });
+
+
+    window.scrollTo(0,0);
+
+}
+
+
+function logoutCliente(){
+
+    document.getElementById("client-portal").style.display = "none";
+
+    document.getElementById("client-login").style.display = "none";
+
+    document.getElementById("landing").style.display = "block";
+
+    document.getElementById("loginUsuario").value = "";
+
+    document.getElementById("loginSenha").value = "";
+
+    window.scrollTo(0,0);
+
+}
+
+
+/* =========================
+   CADASTRO PATRIMÔNIO
+========================= */
+
+function cadastrarPatrimonio(event){
+
+    event.preventDefault();
+
+    const numero =
+        document.getElementById("numeroPatrimonio").value;
+
+    const descricao =
+        document.getElementById("descricaoPatrimonio").value;
+
+    const categoria =
+        document.getElementById("categoriaPatrimonio").value;
+
+
+    const table =
+        document.getElementById("patrimonioTable");
+
+
+    const row =
+        document.createElement("tr");
+
+
+    row.innerHTML = `
+
+        <td>${numero}</td>
+
+        <td>${descricao}</td>
+
+        <td>${categoria}</td>
+
+        <td>—</td>
+
+        <td>
+            <span class="status available">
+                Disponível
+            </span>
+        </td>
+
+    `;
+
+
+    table.appendChild(row);
+
+
+    document.getElementById("numeroPatrimonio").value = "";
+
+    document.getElementById("descricaoPatrimonio").value = "";
+
+    document.getElementById("categoriaPatrimonio").value = "";
+
+
+    navigationHistory.push("cadastro-patrimonio");
+
+    currentScreen = "patrimonios";
+
+    showScreen("patrimonios");
+
+
+    const alert =
+        document.getElementById("patrimonioAlert");
+
+    alert.style.display = "block";
+
+
+    setTimeout(() => {
+
+        alert.style.display = "none";
+
+    },3000);
+
+}
+
+
+/* =========================
+   CADASTRO USUÁRIO
+========================= */
+
+function cadastrarUsuario(event){
+
+    event.preventDefault();
+
+    const nome =
+        document.getElementById("nomeUsuario").value;
+
+
+    alert(
+        "Usuário " + nome +
+        " cadastrado com sucesso!"
+    );
+
+
+    document.getElementById("nomeUsuario").value = "";
+
+
+    navigationHistory.push("cadastro-usuario");
+
+    currentScreen = "usuarios";
+
+    showScreen("usuarios");
+
+}
+
+
+/* =========================
+   DATA AUTOMÁTICA
+========================= */
+
+const data =
+    document.getElementById("dataCadastro");
+
+
+if(data){
+
+    const hoje =
+        new Date().toISOString().split("T")[0];
+
+    data.value = hoje;
+
+}
+
+</script>
+
+</body>
+</html>
