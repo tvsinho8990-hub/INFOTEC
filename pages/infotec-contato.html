@@ -7,24 +7,90 @@
     <meta name="description" content="Entre em contato com a INFOTEC e contrate nossos serviços tecnológicos.">
     <link rel="stylesheet" href="../assets/css/theme.css">
     <style>
-        .infotec-header { background-color: #050b14; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .infotec-header .logo-text { color: #ffffff; font-family: 'Space Grotesk', sans-serif; font-size: 22px; letter-spacing: 2px; }
-        .infotec-header .logo-text span { color: #60a5fa; }
-        .infotec-header .navigation a { color: #94a3b8; }
-        .infotec-header .navigation a:hover, .infotec-header .navigation .active { color: #ffffff; }
+        body {
+            background-color: #f8fafc;
+            margin: 0;
+            padding-top: 90px; /* Garante espaço para o header fixo */
+        }
+        .infotec-header {
+            background-color: #050b14;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 8%;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+            box-sizing: border-box;
+        }
+        .infotec-header .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #ffffff;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-decoration: none;
+        }
+        .infotec-header .logo span { color: #60a5fa; }
+        .infotec-header .navigation {
+            display: flex;
+            gap: 35px;
+            align-items: center;
+        }
+        .infotec-header .navigation a {
+            font-size: 13px;
+            font-weight: 600;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .infotec-header .navigation a:hover, 
+        .infotec-header .navigation .active {
+            color: #ffffff;
+        }
+        .header-action-btn {
+            background-color: #2563eb;
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+        .header-action-btn:hover {
+            background-color: #1d4ed8;
+        }
+        @media (max-width: 900px) {
+            .infotec-header .navigation { display: none; }
+        }
     </style>
 </head>
 <body>
-    <header class="header infotec-header"><div class="header-container">
-        <a href="infotec.html" class="logo" aria-label="Ir para a página da INFOTEC"><div class="logo-icon"></div><span class="logo-text">INFO<span>TEC</span></span></a>
+    <header class="infotec-header">
+        <a href="infotec.html" class="logo">
+            <div class="logo-icon" style="width: 32px; height: 32px; background: linear-gradient(135deg, #60a5fa, #2563eb); clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); display:flex; align-items:center; justify-content:center;"></div>
+            INFO<span>TEC</span>
+        </a>
         <nav class="navigation" aria-label="Navegação principal">
             <a href="infotec.html">Início</a>
             <a href="infotec.html#sobre">Empresa</a>
             <a href="index.html">StockFlow</a>
-            <a href="infotec-contato.html" class="active" aria-current="page">Contato e Contratação</a>
+            <a href="infotec-contato.html" class="active" aria-current="page">Contato</a>
         </nav>
-        <div class="user-area"><a href="infotec.html" class="btn btn-primary" style="padding: 8px 16px; font-size: 13px;">Voltar à INFOTEC</a></div>
-    </div></header>
+        <div>
+            <a href="infotec.html" class="header-action-btn">Voltar à INFOTEC</a>
+        </div>
+    </header>
 
     <main class="support-page"><div class="support-container">
         <section class="page-header">
@@ -122,9 +188,9 @@
         </section>
     </div></main>
 
-    <footer class="footer" style="background: #050b14;"><div class="footer-container">
+    <footer class="footer" style="background: #050b14; margin-top: 60px;"><div class="footer-container">
         <div class="footer-brand">
-            <div class="logo-text" style="color: #fff; font-size: 18px; margin-bottom: 10px;">INFO<span>TEC</span></div>
+            <div style="color: #fff; font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 10px;">INFO<span>TEC</span></div>
             <p>Engenharia de software voltada para resultados reais e escalabilidade.</p>
         </div>
         <div class="footer-links">
