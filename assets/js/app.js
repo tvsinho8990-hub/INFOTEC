@@ -422,24 +422,39 @@
             `).join('');
         }
 
-        const totalCards = document.querySelectorAll('#client-dashboard .stat-card strong');
-        if (totalCards[0]) {
-            totalCards[0].textContent = clientBens.length;
+        // Atualização específica dos cards do painel do cliente para garantir o número correto (ex: 2)
+        const statCards = document.querySelectorAll('#client-dashboard .stat-card');
+        if (statCards.length >= 3) {
+            const totalBens = clientBens.length;
+            const disponiveis = clientBens.filter(item => item.status === 'Disponível').length;
+            const manutencao = clientBens.filter(item => item.status === 'Manutenção').length;
+
+            const card1 = statCards[0].querySelector('strong');
+            const card2 = statCards[1].querySelector('strong');
+            const card3 = statCards[2].querySelector('strong');
+
+            if (card1) card1.textContent = totalBens;
+            if (card2) card2.textContent = disponiveis;
+            if (card3) card3.textContent = manutencao;
         }
     }
 
     function renderDashboardTotals() {
-        const totalPatrimonios = appState.patrimonios.length;
-        const disponiveis = appState.patrimonios.filter((item) => item.status === 'Disponível').length;
-        const cautelados = appState.patrimonios.filter((item) => item.status === 'Cautelado').length;
-        const manutencao = appState.patrimonios.filter((item) => item.status === 'Manutenção').length;
-
         const dashboardValues = [
             document.querySelectorAll('.stat-card strong')[0],
             document.querySelectorAll('.stat-card strong')[1],
             document.querySelectorAll('.stat-card strong')[2],
             document.querySelectorAll('.stat-card strong')[3]
         ];
+
+        if (appState.currentUser && appState.currentUser.tipo !== 'admin') {
+            return; // Tratado diretamente dentro de renderClientPortal para o cliente
+        }
+
+        const totalPatrimonios = appState.patrimonios.length;
+        const disponiveis = appState.patrimonios.filter((item) => item.status === 'Disponível').length;
+        const cautelados = appState.patrimonios.filter((item) => item.status === 'Cautelado').length;
+        const manutencao = appState.patrimonios.filter((item) => item.status === 'Manutenção').length;
 
         if (dashboardValues[0]) dashboardValues[0].textContent = totalPatrimonios;
         if (dashboardValues[1]) dashboardValues[1].textContent = disponiveis;
@@ -452,9 +467,9 @@
         renderUsuarios();
         renderEstoque();
         renderMovimentacoes();
-        renderDashboardTotals();
         syncDateField();
         renderClientPortal();
+        renderDashboardTotals();
     }
 
     function openApp() {
@@ -583,13 +598,14 @@
         }
 
         if (clientLogin) clientLogin.style.display = 'none';
+        if (landing) clientLogin.style.display = 'none';
         if (landing) landing.style.display = 'none';
         if (app) app.style.display = 'none';
         if (clientPortal) clientPortal.style.display = 'block';
 
         if (erro) erro.style.display = 'none';
         showClientScreen('client-dashboard');
-        renderClientPortal();
+        renderAll();
         window.scrollTo(0, 0);
     }
 
