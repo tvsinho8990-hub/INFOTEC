@@ -65,6 +65,7 @@ button{
     justify-content:space-between;
     border-bottom:1px solid #edf0f4;
     background:#fff;
+    position: relative;
 }
 
 .logo{
@@ -87,6 +88,16 @@ button{
     align-items:center;
     justify-content:center;
     font-weight:800;
+}
+
+/* Botão do Menu Mobile (Hambúrguer) */
+.mobile-menu-btn{
+    display:none;
+    background:none;
+    border:0;
+    font-size:26px;
+    color:var(--navy);
+    cursor:pointer;
 }
 
 .nav{
@@ -514,6 +525,8 @@ footer{
     top:0;
     bottom:0;
     padding:25px 15px;
+    z-index: 100;
+    transition: transform 0.3s ease;
 }
 
 .sidebar .logo{
@@ -976,6 +989,8 @@ footer{
     background:#fff;
     border-right:1px solid var(--border);
     padding:25px 15px;
+    z-index: 100;
+    transition: transform 0.3s ease;
 }
 
 .client-sidebar .logo{
@@ -1147,14 +1162,56 @@ footer{
     color:var(--muted);
 }
 
+/* Botão para abrir o menu lateral no telemóvel dentro do painel administrativo e cliente */
+.mobile-toggle-btn {
+    display: none;
+    background: none;
+    border: 1px solid var(--border);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    color: var(--navy);
+}
+
+/* Overlay escuro para quando o menu mobile estiver aberto */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 99;
+}
+
 /* =========================
    RESPONSIVE
 ========================= */
 
 @media(max-width:900px){
 
+    /* Menu superior da Landing Page */
+    .mobile-menu-btn{
+        display:block;
+    }
+
     .nav{
         display:none;
+        flex-direction:column;
+        position:absolute;
+        top:100%;
+        left:0;
+        width:100%;
+        background:#fff;
+        padding:20px;
+        box-shadow:0 10px 20px rgba(0,0,0,0.1);
+        border-bottom:1px solid var(--border);
+        align-items:flex-start;
+        gap:15px;
+        z-index: 1000;
+    }
+
+    .nav.active{
+        display:flex;
     }
 
     .hero{
@@ -1163,7 +1220,7 @@ footer{
     }
 
     .hero h1{
-        font-size:45px;
+        font-size:42px;
     }
 
     .flow{
@@ -1185,19 +1242,33 @@ footer{
         grid-template-columns:1fr 1fr;
     }
 
+    /* Sistema Admin e Cliente Mobile: esconde a sidebar por padrão e abre com botão */
     .sidebar,
     .client-sidebar{
-        width:190px;
+        transform: translateX(-100%);
+    }
+
+    .sidebar.mobile-open,
+    .client-sidebar.mobile-open{
+        transform: translateX(0);
+    }
+
+    .sidebar-overlay.active {
+        display: block;
+    }
+
+    .mobile-toggle-btn {
+        display: inline-block;
     }
 
     .main{
-        margin-left:190px;
-        width:calc(100% - 190px);
+        margin-left:0;
+        width:100%;
     }
 
     .client-main{
-        margin-left:190px;
-        width:calc(100% - 190px);
+        margin-left:0;
+        width:100%;
     }
 
     .stats{
@@ -1223,7 +1294,7 @@ footer{
     }
 
     .hero h1{
-        font-size:38px;
+        font-size:34px;
     }
 
     .hero-actions{
@@ -1246,17 +1317,6 @@ footer{
     .cta{
         flex-direction:column;
         align-items:flex-start;
-    }
-
-    .sidebar,
-    .client-sidebar{
-        display:none;
-    }
-
-    .main,
-    .client-main{
-        margin-left:0;
-        width:100%;
     }
 
     .app-top,
@@ -1308,6 +1368,9 @@ footer{
 
 <body>
 
+<!-- Overlay escuro para mobile menu -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeAllSidebars()"></div>
+
 <!-- =========================
      LANDING PAGE
 ========================= -->
@@ -1321,15 +1384,20 @@ footer{
         StockFlow
     </div>
 
-    <nav class="nav">
+    <!-- Botão menu mobile landing -->
+    <button class="mobile-menu-btn" onclick="toggleLandingNav()">
+        ☰
+    </button>
 
-        <a href="#produto">Produto</a>
+    <nav class="nav" id="landingNav">
 
-        <a href="#como-funciona">
+        <a href="#produto" onclick="closeLandingNav()">Produto</a>
+
+        <a href="#como-funciona" onclick="closeLandingNav()">
             Como funciona
         </a>
 
-        <a href="#sobre">
+        <a href="#sobre" onclick="closeLandingNav()">
             Sobre nós
         </a>
 
@@ -1667,7 +1735,7 @@ footer{
 <div class="app-layout">
 
 
-<aside class="sidebar">
+<aside class="sidebar" id="adminSidebar">
 
     <div class="logo">
         <div class="logo-mark">S</div>
@@ -1681,7 +1749,7 @@ footer{
 
     <button class="menu-button active"
             data-screen="dashboard"
-            onclick="navigate('dashboard')">
+            onclick="navigate('dashboard'); closeAllSidebars();">
         Dashboard
     </button>
 
@@ -1692,13 +1760,13 @@ footer{
 
     <button class="menu-button"
             data-screen="patrimonios"
-            onclick="navigate('patrimonios')">
+            onclick="navigate('patrimonios'); closeAllSidebars();">
         Patrimônios
     </button>
 
     <button class="menu-button"
             data-screen="cadastro-patrimonio"
-            onclick="navigate('cadastro-patrimonio')">
+            onclick="navigate('cadastro-patrimonio'); closeAllSidebars();">
         Novo patrimônio
     </button>
 
@@ -1709,13 +1777,13 @@ footer{
 
     <button class="menu-button"
             data-screen="usuarios"
-            onclick="navigate('usuarios')">
+            onclick="navigate('usuarios'); closeAllSidebars();">
         Usuários
     </button>
 
     <button class="menu-button"
             data-screen="cadastro-usuario"
-            onclick="navigate('cadastro-usuario')">
+            onclick="navigate('cadastro-usuario'); closeAllSidebars();">
         Novo usuário
     </button>
 
@@ -1726,13 +1794,13 @@ footer{
 
     <button class="menu-button"
             data-screen="estoque"
-            onclick="navigate('estoque')">
+            onclick="navigate('estoque'); closeAllSidebars();">
         Estoque
     </button>
 
     <button class="menu-button"
             data-screen="movimentacoes"
-            onclick="navigate('movimentacoes')">
+            onclick="navigate('movimentacoes'); closeAllSidebars();">
         Movimentações
     </button>
     <button class="menu-button" style="color: #d64545; margin-top: 30px;" onclick="logoutAdmin()">Sair da conta</button>
@@ -1743,9 +1811,12 @@ footer{
 
     <header class="app-top">
 
-        <button class="back-button" onclick="goBack()">
-            ← Voltar
-        </button>
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <button class="mobile-toggle-btn" onclick="toggleAdminSidebar()">☰ Menu</button>
+            <button class="back-button" onclick="goBack()">
+                ← Voltar
+            </button>
+        </div>
 
         <div class="user-profile">
             Yasmin · Administrador
@@ -2631,7 +2702,7 @@ footer{
 <div class="client-layout">
 
 
-    <aside class="client-sidebar">
+    <aside class="client-sidebar" id="clientSidebar">
 
         <div class="logo">
 
@@ -2660,7 +2731,7 @@ footer{
         <button
             class="client-menu active"
             data-client-screen="client-dashboard"
-            onclick="showClientScreen('client-dashboard')">
+            onclick="showClientScreen('client-dashboard'); closeAllSidebars();">
             Visão geral
         </button>
 
@@ -2668,7 +2739,7 @@ footer{
         <button
             class="client-menu"
             data-client-screen="client-patrimonios"
-            onclick="showClientScreen('client-patrimonios')">
+            onclick="showClientScreen('client-patrimonios'); closeAllSidebars();">
             Meus patrimônios
         </button>
 
@@ -2676,7 +2747,7 @@ footer{
         <button
             class="client-menu"
             data-client-screen="client-movimentacoes"
-            onclick="showClientScreen('client-movimentacoes')">
+            onclick="showClientScreen('client-movimentacoes'); closeAllSidebars();">
             Minhas movimentações
         </button>
 
@@ -2695,8 +2766,11 @@ footer{
 
         <header class="client-top">
 
-            <div class="client-top-title">
-                Área do cliente
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <button class="mobile-toggle-btn" onclick="toggleClientSidebar()">☰ Menu</button>
+                <div class="client-top-title">
+                    Área do cliente
+                </div>
             </div>
 
             <div class="client-top-user">
@@ -2873,7 +2947,6 @@ footer{
 
 
                     <tbody id="clientPatrimoniosTable">
-
                     </tbody>
 
                 </table>
@@ -2928,7 +3001,6 @@ footer{
 
 
                     <tbody id="clientMovsTable">
-
                     </tbody>
 
                 </table>
@@ -2943,6 +3015,45 @@ footer{
 </div>
 
 </div>
+
+<!-- Scripts de controle para o menu mobile em todas as telas -->
+<script>
+function toggleLandingNav() {
+    const nav = document.getElementById('landingNav');
+    if(nav) nav.classList.toggle('active');
+}
+
+function closeLandingNav() {
+    const nav = document.getElementById('landingNav');
+    if(nav) nav.classList.remove('active');
+}
+
+function toggleAdminSidebar() {
+    const sidebar = document.getElementById('adminSidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    if(sidebar) sidebar.classList.toggle('mobile-open');
+    if(overlay) overlay.classList.toggle('active');
+}
+
+function toggleClientSidebar() {
+    const sidebar = document.getElementById('clientSidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    if(sidebar) sidebar.classList.toggle('mobile-open');
+    if(overlay) overlay.classList.toggle('active');
+}
+
+function closeAllSidebars() {
+    const adminSidebar = document.getElementById('adminSidebar');
+    const clientSidebar = document.getElementById('clientSidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    const landingNav = document.getElementById('landingNav');
+
+    if(adminSidebar) adminSidebar.classList.remove('mobile-open');
+    if(clientSidebar) clientSidebar.classList.remove('mobile-open');
+    if(overlay) overlay.classList.remove('active');
+    if(landingNav) landingNav.classList.remove('active');
+}
+</script>
 
 <script src="../assets/js/app.js"></script>
 
