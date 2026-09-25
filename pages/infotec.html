@@ -82,7 +82,6 @@
             justify-content: center;
         }
         
-        /* Detalhe interno do ícone */
         .logo-icon::after {
             content: '';
             width: 16px;
@@ -121,13 +120,15 @@
             color: var(--bg-white);
         }
 
-        /* Botão do menu mobile (escondido no desktop) */
+        /* Botão do menu mobile (visível apenas em telas menores) */
         .mobile-menu-btn {
             display: none;
             background: none;
-            border: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 12px;
+            border-radius: 6px;
             color: var(--bg-white);
-            font-size: 24px;
+            font-size: 22px;
             cursor: pointer;
         }
 
@@ -266,7 +267,7 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.02);
         }
 
-        /* STOCKFLOW (AZUL VIBRANTE) */
+        /* STOCKFLOW */
         .stockflow-section {
             background: linear-gradient(135deg, var(--navy-main) 0%, #1e3a8a 100%);
             padding: 120px 8%;
@@ -460,16 +461,20 @@
             font-size: 14px;
         }
 
-        @media (max-width: 900px) {
+        /* RESPONSIVIDADE PARA TELEMÓVEIS (Até 1024px para abranger tablets e telemóveis grandes) */
+        @media (max-width: 1024px) {
             .hero h1 { font-size: 48px; }
             .about-grid, .grid-projetos { grid-template-columns: 1fr; }
             .footer-grid { grid-template-columns: 1fr; gap: 50px; }
             
-            /* Menu mobile ativado */
+            /* Exibir botão do menu hamburguer */
             .mobile-menu-btn {
-                display: block;
+                display: flex !important;
+                align-items: center;
+                justify-content: center;
             }
 
+            /* Esconde o menu padrão e transforma em dropdown móvel */
             .nav-menu {
                 display: none;
                 flex-direction: column;
@@ -478,10 +483,10 @@
                 left: 0;
                 width: 100%;
                 background-color: var(--navy-dark);
-                padding: 20px 8%;
+                padding: 25px 8%;
                 gap: 20px;
                 border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+                box-shadow: 0 15px 30px rgba(0,0,0,0.6);
             }
 
             .nav-menu.active {
