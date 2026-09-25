@@ -422,7 +422,6 @@
             `).join('');
         }
 
-        // Atualização específica dos cards do painel do cliente para garantir o número correto (ex: 2)
         const statCards = document.querySelectorAll('#client-dashboard .stat-card');
         if (statCards.length >= 3) {
             const totalBens = clientBens.length;
@@ -448,7 +447,7 @@
         ];
 
         if (appState.currentUser && appState.currentUser.tipo !== 'admin') {
-            return; // Tratado diretamente dentro de renderClientPortal para o cliente
+            return;
         }
 
         const totalPatrimonios = appState.patrimonios.length;
@@ -599,7 +598,6 @@
 
         if (clientLogin) clientLogin.style.display = 'none';
         if (landing) clientLogin.style.display = 'none';
-        if (landing) landing.style.display = 'none';
         if (app) app.style.display = 'none';
         if (clientPortal) clientPortal.style.display = 'block';
 
@@ -775,6 +773,43 @@
         showScreen('usuarios');
     }
 
+    // Funções de controlo do menu mobile
+    function toggleLandingNav() {
+        const nav = document.getElementById('landingNav');
+        if (nav) nav.classList.toggle('active');
+    }
+
+    function closeLandingNav() {
+        const nav = document.getElementById('landingNav');
+        if (nav) nav.classList.remove('active');
+    }
+
+    function toggleAdminSidebar() {
+        const sidebar = document.getElementById('adminSidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        if (sidebar) sidebar.classList.toggle('mobile-open');
+        if (overlay) overlay.classList.toggle('active');
+    }
+
+    function toggleClientSidebar() {
+        const sidebar = document.getElementById('clientSidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        if (sidebar) sidebar.classList.toggle('mobile-open');
+        if (overlay) overlay.classList.toggle('active');
+    }
+
+    function closeAllSidebars() {
+        const adminSidebar = document.getElementById('adminSidebar');
+        const clientSidebar = document.getElementById('clientSidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        const landingNav = document.getElementById('landingNav');
+
+        if (adminSidebar) adminSidebar.classList.remove('mobile-open');
+        if (clientSidebar) clientSidebar.classList.remove('mobile-open');
+        if (overlay) overlay.classList.remove('active');
+        if (landingNav) landingNav.classList.remove('active');
+    }
+
     function bootstrap() {
         renderAll();
 
@@ -793,6 +828,11 @@
         window.criarMovimentacao = criarMovimentacao;
         window.excluirPatrimonio = excluirPatrimonio;
         window.excluirUsuario = excluirUsuario;
+        window.toggleLandingNav = toggleLandingNav;
+        window.closeLandingNav = closeLandingNav;
+        window.toggleAdminSidebar = toggleAdminSidebar;
+        window.toggleClientSidebar = toggleClientSidebar;
+        window.closeAllSidebars = closeAllSidebars;
     }
 
     bootstrap();
