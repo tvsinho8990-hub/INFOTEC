@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contato e Contratação | INFOTEC</title>
+    <meta name="description" content="Entre em contato com a INFOTEC e contrate nossos serviços tecnológicos.">
+    <link rel="stylesheet" href="../assets/css/theme.css">
+    <style>
+        body {
+            background-color: #f8fafc;
+            margin: 0;
+            padding-top: 90px;
+        }
+        .infotec-header {
+            background-color: #050b14;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 8%;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+            box-sizing: border-box;
+        }
+        .infotec-header .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .infotec-header .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #60a5fa, #2563eb);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .infotec-header .logo-text {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 2px;
+        }
+        .infotec-header .logo-text span {
+            color: #60a5fa;
+        }
+        .infotec-header .navigation {
+            display: flex;
+            gap: 35px;
+            align-items: center;
+        }
+        .infotec-header .navigation a {
+            font-size: 13px;
+            font-weight: 600;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .infotec-header .navigation a:hover, 
+        .infotec-header .navigation .active {
+            color: #ffffff;
+        }
+        .header-action-btn {
+            background-color: #2563eb;
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+        .header-action-btn:hover {
+            background-color: #1d4ed8;
+        }
+        /* Rodapé Alinhado */
+        .footer-custom {
+            background-color: #050b14;
+            padding: 80px 8% 30px;
+            color: #f1f5f9;
+            margin-top: 80px;
+        }
+        .footer-custom-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 60px;
+            margin-bottom: 40px;
+        }
+        .footer-custom p {
+            color: #94a3b8;
+            font-size: 15px;
+            margin-top: 15px;
+            line-height: 1.7;
+            max-width: 350px;
+        }
+        .footer-custom h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #ffffff;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        .footer-custom ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .footer-custom ul li {
+            margin-bottom: 12px;
+        }
+        .footer-custom ul a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer-custom ul a:hover {
+            color: #60a5fa;
+        }
+        .footer-custom-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #64748b;
+            font-size: 14px;
+        }
+        @media (max-width: 900px) {
+            .infotec-header .navigation { display: none; }
+            .footer-custom-grid { grid-template-columns: 1fr; gap: 40px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="infotec-header">
+        <a href="infotec.html" class="logo-container">
+            <div class="logo-icon"></div>
+            <div class="logo-text">INFO<span>TEC</span></div>
+        </a>
+        <nav class="navigation" aria-label="Navegação principal">
+            <a href="infotec.html">Início</a>
+            <a href="infotec.html#sobre">Empresa</a>
+            <a href="index.html">StockFlow</a>
+            <a href="infotec-contato.html" class="active" aria-current="page">Contato</a>
+        </nav>
+        <div>
+            <a href="infotec.html" class="header-action-btn">Voltar à INFOTEC</a>
+        </div>
+    </header>
+
+    <main class="support-page"><div class="support-container">
+        <section class="page-header">
+            <div>
+                <span class="page-badge" style="color: #2563eb;">INFOTEC SYSTEMS</span>
+                <h1>Contrate Nossos Serviços</h1>
+                <p>Preencha os dados abaixo para solicitar uma proposta comercial ou falar diretamente com os nossos engenheiros.</p>
+            </div>
+            <a href="infotec.html" class="back-button">← Voltar para a página inicial</a>
+        </section>
+
+        <section class="support-grid">
+            <div class="support-card">
+                <div class="card-header">
+                    <div class="card-icon" aria-hidden="true" style="background: #eff6ff; color: #2563eb;">💼</div>
+                    <div>
+                        <h2>Formulário de Contratação e Contato</h2>
+                        <p>Descreva o seu projeto ou necessidade tecnológica.</p>
+                    </div>
+                </div>
+
+                <form id="infotecContactForm" class="support-form" novalidate>
+                    <div class="form-group">
+                        <label for="name">Nome / Empresa <span>*</span></label>
+                        <input type="text" id="name" name="name" placeholder="Digite seu nome ou o nome da sua empresa" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">E-mail corporativo <span>*</span></label>
+                        <input type="email" id="email" name="email" placeholder="seuemail@empresa.com" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="service">Serviço pretendido <span>*</span></label>
+                            <select id="service" name="service" required>
+                                <option value="">Selecione o serviço</option>
+                                <option>Sistema StockFlow</option>
+                                <option>Desenvolvimento de Sistemas / ERP</option>
+                                <option>Infraestrutura e Redes</option>
+                                <option>Consultoria Tecnológica</option>
+                                <option>Outro Projeto</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="budget">Orçamento estimado <span>*</span></label>
+                            <select id="budget" name="budget" required>
+                                <option value="">Selecione a faixa</option>
+                                <option>Sob consulta</option>
+                                <option>Até R$ 10.000</option>
+                                <option>R$ 10.000 - R$ 30.000</option>
+                                <option>Acima de R$ 30.000</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Detalhes do projeto ou demanda <span>*</span></label>
+                        <textarea id="message" name="message" placeholder="Conte-nos sobre os objetivos e desafios da sua empresa..." required></textarea>
+                    </div>
+                    <div class="form-checkbox">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <label for="terms">Concordo em ser contactado pela equipe comercial e técnica da INFOTEC.</label>
+                    </div>
+                    <div id="formStatus" class="form-status" role="status" aria-live="polite"></div>
+                    <div class="form-actions">
+                        <button type="reset" class="btn btn-secondary">Limpar</button>
+                        <button type="submit" class="btn btn-primary" style="background: #2563eb;">Enviar solicitação <span>→</span></button>
+                    </div>
+                </form>
+            </div>
+
+            <aside class="support-sidebar" aria-label="Informações de atendimento">
+                <div class="info-card">
+                    <div class="info-icon" aria-hidden="true">🚀</div>
+                    <div>
+                        <h3>Atendimento Comercial</h3>
+                        <p>Segunda a sexta-feira</p>
+                        <strong>08:00 às 18:00</strong>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon" aria-hidden="true">✉</div>
+                    <div>
+                        <h3>E-mail Direto</h3>
+                        <p>Fale com nossa diretoria técnica.</p>
+                        <a href="mailto:contato@infotec.com.br">contato@infotec.com.br</a>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon" aria-hidden="true">⚡</div>
+                    <div>
+                        <h3>Propostas Rápidas</h3>
+                        <p>Retorno de viabilidade em até <strong>24 horas úteis.</strong></p>
+                    </div>
+                </div>
+            </aside>
+        </section>
+    </div></main>
+
+    <footer class="footer-custom">
+        <div class="footer-custom-grid">
+            <div>
+                <div class="logo-container" style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+                    <div class="logo-icon" style="width: 24px; height: 24px;"></div>
+                    <div class="logo-text" style="font-size: 20px;">INFO<span>TEC</span></div>
+                </div>
+                <p>Engenharia de software voltada para resultados reais, escalabilidade de sistemas e controle absoluto de dados.</p>
+            </div>
+            <div>
+                <h4>Navegação</h4>
+                <ul>
+                    <li><a href="infotec.html">Início</a></li>
+                    <li><a href="index.html">StockFlow</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-custom-bottom">
+            <span>© 2026 INFOTEC SYSTEMS. Todos os direitos reservados.</span>
+        </div>
+    </footer>
+</body>
+</html>
