@@ -25,7 +25,7 @@
                 codigo: 'PT-0003',
                 descricao: 'Impressora HP',
                 categoria: 'Equipamentos',
-                responsavel: 'Maria Souza',
+                responsavel: 'Carla Souza',
                 status: 'Cautelado',
                 dataCadastro: '2026-09-04',
                 conservacao: 'Regular'
@@ -34,7 +34,7 @@
                 codigo: 'PT-0004',
                 descricao: 'Computador Desktop',
                 categoria: 'Informática',
-                responsavel: '—',
+                responsavel: 'Carla Souza',
                 status: 'Manutenção',
                 dataCadastro: '2026-09-05',
                 conservacao: 'Necessita manutenção'
@@ -121,7 +121,7 @@
                 status: 'Ativo'
             },
             {
-                nome: 'Maria Souza',
+                nome: 'Carla Souza',
                 departamento: 'Administrativo',
                 matricula: '001266',
                 patrimonioCount: 2,
@@ -204,6 +204,13 @@
         ],
         clientes: [
             {
+                usuario: 'carlasouza',
+                senha: '123',
+                nome: 'Carla Souza',
+                departamento: 'Administrativo',
+                patrimonios: ['PT-0003', 'PT-0004']
+            },
+            {
                 usuario: 'anderson',
                 senha: '123456',
                 nome: 'Anderson',
@@ -256,6 +263,20 @@
         return map[status] || 'available';
     }
 
+    function excluirPatrimonio(codigo) {
+        if (!confirm(`Tem certeza que deseja excluir o patrimônio ${codigo}?`)) return;
+        appState.patrimonios = appState.patrimonios.filter(p => p.codigo !== codigo);
+        saveState();
+        renderAll();
+    }
+
+    function excluirUsuario(nome) {
+        if (!confirm(`Tem certeza que deseja excluir o usuário ${nome}?`)) return;
+        appState.usuarios = appState.usuarios.filter(u => u.nome !== nome);
+        saveState();
+        renderAll();
+    }
+
     function renderPatrimonios() {
         const table = document.getElementById('patrimonioTable');
         if (!table) return;
@@ -268,6 +289,9 @@
                 <td>${item.responsavel || '—'}</td>
                 <td>
                     <span class="status ${getStatusBadge(item.status)}">${item.status}</span>
+                </td>
+                <td>
+                    <button class="btn btn-secondary" style="padding: 4px 8px; font-size: 12px;" onclick="excluirPatrimonio('${item.codigo}')">Excluir</button>
                 </td>
             </tr>
         `).join('');
@@ -284,6 +308,9 @@
                 <td>${usuario.patrimonioCount}</td>
                 <td>
                     <span class="status ${getStatusBadge(usuario.status)}">${usuario.status}</span>
+                </td>
+                <td>
+                    <button class="btn btn-secondary" style="padding: 4px 8px; font-size: 12px;" onclick="excluirUsuario('${usuario.nome}')">Excluir</button>
                 </td>
             </tr>
         `).join('');
@@ -324,12 +351,12 @@
     function renderClientPortal() {
         const clientName = document.querySelector('#client-portal strong');
         if (clientName) {
-            clientName.textContent = appState.currentUser?.nome || 'Anderson';
+            clientName.textContent = appState.currentUser?.nome || 'Cliente';
         }
 
         const clientTopUser = document.querySelector('.client-top-user');
         if (clientTopUser) {
-            clientTopUser.textContent = `${appState.currentUser?.nome || 'Anderson'} · Cliente`;
+            clientTopUser.textContent = `${appState.currentUser?.nome || 'Cliente'} · Cliente`;
         }
 
         const clientWelcome = document.querySelector('#client-dashboard h1');
@@ -337,10 +364,9 @@
             clientWelcome.textContent = `Olá, ${appState.currentUser.nome}.`;
         }
 
-        // Renderizar tabelas dinâmicas do cliente (Anderson)
-        const clientBens = appState.patrimonios.filter(p => p.responsavel === (appState.currentUser?.nome || 'Anderson'));
+        const currentClientName = appState.currentUser?.nome || 'Carla Souza';
+        const clientBens = appState.patrimonios.filter(p => p.responsavel === currentClientName);
 
-        // 1. Dashboard do Cliente (#clientDashTable)
         const dashTable = document.getElementById('clientDashTable');
         if (dashTable) {
             dashTable.innerHTML = clientBens.slice(0, 4).map(item => `
@@ -354,7 +380,6 @@
             `).join('');
         }
 
-        // 2. Meus Patrimônios (#clientPatrimoniosTable)
         const patrimoniosTable = document.getElementById('clientPatrimoniosTable');
         if (patrimoniosTable) {
             patrimoniosTable.innerHTML = clientBens.map(item => `
@@ -368,10 +393,9 @@
             `).join('');
         }
 
-        // 3. Minhas Movimentações (#clientMovsTable)
         const movsTable = document.getElementById('clientMovsTable');
         if (movsTable) {
-            const clientMovs = appState.movimentacoes.filter(m => m.responsavel === (appState.currentUser?.nome || 'Anderson'));
+            const clientMovs = appState.movimentacoes.filter(m => m.responsavel === currentClientName);
             movsTable.innerHTML = clientMovs.map(mov => `
                 <tr>
                     <td>${mov.data}</td>
@@ -729,6 +753,8 @@
         window.cadastrarUsuario = cadastrarUsuario;
         window.openClientLogin = openClientLogin;
         window.criarMovimentacao = criarMovimentacao;
+        window.excluirPatrimonio = excluirPatrimonio;
+        window.excluirUsuario = excluirUsuario;
     }
 
     bootstrap();
