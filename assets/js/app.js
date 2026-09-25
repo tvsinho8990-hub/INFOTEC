@@ -421,25 +421,36 @@
                 </tr>
             `).join('');
         }
-
-        const totalCards = document.querySelectorAll('#client-dashboard .stat-card strong');
-        if (totalCards[0]) {
-            totalCards[0].textContent = clientBens.length;
-        }
     }
 
     function renderDashboardTotals() {
-        const totalPatrimonios = appState.patrimonios.length;
-        const disponiveis = appState.patrimonios.filter((item) => item.status === 'Disponível').length;
-        const cautelados = appState.patrimonios.filter((item) => item.status === 'Cautelado').length;
-        const manutencao = appState.patrimonios.filter((item) => item.status === 'Manutenção').length;
-
         const dashboardValues = [
             document.querySelectorAll('.stat-card strong')[0],
             document.querySelectorAll('.stat-card strong')[1],
             document.querySelectorAll('.stat-card strong')[2],
             document.querySelectorAll('.stat-card strong')[3]
         ];
+
+        // Se o utilizador atual for um cliente comum, os cards refletem apenas os dados dele
+        if (appState.currentUser && appState.currentUser.tipo !== 'admin') {
+            const clientName = appState.currentUser.nome;
+            const clientBens = appState.patrimonios.filter(p => p.responsavel === clientName);
+            const disponiveis = clientBens.filter(item => item.status === 'Disponível').length;
+            const cautelados = clientBens.filter(item => item.status === 'Cautelado' || item.status === 'Em uso').length;
+            const manutencao = clientBens.filter(item => item.status === 'Manutenção').length;
+
+            if (dashboardValues[0]) dashboardValues[0].textContent = clientBens.length;
+            if (dashboardValues[1]) dashboardValues[1].textContent = disponiveis;
+            if (dashboardValues[2]) dashboardValues[2].textContent = cautelados;
+            if (dashboardValues[3]) dashboardValues[3].textContent = manutencao;
+            return;
+        }
+
+        // Comportamento para o Administrador
+        const totalPatrimonios = appState.patrimonios.length;
+        const disponiveis = appState.patrimonios.filter((item) => item.status === 'Disponível').length;
+        const cautelados = appState.patrimonios.filter((item) => item.status === 'Cautelado').length;
+        const manutencao = appState.patrimonios.filter((item) => item.status === 'Manutenção').length;
 
         if (dashboardValues[0]) dashboardValues[0].textContent = totalPatrimonios;
         if (dashboardValues[1]) dashboardValues[1].textContent = disponiveis;
@@ -452,9 +463,9 @@
         renderUsuarios();
         renderEstoque();
         renderMovimentacoes();
-        renderDashboardTotals();
         syncDateField();
         renderClientPortal();
+        renderDashboardTotals(); // Executado por último para respeitar o filtro do cliente ou admin
     }
 
     function openApp() {
@@ -589,7 +600,7 @@
 
         if (erro) erro.style.display = 'none';
         showClientScreen('client-dashboard');
-        renderClientPortal();
+        renderAll();
         window.scrollTo(0, 0);
     }
 
