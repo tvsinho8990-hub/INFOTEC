@@ -10,7 +10,7 @@
         body {
             background-color: #f8fafc;
             margin: 0;
-            padding-top: 90px; /* Garante espaço para o header fixo */
+            padding-top: 90px;
         }
         .infotec-header {
             background-color: #050b14;
@@ -27,18 +27,32 @@
             box-shadow: 0 4px 30px rgba(0,0,0,0.5);
             box-sizing: border-box;
         }
-        .infotec-header .logo {
+        .infotec-header .logo-container {
             display: flex;
             align-items: center;
             gap: 12px;
-            color: #ffffff;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .infotec-header .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #60a5fa, #2563eb);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .infotec-header .logo-text {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 26px;
             font-weight: 700;
+            color: #ffffff;
             letter-spacing: 2px;
-            text-decoration: none;
         }
-        .infotec-header .logo span { color: #60a5fa; }
+        .infotec-header .logo-text span {
+            color: #60a5fa;
+        }
         .infotec-header .navigation {
             display: flex;
             gap: 35px;
@@ -70,16 +84,66 @@
         .header-action-btn:hover {
             background-color: #1d4ed8;
         }
+        /* Rodapé Alinhado */
+        .footer-custom {
+            background-color: #050b14;
+            padding: 80px 8% 30px;
+            color: #f1f5f9;
+            margin-top: 80px;
+        }
+        .footer-custom-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 60px;
+            margin-bottom: 40px;
+        }
+        .footer-custom p {
+            color: #94a3b8;
+            font-size: 15px;
+            margin-top: 15px;
+            line-height: 1.7;
+            max-width: 350px;
+        }
+        .footer-custom h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #ffffff;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        .footer-custom ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .footer-custom ul li {
+            margin-bottom: 12px;
+        }
+        .footer-custom ul a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer-custom ul a:hover {
+            color: #60a5fa;
+        }
+        .footer-custom-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #64748b;
+            font-size: 14px;
+        }
         @media (max-width: 900px) {
             .infotec-header .navigation { display: none; }
+            .footer-custom-grid { grid-template-columns: 1fr; gap: 40px; }
         }
     </style>
 </head>
 <body>
     <header class="infotec-header">
-        <a href="infotec.html" class="logo">
-            <div class="logo-icon" style="width: 32px; height: 32px; background: linear-gradient(135deg, #60a5fa, #2563eb); clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); display:flex; align-items:center; justify-content:center;"></div>
-            INFO<span>TEC</span>
+        <a href="infotec.html" class="logo-container">
+            <div class="logo-icon"></div>
+            <div class="logo-text">INFO<span>TEC</span></div>
         </a>
         <nav class="navigation" aria-label="Navegação principal">
             <a href="infotec.html">Início</a>
@@ -188,18 +252,26 @@
         </section>
     </div></main>
 
-    <footer class="footer" style="background: #050b14; margin-top: 60px;"><div class="footer-container">
-        <div class="footer-brand">
-            <div style="color: #fff; font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 10px;">INFO<span>TEC</span></div>
-            <p>Engenharia de software voltada para resultados reais e escalabilidade.</p>
-        </div>
-        <div class="footer-links">
+    <footer class="footer-custom">
+        <div class="footer-custom-grid">
+            <div>
+                <div class="logo-container" style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+                    <div class="logo-icon" style="width: 24px; height: 24px;"></div>
+                    <div class="logo-text" style="font-size: 20px;">INFO<span>TEC</span></div>
+                </div>
+                <p>Engenharia de software voltada para resultados reais, escalabilidade de sistemas e controle absoluto de dados.</p>
+            </div>
             <div>
                 <h4>Navegação</h4>
-                <a href="infotec.html">Início</a>
-                <a href="index.html">StockFlow</a>
+                <ul>
+                    <li><a href="infotec.html">Início</a></li>
+                    <li><a href="index.html">StockFlow</a></li>
+                </ul>
             </div>
         </div>
-    </div><div class="footer-bottom"><span>© 2026 INFOTEC SYSTEMS. Todos os direitos reservados.</span></div></footer>
+        <div class="footer-custom-bottom">
+            <span>© 2026 INFOTEC SYSTEMS. Todos os direitos reservados.</span>
+        </div>
+    </footer>
 </body>
 </html>
