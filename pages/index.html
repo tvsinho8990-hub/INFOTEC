@@ -1735,7 +1735,7 @@ footer{
             onclick="navigate('movimentacoes')">
         Movimentações
     </button>
-
+    <button class="menu-button" style="color: #d64545; margin-top: 30px;" onclick="logoutAdmin()">Sair da conta</button>
 </aside>
 
 
@@ -1927,6 +1927,7 @@ footer{
                         <th>Categoria</th>
                         <th>Responsável</th>
                         <th>Status</th>
+                        <th>Ações</th>
                     </tr>
 
                 </thead>
@@ -2162,6 +2163,7 @@ footer{
                         <th>Departamento</th>
                         <th>Patrimônios</th>
                         <th>Status</th>
+                        <th>Ações</th>
                     </tr>
 
                 </thead>
@@ -2426,6 +2428,7 @@ footer{
                 <h1>Movimentações</h1>
                 <p>Histórico das ações realizadas no sistema.</p>
             </div>
+            <button class="action-button" onclick="navigate('nova-movimentacao')">+ Nova movimentação</button>
 
         </div>
 
@@ -2490,6 +2493,29 @@ footer{
 
         </div>
 
+    </section>
+
+    <!-- NOVA MOVIMENTAÇÃO -->
+    <section class="page" id="nova-movimentacao">
+        <div class="page-header">
+            <div><h1>Nova Movimentação</h1><p>Cautelar patrimônio a um usuário.</p></div>
+        </div>
+        <form class="form" onsubmit="criarMovimentacao(event)">
+            <div class="form-grid">
+                <div class="field">
+                    <label>Patrimônio</label>
+                    <select id="movPatrimonio" required></select>
+                </div>
+                <div class="field">
+                    <label>Usuário</label>
+                    <select id="movUsuario" required></select>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="cancel-button" onclick="goBack()">Cancelar</button>
+                <button type="submit" class="action-button">Registrar Cautela</button>
+            </div>
+        </form>
     </section>
 
 
@@ -2580,9 +2606,7 @@ footer{
             </form>
 
 
-            <div class="demo-login">
-                Demonstração: admin / admin
-            </div>
+         <div class="demo-login">Demonstração: carlasouza / 123 (Cliente) | admin / admin (Admin)</div>
 
 
             <button
@@ -2785,80 +2809,14 @@ footer{
                             <th>Descrição</th>
                             <th>Categoria</th>
                             <th>Status</th>
+                            <th>Ações</th>
                         </tr>
 
                     </thead>
 
 
-                    <tbody>
+                    <tbody id="clientDashTable">
 
-                        <tr>
-
-                            <td>
-                                PT-0108
-                            </td>
-
-                            <td>
-                                Notebook Lenovo ThinkPad
-                            </td>
-
-                            <td>
-                                Informática
-                            </td>
-
-                            <td>
-                                <span class="status cautioned">
-                                    Em uso
-                                </span>
-                            </td>
-
-                        </tr>
-
-
-                        <tr>
-
-                            <td>
-                                PT-0114
-                            </td>
-
-                            <td>
-                                Monitor Dell 24"
-                            </td>
-
-                            <td>
-                                Informática
-                            </td>
-
-                            <td>
-                                <span class="status cautioned">
-                                    Em uso
-                                </span>
-                            </td>
-
-                        </tr>
-
-
-                        <tr>
-
-                            <td>
-                                PT-0121
-                            </td>
-
-                            <td>
-                                Teclado Logitech
-                            </td>
-
-                            <td>
-                                Informática
-                            </td>
-
-                            <td>
-                                <span class="status cautioned">
-                                    Em uso
-                                </span>
-                            </td>
-
-                        </tr>
 
                     </tbody>
 
@@ -2914,103 +2872,7 @@ footer{
                     </thead>
 
 
-                    <tbody>
-
-                        <tr>
-                            <td>PT-0108</td>
-                            <td>Notebook Lenovo ThinkPad</td>
-                            <td>Informática</td>
-                            <td>12/08/2026</td>
-                            <td>
-                                <span class="status cautioned">
-                                    Em uso
-                                </span>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>PT-0114</td>
-                            <td>Monitor Dell 24"</td>
-                            <td>Informática</td>
-                            <td>12/08/2026</td>
-                            <td>
-                                <span class="status cautioned">
-                                    Em uso
-                                </span>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>PT-0121</td>
-                            <td>Teclado Logitech</td>
-                            <td>Informática</td>
-                            <td>12/08/2026</td>
-                            <td>
-                                <span class="status cautioned">
-                                    Em uso
-                                </span>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>PT-0122</td>
-                            <td>Mouse Logitech</td>
-                            <td>Informática</td>
-                            <td>12/08/2026</td>
-                            <td>
-                                <span class="status cautioned">
-                                    Em uso
-                                </span>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>PT-0130</td>
-                            <td>Notebook Dell Latitude</td>
-                            <td>Informática</td>
-                            <td>15/08/2026</td>
-                            <td>
-                                <span class="status cautioned">
-                                    Em uso
-                                </span>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>PT-0134</td>
-                            <td>Webcam Logitech</td>
-                            <td>Equipamentos</td>
-                            <td>20/08/2026</td>
-                            <td>
-                                <span class="status cautioned">
-                                    Em uso
-                                </span>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>PT-0140</td>
-                            <td>Headset profissional</td>
-                            <td>Equipamentos</td>
-                            <td>20/08/2026</td>
-                            <td>
-                                <span class="status cautioned">
-                                    Em uso
-                                </span>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>PT-0148</td>
-                            <td>Monitor LG 27"</td>
-                            <td>Informática</td>
-                            <td>25/08/2026</td>
-                            <td>
-                                <span class="status cautioned">
-                                    Em uso
-                                </span>
-                            </td>
-                        </tr>
+                    <tbody id="clientPatrimoniosTable">
 
                     </tbody>
 
@@ -3065,51 +2927,7 @@ footer{
                     </thead>
 
 
-                    <tbody>
-
-                        <tr>
-                            <td>25/08/2026</td>
-                            <td>PT-0148</td>
-                            <td>Cautela</td>
-                            <td>
-                                <span class="status cautioned">
-                                    Em uso
-                                </span>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>20/08/2026</td>
-                            <td>PT-0140</td>
-                            <td>Cautela</td>
-                            <td>
-                                <span class="status cautioned">
-                                    Em uso
-                                </span>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>20/08/2026</td>
-                            <td>PT-0134</td>
-                            <td>Cautela</td>
-                            <td>
-                                <span class="status cautioned">
-                                    Em uso
-                                </span>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>12/08/2026</td>
-                            <td>PT-0108</td>
-                            <td>Cautela</td>
-                            <td>
-                                <span class="status cautioned">
-                                    Em uso
-                                </span>
-                            </td>
-                        </tr>
+                    <tbody id="clientMovsTable">
 
                     </tbody>
 
