@@ -7,3 +7,4 @@
 ### 🔗 Links do Projeto (N1)
 * **Protótipo (Figma):** https://www.figma.com/make/IZcm6AmFR2OD0CvWAif1tA/StockFlow-web-interface-design?p=f&fullscreen=1
 * **Aplicação (Vercel):** https://stockfloww-khe521w9d-yasmingegalvaos-projects.vercel.app/
+* **GitHub Pages:** https://tvsinho8990-hub.github.io/INFOTEC/
