@@ -38,6 +38,78 @@
                 status: 'Manutenção',
                 dataCadastro: '2026-09-05',
                 conservacao: 'Necessita manutenção'
+            },
+            {
+                codigo: 'PT-0108',
+                descricao: 'Notebook Lenovo ThinkPad',
+                categoria: 'Informática',
+                responsavel: 'Anderson',
+                status: 'Cautelado',
+                dataCadastro: '2026-08-12',
+                conservacao: 'Bom'
+            },
+            {
+                codigo: 'PT-0114',
+                descricao: 'Monitor Dell 24"',
+                categoria: 'Informática',
+                responsavel: 'Anderson',
+                status: 'Cautelado',
+                dataCadastro: '2026-08-12',
+                conservacao: 'Bom'
+            },
+            {
+                codigo: 'PT-0121',
+                descricao: 'Teclado Logitech',
+                categoria: 'Informática',
+                responsavel: 'Anderson',
+                status: 'Cautelado',
+                dataCadastro: '2026-08-12',
+                conservacao: 'Bom'
+            },
+            {
+                codigo: 'PT-0122',
+                descricao: 'Mouse Logitech',
+                categoria: 'Informática',
+                responsavel: 'Anderson',
+                status: 'Cautelado',
+                dataCadastro: '2026-08-12',
+                conservacao: 'Bom'
+            },
+            {
+                codigo: 'PT-0130',
+                descricao: 'Notebook Dell Latitude',
+                categoria: 'Informática',
+                responsavel: 'Anderson',
+                status: 'Cautelado',
+                dataCadastro: '2026-08-15',
+                conservacao: 'Bom'
+            },
+            {
+                codigo: 'PT-0134',
+                descricao: 'Webcam Logitech',
+                categoria: 'Equipamentos',
+                responsavel: 'Anderson',
+                status: 'Cautelado',
+                dataCadastro: '2026-08-20',
+                conservacao: 'Bom'
+            },
+            {
+                codigo: 'PT-0140',
+                descricao: 'Headset profissional',
+                categoria: 'Equipamentos',
+                responsavel: 'Anderson',
+                status: 'Cautelado',
+                dataCadastro: '2026-08-20',
+                conservacao: 'Bom'
+            },
+            {
+                codigo: 'PT-0148',
+                descricao: 'Monitor LG 27"',
+                categoria: 'Informática',
+                responsavel: 'Anderson',
+                status: 'Cautelado',
+                dataCadastro: '2026-08-25',
+                conservacao: 'Bom'
             }
         ],
         usuarios: [
@@ -60,6 +132,13 @@
                 departamento: 'Financeiro',
                 matricula: '001288',
                 patrimonioCount: 1,
+                status: 'Ativo'
+            },
+            {
+                nome: 'Anderson',
+                departamento: 'Financeiro',
+                matricula: '001299',
+                patrimonioCount: 8,
                 status: 'Ativo'
             }
         ],
@@ -88,31 +167,38 @@
         ],
         movimentacoes: [
             {
+                data: '25/08/2026',
+                patrimonio: 'PT-0148',
+                acao: 'Cautela',
+                responsavel: 'Anderson',
+                registradoPor: 'Administrador'
+            },
+            {
+                data: '20/08/2026',
+                patrimonio: 'PT-0140',
+                acao: 'Cautela',
+                responsavel: 'Anderson',
+                registradoPor: 'Administrador'
+            },
+            {
+                data: '20/08/2026',
+                patrimonio: 'PT-0134',
+                acao: 'Cautela',
+                responsavel: 'Anderson',
+                registradoPor: 'Administrador'
+            },
+            {
+                data: '12/08/2026',
+                patrimonio: 'PT-0108',
+                acao: 'Cautela',
+                responsavel: 'Anderson',
+                registradoPor: 'Administrador'
+            },
+            {
                 data: '04/09/2026',
                 patrimonio: 'PT-0001',
                 acao: 'Cautela',
                 responsavel: 'João Silva',
-                registradoPor: 'Administrador'
-            },
-            {
-                data: '03/09/2026',
-                patrimonio: 'PT-0003',
-                acao: 'Transferência',
-                responsavel: 'Maria Souza',
-                registradoPor: 'Administrador'
-            },
-            {
-                data: '02/09/2026',
-                patrimonio: 'PT-0004',
-                acao: 'Manutenção',
-                responsavel: '—',
-                registradoPor: 'Administrador'
-            },
-            {
-                data: '01/09/2026',
-                patrimonio: 'PT-0002',
-                acao: 'Devolução',
-                responsavel: '—',
                 registradoPor: 'Administrador'
             }
         ],
@@ -250,6 +336,51 @@
         if (clientWelcome && appState.currentUser?.nome) {
             clientWelcome.textContent = `Olá, ${appState.currentUser.nome}.`;
         }
+
+        // Renderizar tabelas dinâmicas do cliente (Anderson)
+        const clientBens = appState.patrimonios.filter(p => p.responsavel === (appState.currentUser?.nome || 'Anderson'));
+
+        // 1. Dashboard do Cliente (#clientDashTable)
+        const dashTable = document.getElementById('clientDashTable');
+        if (dashTable) {
+            dashTable.innerHTML = clientBens.slice(0, 4).map(item => `
+                <tr>
+                    <td>${item.codigo}</td>
+                    <td>${item.descricao}</td>
+                    <td>${item.categoria}</td>
+                    <td><span class="status cautioned">Em uso</span></td>
+                    <td>—</td>
+                </tr>
+            `).join('');
+        }
+
+        // 2. Meus Patrimônios (#clientPatrimoniosTable)
+        const patrimoniosTable = document.getElementById('clientPatrimoniosTable');
+        if (patrimoniosTable) {
+            patrimoniosTable.innerHTML = clientBens.map(item => `
+                <tr>
+                    <td>${item.codigo}</td>
+                    <td>${item.descricao}</td>
+                    <td>${item.categoria}</td>
+                    <td>${item.dataCadastro || '12/08/2026'}</td>
+                    <td><span class="status cautioned">Em uso</span></td>
+                </tr>
+            `).join('');
+        }
+
+        // 3. Minhas Movimentações (#clientMovsTable)
+        const movsTable = document.getElementById('clientMovsTable');
+        if (movsTable) {
+            const clientMovs = appState.movimentacoes.filter(m => m.responsavel === (appState.currentUser?.nome || 'Anderson'));
+            movsTable.innerHTML = clientMovs.map(mov => `
+                <tr>
+                    <td>${mov.data}</td>
+                    <td>${mov.patrimonio}</td>
+                    <td>${mov.acao}</td>
+                    <td><span class="status cautioned">Em uso</span></td>
+                </tr>
+            `).join('');
+        }
     }
 
     function renderDashboardTotals() {
@@ -308,11 +439,15 @@
             button.classList.toggle('active', button.dataset.screen === screen);
         });
 
+        if (screen === 'nova-movimentacao') {
+            carregarSelectsMovimentacao();
+        }
+
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function navigate(screen) {
-        if (!screen || screen === currentScreen) return;
+        if (!screen) return;
         navigationHistory.push(currentScreen);
         currentScreen = screen;
         showScreen(screen);
@@ -393,6 +528,14 @@
         const landing = document.getElementById('landing');
         const app = document.getElementById('app');
 
+        if (validAdmin) {
+            if (clientLogin) clientLogin.style.display = 'none';
+            if (landing) landing.style.display = 'none';
+            if (clientPortal) clientPortal.style.display = 'none';
+            openApp();
+            return;
+        }
+
         if (clientLogin) clientLogin.style.display = 'none';
         if (landing) landing.style.display = 'none';
         if (app) app.style.display = 'none';
@@ -422,6 +565,15 @@
         window.scrollTo(0, 0);
     }
 
+    function logoutAdmin() {
+        appState.currentUser = null;
+        const app = document.getElementById('app');
+        const landing = document.getElementById('landing');
+        if (app) app.style.display = 'none';
+        if (landing) landing.style.display = 'block';
+        window.scrollTo(0, 0);
+    }
+
     function showClientScreen(screen) {
         const pages = document.querySelectorAll('.client-page');
         pages.forEach((page) => page.classList.remove('active'));
@@ -434,6 +586,55 @@
         });
 
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function carregarSelectsMovimentacao() {
+        const selectPatrimonio = document.getElementById('movPatrimonio');
+        const selectUsuario = document.getElementById('movUsuario');
+
+        if (selectPatrimonio) {
+            selectPatrimonio.innerHTML = '<option value="">Selecione o patrimônio</option>';
+            appState.patrimonios.forEach(p => {
+                selectPatrimonio.innerHTML += `<option value="${p.codigo}">${p.codigo} - ${p.descricao}</option>`;
+            });
+        }
+
+        if (selectUsuario) {
+            selectUsuario.innerHTML = '<option value="">Selecione o usuário</option>';
+            appState.usuarios.forEach(u => {
+                selectUsuario.innerHTML += `<option value="${u.nome}">${u.nome} (${u.departamento})</option>`;
+            });
+        }
+    }
+
+    function criarMovimentacao(event) {
+        event.preventDefault();
+        const patId = document.getElementById('movPatrimonio').value;
+        const userName = document.getElementById('movUsuario').value;
+
+        if (!patId || !userName) return;
+
+        const dataAtual = new Date().toLocaleDateString('pt-BR');
+
+        appState.movimentacoes.unshift({
+            data: dataAtual,
+            patrimonio: patId,
+            acao: 'Cautela',
+            responsavel: userName,
+            registradoPor: 'Administrador'
+        });
+
+        const patObj = appState.patrimonios.find(p => p.codigo === patId);
+        if (patObj) {
+            patObj.responsavel = userName;
+            patObj.status = 'Cautelado';
+        }
+
+        saveState();
+        renderAll();
+
+        alert('Movimentação registrada com sucesso!');
+        navigate('movimentacoes');
     }
 
     function cadastrarPatrimonio(event) {
@@ -515,17 +716,6 @@
     function bootstrap() {
         renderAll();
 
-        const loginButton = document.querySelector('.nav-login');
-        if (loginButton) loginButton.onclick = openClientLogin;
-
-        const exploreButton = document.querySelector('.nav-button');
-        if (exploreButton) exploreButton.onclick = openApp;
-
-        const landingButtons = document.querySelectorAll('[onclick="openApp()"]');
-        landingButtons.forEach((button) => {
-            button.onclick = openApp;
-        });
-
         window.openApp = openApp;
         window.navigate = navigate;
         window.goBack = goBack;
@@ -533,10 +723,12 @@
         window.loginCliente = loginCliente;
         window.showClientScreen = showClientScreen;
         window.logoutCliente = logoutCliente;
+        window.logoutAdmin = logoutAdmin;
         window.backToLanding = backToLanding;
         window.cadastrarPatrimonio = cadastrarPatrimonio;
         window.cadastrarUsuario = cadastrarUsuario;
         window.openClientLogin = openClientLogin;
+        window.criarMovimentacao = criarMovimentacao;
     }
 
     bootstrap();
