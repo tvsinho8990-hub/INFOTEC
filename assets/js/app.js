@@ -367,12 +367,6 @@
         const currentClientName = appState.currentUser?.nome || 'Carla Souza';
         const clientBens = appState.patrimonios.filter(p => p.responsavel === currentClientName);
 
-        // Atualiza estritamente o contador do card "Meus patrimónios" com a quantidade real do cliente
-        const totalCards = document.querySelectorAll('#client-dashboard .stat-card strong');
-        if (totalCards[0]) {
-            totalCards[0].textContent = clientBens.length;
-        }
-
         const dashTable = document.getElementById('clientDashTable');
         if (dashTable) {
             dashTable.innerHTML = clientBens.slice(0, 4).map(item => `
@@ -411,6 +405,12 @@
                 </tr>
             `).join('');
         }
+
+        // Garante que o contador do card exibe estritamente a quantidade de patrimónios do cliente logado
+        const totalCards = document.querySelectorAll('#client-dashboard .stat-card strong');
+        if (totalCards[0]) {
+            totalCards[0].textContent = clientBens.length;
+        }
     }
 
     function renderDashboardTotals() {
@@ -438,8 +438,8 @@
         renderEstoque();
         renderMovimentacoes();
         renderDashboardTotals();
-        renderClientPortal();
         syncDateField();
+        renderClientPortal(); // Executado por último para garantir o valor correto do cliente no card
     }
 
     function openApp() {
