@@ -367,6 +367,12 @@
         const currentClientName = appState.currentUser?.nome || 'Carla Souza';
         const clientBens = appState.patrimonios.filter(p => p.responsavel === currentClientName);
 
+        // Atualiza estritamente o contador do card "Meus patrimónios" com a quantidade real do cliente
+        const totalCards = document.querySelectorAll('#client-dashboard .stat-card strong');
+        if (totalCards[0]) {
+            totalCards[0].textContent = clientBens.length;
+        }
+
         const dashTable = document.getElementById('clientDashTable');
         if (dashTable) {
             dashTable.innerHTML = clientBens.slice(0, 4).map(item => `
