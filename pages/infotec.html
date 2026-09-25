@@ -121,6 +121,16 @@
             color: var(--bg-white);
         }
 
+        /* Botão do menu mobile (escondido no desktop) */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--bg-white);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
         /* BOTÕES */
         .btn {
             display: inline-flex;
@@ -454,7 +464,29 @@
             .hero h1 { font-size: 48px; }
             .about-grid, .grid-projetos { grid-template-columns: 1fr; }
             .footer-grid { grid-template-columns: 1fr; gap: 50px; }
-            .nav-menu { display: none; }
+            
+            /* Menu mobile ativado */
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--navy-dark);
+                padding: 20px 8%;
+                gap: 20px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
         }
     </style>
 </head>
@@ -466,12 +498,16 @@
             <div class="logo-text">INFO<span>TEC</span></div>
         </div>
 
-        <nav class="nav-menu">
-            <a href="#hero">Início</a>
-            <a href="#sobre">Empresa</a>
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+            ☰
+        </button>
+
+        <nav class="nav-menu" id="navMenu">
+            <a href="#hero" onclick="closeMobileMenu()">Início</a>
+            <a href="#sobre" onclick="closeMobileMenu()">Empresa</a>
             <a href="index.html">StockFlow</a>
-            <a href="#projetos">Soluções</a>
-            <a href="#documentacao">Documentação</a>
+            <a href="#projetos" onclick="closeMobileMenu()">Soluções</a>
+            <a href="#documentacao" onclick="closeMobileMenu()">Documentação</a>
             <a href="infotec-contato.html">Contato</a>
             <a href="Indexsup.html">Suporte</a>
         </nav>
@@ -628,5 +664,21 @@
         </div>
     </footer>
 
+    <!-- Script para gerenciar o menu mobile da INFOTEC -->
+    <script>
+        function toggleMobileMenu() {
+            const navMenu = document.getElementById('navMenu');
+            if (navMenu) {
+                navMenu.classList.toggle('active');
+            }
+        }
+
+        function closeMobileMenu() {
+            const navMenu = document.getElementById('navMenu');
+            if (navMenu) {
+                navMenu.classList.remove('active');
+            }
+        }
+    </script>
 </body>
 </html>
