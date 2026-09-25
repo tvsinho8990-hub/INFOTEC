@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Info Tech — Tecnologia que faz acontecer</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
+
+        :root {
+            --blue: #1261d6;
+            --blue-dark: #0b3d91;
+            --navy: #152238;
+            --text: #253247;
+            --muted: #718096;
+            --line: #e5eaf0;
+            --soft: #f5f8fc;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "DM Sans", sans-serif;
+            color: var(--text);
+            background: var(--white);
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font: inherit;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            width: 100%;
+            height: 82px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6vw;
+            border-bottom: 1px solid var(--line);
+            background: rgba(255,255,255,.94);
+            position: relative;
+            z-index: 20;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            font-family: "Manrope", sans-serif;
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-mark {
+            width: 34px;
+            height: 34px;
+            border: 2px solid var(--blue);
+            display: grid;
+            place-items: center;
+            position: relative;
+        }
+
+        .logo-mark::before,
+        .logo-mark::after {
+            content: "";
+            position: absolute;
+            background: var(--blue);
+        }
+
+        .logo-mark::before {
+            width: 12px;
+            height: 2px;
+        }
+
+        .logo-mark::after {
+            width: 2px;
+            height: 12px;
+        }
+
+        .logo span {
+            color: var(--blue);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 38px;
+        }
+
+        nav a {
+            font-size: 14px;
+            font-weight: 500;
+            color: #58667a;
+            transition: .2s ease;
+        }
+
+        nav a:hover {
+            color: var(--blue);
+        }
+
+        .header-number {
+            font-size: 12px;
+            color: #9aa6b5;
+            letter-spacing: 1px;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            min-height: calc(100vh - 82px);
+            display: grid;
+            grid-template-columns: 42% 58%;
+            align-items: center;
+            padding: 55px 6vw 65px;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 570px;
+            padding-left: 3vw;
+            z-index: 3;
+        }
+
+        .eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 28px;
+            color: var(--blue);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2.2px;
+            text-transform: uppercase;
+        }
+
+        .eyebrow-line {
+            width: 35px;
+            height: 1px;
+            background: var(--blue);
+        }
+
+        .hero h1 {
+            font-family: "Manrope", sans-serif;
+            font-size: clamp(48px, 5vw, 78px);
+            line-height: .98;
+            letter-spacing: -4px;
+            color: var(--navy);
+            margin-bottom: 28px;
+        }
+
+        .hero h1 strong {
+            color: var(--blue);
+            font-weight: 800;
+        }
+
+        .hero-description {
+            max-width: 470px;
+            font-size: 17px;
+            line-height: 1.7;
+            color: var(--muted);
+            margin-bottom: 36px;
+        }
+
+        .hero-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 13px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--navy);
+            padding-bottom: 9px;
+            border-bottom: 1px solid var(--navy);
+        }
+
+        .hero-link span {
+            color: var(--blue);
+            font-size: 18px;
+            transition: transform .2s;
+        }
+
+        .hero-link:hover span {
+            transform: translateX(5px);
+        }
+
+        /* =========================
+           EQUIPMENT SHOWCASE
+        ========================= */
+
+        .showcase {
+            height: 620px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .showcase::before {
+            content: "";
+            position: absolute;
+            width: 480px;
+            height: 480px;
+            border: 1px solid #e4eaf1;
+            border-radius: 50%;
+        }
+
+        .showcase::after {
+            content: "";
+            position: absolute;
+            width: 620px;
+            height: 620px;
+            border: 1px solid #f0f3f7;
+            border-radius: 50%;
+        }
+
+        .orbit-mark {
+            position: absolute;
+            width: 9px;
+            height: 9px;
+            background: var(--blue);
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        .mark-1 {
+            top: 16%;
+            left: 26%;
+        }
+
+        .mark-2 {
+            top: 27%;
+            right: 13%;
+            width: 5px;
+            height: 5px;
+            background: #cbd4df;
+        }
+
+        .mark-3 {
+            bottom: 20%;
+            left: 16%;
+            width: 5px;
+            height: 5px;
+            background: #cbd4df;
+        }
+
+        .equipment {
+            width: 350px;
+            height: 350px;
+            background: white;
+            border: 1px solid #e2e8ef;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 4;
+            box-shadow: 0 20px 55px rgba(29, 52, 78, .08);
+        }
+
+        .equipment::before {
+            content: "";
+            position: absolute;
+            inset: 13px;
+            border: 1px dashed #dce4ed;
+            border-radius: 50%;
+        }
+
+        .equipment svg {
+            width: 185px;
+            height: 185px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .equipment svg * {
+            vector-effect: non-scaling-stroke;
+        }
+
+        .equipment-info {
+            position: absolute;
+            bottom: 19px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 8px 17px;
+            white-space: nowrap;
+            z-index: 5;
+            border: 1px solid var(--line);
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--navy);
+            letter-spacing: .5px;
+        }
+
+        .showcase-side {
+            position: absolute;
+            width: 150px;
+            font-size: 11px;
+            line-height: 1.6;
+            color: #9aa6b5;
+            z-index: 6;
+        }
+
+        .showcase-side strong {
+            display: block;
+            color: var(--navy);
+            font-size: 12px;
+            margin-bottom: 3px;
+        }
+
+        .side-left {
+            left: 2%;
+            bottom: 25%;
+        }
+
+        .side-right {
+            right: 1%;
+            top: 25%;
+            text-align: right;
+        }
+
+        /* =========================
+           CONTROLS
+        ========================= */
+
+        .carousel-controls {
+            position: absolute;
+            bottom: 26px;
+            right: 4%;
+            z-index: 8;
+            display: flex;
+            align-items: center;
+            gap: 17px;
+        }
+
+        .arrow {
+            width: 43px;
+            height: 43px;
+            border: 1px solid #d8e0e9;
+            background: white;
+            color: var(--navy);
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            font-size: 18px;
+            transition: .2s ease;
+        }
+
+        .arrow:hover {
+            border-color: var(--blue);
+            color: var(--blue);
+        }
+
+        .counter {
+            font-size: 12px;
+            color: #8995a5;
+            letter-spacing: 1px;
+            min-width: 52px;
+            text-align: center;
+        }
+
+        .counter strong {
+            color: var(--navy);
+        }
+
+        /* =========================
+           DIVIDER
+        ========================= */
+
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            color: var(--blue);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .section-label::after {
+            content: "";
+            height: 1px;
+            width: 55px;
+            background: var(--blue);
+        }
+
+        /* =========================
+           SOLUÇÕES
+        ========================= */
+
+        .solutions {
+            padding: 125px 9vw;
+            border-top: 1px solid var(--line);
+        }
+
+        .solutions-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 85px;
+        }
+
+        .solutions h2,
+        .about h2,
+        .team h2 {
+            font-family: "Manrope", sans-serif;
+            font-size: clamp(35px, 4vw, 57px);
+            letter-spacing: -2.5px;
+            line-height: 1.05;
+            color: var(--navy);
+            margin-top: 25px;
+        }
+
+        .solutions-intro {
+            align-self: end;
+            max-width: 450px;
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--muted);
+        }
+
+        .solution-list {
+            border-top: 1px solid var(--line);
+        }
+
+        .solution-item {
+            min-height: 105px;
+            border-bottom: 1px solid var(--line);
+            display: grid;
+            grid-template-columns: 90px 1fr 35%;
+            align-items: center;
+            transition: .25s ease;
+        }
+
+        .solution-item:hover {
+            padding-left: 15px;
+            border-color: #cbd9e8;
+        }
+
+        .solution-number {
+            font-size: 12px;
+            color: var(--blue);
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .solution-name {
+            font-family: "Manrope", sans-serif;
+            font-size: 23px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .solution-desc {
+            color: #8995a5;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* =========================
+           SOBRE
+        ========================= */
+
+        .about {
+            padding: 135px 9vw;
+            background: var(--soft);
+            display: grid;
+            grid-template-columns: 42% 58%;
+            gap: 80px;
+        }
+
+        .about-text {
+            max-width: 650px;
+            font-size: 17px;
+            line-height: 1.9;
+            color: #657386;
+        }
+
+        .about-text p + p {
+            margin-top: 24px;
+        }
+
+        .about-highlight {
+            margin-top: 42px;
+            padding-left: 20px;
+            border-left: 2px solid var(--blue);
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--navy);
+            font-weight: 600;
+        }
+
+        /* =========================
+           EQUIPE
+        ========================= */
+
+        .team {
+            padding: 130px 9vw;
+        }
+
+        .team-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            margin-bottom: 70px;
+        }
+
+        .team-description {
+            max-width: 350px;
+            color: var(--muted);
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            border-top: 1px solid var(--line);
+            border-left: 1px solid var(--line);
+        }
+
+        .member {
+            min-height: 220px;
+            padding: 28px 24px;
+            border-right: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: .25s ease;
+        }
+
+        .member:hover {
+            background: var(--soft);
+        }
+
+        .member-number {
+            color: #a2adba;
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+
+        .member-initial {
+            width: 52px;
+            height: 52px;
+            border: 1px solid #cdd8e4;
+            display: grid;
+            place-items: center;
+            color: var(--blue);
+            font-family: "Manrope", sans-serif;
+            font-weight: 800;
+            font-size: 18px;
+        }
+
+        .member-name {
+            font-family: "Manrope", sans-serif;
+            font-size: 19px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 6px;
+        }
+
+        .member-role {
+            font-size: 12px;
+            color: #7c8999;
+            line-height: 1.5;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            padding: 45px 9vw;
+            border-top: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .footer-brand {
+            font-family: "Manrope", sans-serif;
+            font-weight: 800;
+            font-size: 17px;
+        }
+
+        .footer-brand span {
+            color: var(--blue);
+        }
+
+        .footer-copy {
+            font-size: 11px;
+            color: #9aa5b2;
+            text-align: right;
+            line-height: 1.7;
+        }
+
+        /* =========================
+           ANIMAÇÕES
+        ========================= */
+
+        .fade {
+            animation: fade .35s ease;
+        }
+
+        @keyframes fade {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* =========================
+           RESPONSIVO
+        ========================= */
+
+        @media (max-width: 1050px) {
+
+            .hero {
+                grid-template-columns: 1fr;
+                padding-top: 80px;
+            }
+
+            .hero-content {
+                padding-left: 0;
+                max-width: 700px;
+                margin: 0 auto;
+                text-align: center;
+            }
+
+            .eyebrow {
+                justify-content: center;
+            }
+
+            .hero-description {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .showcase {
+                margin-top: 30px;
+                height: 570px;
+            }
+
+            .team-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .about {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 750px) {
+
+            header {
+                height: 70px;
+                padding: 0 5vw;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .header-number {
+                display: none;
+            }
+
+            .hero {
+                min-height: auto;
+                padding: 70px 5vw 40px;
+            }
+
+            .hero h1 {
+                font-size: 48px;
+                letter-spacing: -2.5px;
+            }
+
+            .hero-description {
+                font-size: 15px;
+            }
+
+            .showcase {
+                height: 480px;
+                margin-top: 10px;
+            }
+
+            .showcase::before {
+                width: 320px;
+                height: 320px;
+            }
+
+            .showcase::after {
+                width: 420px;
+                height: 420px;
+            }
+
+            .equipment {
+                width: 250px;
+                height: 250px;
+            }
+
+            .equipment svg {
+                width: 135px;
+                height: 135px;
+            }
+
+            .showcase-side {
+                display: none;
+            }
+
+            .carousel-controls {
+                bottom: 5px;
+                right: 50%;
+                transform: translateX(50%);
+            }
+
+            .solutions,
+            .about,
+            .team {
+                padding: 90px 7vw;
+            }
+
+            .solutions-header {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                margin-bottom: 55px;
+            }
+
+            .solution-item {
+                grid-template-columns: 55px 1fr;
+                padding: 22px 0;
+            }
+
+            .solution-desc {
+                grid-column: 2;
+                margin-top: 7px;
+            }
+
+            .team-header {
+                display: block;
+            }
+
+            .team-description {
+                margin-top: 25px;
+            }
+
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            footer {
+                padding: 35px 7vw;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .footer-copy {
+                text-align: left;
+            }
+        }
+
+        @media (max-width: 470px) {
+
+            .hero h1 {
+                font-size: 41px;
+            }
+
+            .showcase {
+                height: 410px;
+            }
+
+            .showcase::before {
+                width: 270px;
+                height: 270px;
+            }
+
+            .showcase::after {
+                width: 350px;
+                height: 350px;
+            }
+
+            .equipment {
+                width: 215px;
+                height: 215px;
+            }
+
+            .equipment svg {
+                width: 115px;
+                height: 115px;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <a href="#" class="logo">
+        <div class="logo-mark"></div>
+        INFO <span>TECH</span>
+    </a>
+
+    <nav>
+        <a href="#solucoes">Soluções</a>
+        <a href="#sobre">Quem somos</a>
+        <a href="#equipe">Equipe</a>
+        <a href="infotec.html">INFOTEC</a>
+        <a href="Indexsup.html">Suporte</a>
+    </nav>
+
+    <div class="header-number">IT / 2026</div>
+
+</header>
+
+
+<main>
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <div class="eyebrow">
+                <span class="eyebrow-line"></span>
+                Soluções em tecnologia
+            </div>
+
+            <h1>
+                Tecnologia que
+                <strong>faz acontecer.</strong>
+            </h1>
+
+            <p class="hero-description">
+                Um projeto construído para unir tecnologia, equipamentos,
+                infraestrutura e desenvolvimento em soluções pensadas
+                para problemas reais.
+            </p>
+
+            <a href="#solucoes" class="hero-link">
+                Explorar o projeto
+                <span>→</span>
+            </a>
+
+            <a href="index.html" class="hero-link">
+                Acessar StockFlow
+                <span>→</span>
+            </a>
+
+        </div>
+
+
+        <!-- OBJETO INTERATIVO -->
+
+        <div class="showcase">
+
+            <span class="orbit-mark mark-1"></span>
+            <span class="orbit-mark mark-2"></span>
+            <span class="orbit-mark mark-3"></span>
+
+            <div class="showcase-side side-left">
+                <strong id="sideCategory">INFRAESTRUTURA</strong>
+                <span id="sideText">
+                    Tecnologia pensada para conectar pessoas,
+                    processos e equipamentos.
+                </span>
+            </div>
+
+            <div class="showcase-side side-right">
+                <strong>INFO TECH</strong>
+                <span>
+                    Explore os elementos
+                    do projeto.
+                </span>
+            </div>
+
+
+            <div class="equipment" id="equipment">
+
+                <!-- SVG será inserido pelo JavaScript -->
+
+                <div class="equipment-info" id="equipmentName">
+                    Monitor
+
+                </div>
+
+            </div>
+
+
+            <div class="carousel-controls">
+
+                <button class="arrow" id="prev" aria-label="Anterior">
+                    ←
+                </button>
+
+                <div class="counter">
+                    <strong id="current">01</strong>
+                    <span> / 07</span>
+                </div>
+
+                <button class="arrow" id="next" aria-label="Próximo">
+                    →
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- SOLUÇÕES -->
+
+    <section class="solutions" id="solucoes">
+
+        <div class="solutions-header">
+
+            <div>
+                <div class="section-label">
+                    O que fazemos
+                </div>
+
+                <h2>
+                    Tecnologia em
+                    diferentes frentes.
+                </h2>
+            </div>
+
+            <p class="solutions-intro">
+                A proposta da Info Tech é trabalhar tecnologia de forma
+                ampla: do equipamento físico ao desenvolvimento de
+                soluções digitais.
+            </p>
+
+        </div>
+
+
+        <div class="solution-list">
+
+            <div class="solution-item">
+                <span class="solution-number">01</span>
+
+                <div class="solution-name">
+                    Desenvolvimento
+                </div>
+
+                <div class="solution-desc">
+                    Sistemas, aplicações e soluções digitais
+                    desenvolvidas para necessidades específicas.
+                </div>
+            </div>
+
+
+            <div class="solution-item">
+                <span class="solution-number">02</span>
+
+                <div class="solution-name">
+                    Infraestrutura
+                </div>
+
+                <div class="solution-desc">
+                    Redes, conectividade e estrutura tecnológica
+                    para ambientes modernos.
+                </div>
+            </div>
+
+
+            <div class="solution-item">
+                <span class="solution-number">03</span>
+
+                <div class="solution-name">
+                    Equipamentos
+                </div>
+
+                <div class="solution-desc">
+                    Computadores, periféricos e equipamentos
+                    integrados às necessidades de cada projeto.
+                </div>
+            </div>
+
+
+            <div class="solution-item">
+                <span class="solution-number">04</span>
+
+                <div class="solution-name">
+                    Prototipagem
+                </div>
+
+                <div class="solution-desc">
+                    Impressão 3D e criação de protótipos para
+                    transformar ideias em objetos.
+                </div>
+            </div>
+
+
+            <div class="solution-item">
+                <span class="solution-number">05</span>
+
+                <div class="solution-name">
+                    Soluções personalizadas
+                </div>
+
+                <div class="solution-desc">
+                    Projetos pensados a partir do problema,
+                    e não de uma solução pronta.
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- SOBRE -->
+
+    <section class="about" id="sobre">
+
+        <div>
+
+            <div class="section-label">
+                Sobre nós
+            </div>
+
+            <h2>
+                Mais do que
+                tecnologia.
+            </h2>
+
+        </div>
+
+
+        <div class="about-text">
+
+            <p>
+                A Info Tech nasceu da ideia de transformar conhecimento
+                em tecnologia aplicada.
+            </p>
+
+            <p>
+                Somos uma equipe multidisciplinar que trabalha com
+                desenvolvimento, infraestrutura e equipamentos,
+                buscando criar soluções que sejam úteis, funcionais
+                e pensadas para o mundo real.
+            </p>
+
+            <p>
+                Este projeto representa o primeiro passo desta ideia:
+                reunir diferentes áreas da tecnologia em um mesmo
+                propósito.
+            </p>
+
+            <div class="about-highlight">
+                Tecnologia não precisa ser complicada para ser
+                inteligente. Ela precisa resolver.
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- EQUIPE -->
+
+    <section class="team" id="equipe">
+
+        <div class="team-header">
+
+            <div>
+
+                <div class="section-label">
+                    Quem somos
+                </div>
+
+                <h2>
+                    A equipe por trás
+                    do projeto.
+                </h2>
+
+            </div>
+
+            <p class="team-description">
+                Cinco pessoas, diferentes responsabilidades e
+                um projeto construído em conjunto.
+            </p>
+
+        </div>
+
+
+        <div class="team-grid">
+
+            <div class="member">
+
+                <span class="member-number">01</span>
+
+                <div class="member-initial">
+                    M
+                </div>
+
+                <div>
+                    <div class="member-name">
+                        Macsuel
+                    </div>
+
+                    <div class="member-role">
+                        Líder do projeto<br>
+                        Back-end
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="member">
+
+                <span class="member-number">02</span>
+
+                <div class="member-initial">
+                    T
+                </div>
+
+                <div>
+                    <div class="member-name">
+                        Thiago
+                    </div>
+
+                    <div class="member-role">
+                        Back-end
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="member">
+
+                <span class="member-number">03</span>
+
+                <div class="member-initial">
+                    Y
+                </div>
+
+                <div>
+                    <div class="member-name">
+                        Yasmin
+                    </div>
+
+                    <div class="member-role">
+                        Front-end
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="member">
+
+                <span class="member-number">04</span>
+
+                <div class="member-initial">
+                    V
+                </div>
+
+                <div>
+                    <div class="member-name">
+                        Vinicios
+                    </div>
+
+                    <div class="member-role">
+                        Front-end
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="member">
+
+                <span class="member-number">05</span>
+
+                <div class="member-initial">
+                    G
+                </div>
+
+                <div>
+                    <div class="member-name">
+                        Guto
+                    </div>
+
+                    <div class="member-role">
+                        Front-end
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <div class="footer-brand">
+        INFO <span>TECH</span>
+    </div>
+
+    <div class="footer-copy">
+        © 2026 Info Tech — Todos os direitos reservados.<br>
+        Projeto desenvolvido pela equipe Info Tech.
+    </div>
+
+</footer>
+
+
+<script>
+
+    /*
+    ==========================================================
+       EQUIPAMENTOS
+    ==========================================================
+    */
+
+    const equipments = [
+
+        {
+            name: "Monitor",
+            category: "INFRAESTRUTURA",
+            text: "Tecnologia e infraestrutura para ambientes conectados.",
+
+            svg: `
+                <svg viewBox="0 0 200 200" fill="none">
+                    <rect x="30" y="35" width="140" height="95" rx="7"
+                        stroke="#1261d6" stroke-width="3"/>
+                    <rect x="42" y="47" width="116" height="70"
+                        stroke="#d5dfe9" stroke-width="2"/>
+                    <path d="M75 153H125"
+                        stroke="#152238" stroke-width="3"
+                        stroke-linecap="round"/>
+                    <path d="M100 130V153"
+                        stroke="#152238" stroke-width="3"
+                        stroke-linecap="round"/>
+                    <circle cx="100" cy="52" r="3"
+                        fill="#1261d6"/>
+                </svg>
+            `
+        },
+
+        {
+            name: "Impressora 3D",
+            category: "PROTOTIPAGEM",
+            text: "Do conceito ao objeto através de fabricação digital.",
+
+            svg: `
+                <svg viewBox="0 0 200 200" fill="none">
+                    <path d="M48 72L100 42L152 72V137L100 167L48 137V72Z"
+                        stroke="#1261d6" stroke-width="3"/>
+                    <path d="M48 72L100 101L152 72"
+                        stroke="#1261d6" stroke-width="3"/>
+                    <path d="M100 101V167"
+                        stroke="#1261d6" stroke-width="3"/>
+                    <path d="M72 59L124 89"
+                        stroke="#d2dce7" stroke-width="2"/>
+                    <path d="M82 117H118"
+                        stroke="#152238" stroke-width="3"/>
+                    <path d="M91 108V130"
+                        stroke="#152238" stroke-width="3"/>
+                    <path d="M109 108V130"
+                        stroke="#152238" stroke-width="3"/>
+                </svg>
+            `
+        },
+
+        {
+            name: "Notebook",
+            category: "EQUIPAMENTOS",
+            text: "Mobilidade e tecnologia para acompanhar cada projeto.",
+
+            svg: `
+                <svg viewBox="0 0 200 200" fill="none">
+                    <rect x="43" y="42" width="114" height="82"
+                        rx="5" stroke="#1261d6" stroke-width="3"/>
+                    <rect x="53" y="52" width="94" height="62"
+                        stroke="#d5dfe9" stroke-width="2"/>
+                    <path d="M28 132H172L160 151H40L28 132Z"
+                        stroke="#152238" stroke-width="3"
+                        stroke-linejoin="round"/>
+                    <path d="M91 141H109"
+                        stroke="#1261d6" stroke-width="3"
+                        stroke-linecap="round"/>
+                </svg>
+            `
+        },
+
+        {
+            name: "Mouse",
+            category: "PERIFÉRICOS",
+            text: "Pequenos componentes que fazem parte da experiência.",
+
+            svg: `
+                <svg viewBox="0 0 200 200" fill="none">
+                    <rect x="63" y="35" width="74" height="130"
+                        rx="36" stroke="#1261d6" stroke-width="3"/>
+                    <path d="M100 36V84"
+                        stroke="#d5dfe9" stroke-width="2"/>
+                    <path d="M100 84V104"
+                        stroke="#152238" stroke-width="3"
+                        stroke-linecap="round"/>
+                    <path d="M63 83H137"
+                        stroke="#d5dfe9" stroke-width="2"/>
+                    <circle cx="100" cy="68" r="5"
+                        fill="#1261d6"/>
+                </svg>
+            `
+        },
+
+        {
+            name: "Teclado",
+            category: "PERIFÉRICOS",
+            text: "Ferramentas que aproximam pessoas da tecnologia.",
+
+            svg: `
+                <svg viewBox="0 0 200 200" fill="none">
+                    <rect x="25" y="63" width="150" height="76"
+                        rx="8" stroke="#1261d6" stroke-width="3"/>
+                    <g stroke="#d0dbe6" stroke-width="2">
+                        <path d="M42 82H53"/>
+                        <path d="M61 82H72"/>
+                        <path d="M80 82H91"/>
+                        <path d="M99 82H110"/>
+                        <path d="M118 82H129"/>
+                        <path d="M137 82H148"/>
+                        <path d="M42 101H53"/>
+                        <path d="M61 101H72"/>
+                        <path d="M80 101H91"/>
+                        <path d="M99 101H110"/>
+                        <path d="M118 101H129"/>
+                        <path d="M137 101H158"/>
+                    </g>
+                    <rect x="65" y="116" width="70" height="9"
+                        rx="4" fill="#152238"/>
+                </svg>
+            `
+        },
+
+        {
+            name: "Rede",
+            category: "INFRAESTRUTURA",
+            text: "Conexões que permitem que tudo trabalhe em conjunto.",
+
+            svg: `
+                <svg viewBox="0 0 200 200" fill="none">
+                    <rect x="48" y="75" width="104" height="54"
+                        rx="6" stroke="#1261d6" stroke-width="3"/>
+                    <circle cx="67" cy="102" r="4" fill="#1261d6"/>
+                    <circle cx="83" cy="102" r="4" fill="#1261d6"/>
+                    <circle cx="99" cy="102" r="4" fill="#1261d6"/>
+                    <circle cx="115" cy="102" r="4" fill="#1261d6"/>
+                    <circle cx="131" cy="102" r="4" fill="#1261d6"/>
+                    <path d="M100 75V49"
+                        stroke="#152238" stroke-width="3"/>
+                    <path d="M73 49H127"
+                        stroke="#152238" stroke-width="3"/>
+                    <circle cx="73" cy="49" r="5"
+                        stroke="#1261d6" stroke-width="2"/>
+                    <circle cx="127" cy="49" r="5"
+                        stroke="#1261d6" stroke-width="2"/>
+                </svg>
+            `
+        },
+
+        {
+            name: "Ferramentas",
+            category: "MANUTENÇÃO",
+            text: "Tecnologia também é cuidar, ajustar e fazer funcionar.",
+
+            svg: `
+                <svg viewBox="0 0 200 200" fill="none">
+                    <path d="M56 53L91 88"
+                        stroke="#1261d6" stroke-width="7"
+                        stroke-linecap="round"/>
+                    <path d="M47 44L62 59"
+                        stroke="#152238" stroke-width="3"/>
+                    <path d="M54 48L48 42L40 50L46 56"
+                        stroke="#152238" stroke-width="3"/>
+                    <path d="M109 105L153 149"
+                        stroke="#1261d6" stroke-width="7"
+                        stroke-linecap="round"/>
+                    <circle cx="104" cy="100" r="17"
+                        stroke="#152238" stroke-width="3"/>
+                    <path d="M118 86L150 54"
+                        stroke="#152238" stroke-width="3"/>
+                    <path d="M143 49L153 54L148 64"
+                        stroke="#1261d6" stroke-width="3"/>
+                </svg>
+            `
+        }
+
+    ];
+
+
+    let currentIndex = 0;
+
+    const equipment = document.getElementById("equipment");
+    const equipmentName = document.getElementById("equipmentName");
+    const current = document.getElementById("current");
+    const sideCategory = document.getElementById("sideCategory");
+    const sideText = document.getElementById("sideText");
+
+
+    function updateEquipment() {
+
+        const item = equipments[currentIndex];
+
+        equipment.classList.remove("fade");
+
+        void equipment.offsetWidth;
+
+        equipment.classList.add("fade");
+
+        equipment.innerHTML = `
+            ${item.svg}
+            <div class="equipment-info">
+                ${item.name}
+            </div>
+        `;
+
+        current.textContent =
+            String(currentIndex + 1).padStart(2, "0");
+
+        sideCategory.textContent = item.category;
+        sideText.textContent = item.text;
+    }
+
+
+    document.getElementById("next").addEventListener("click", () => {
+
+        currentIndex++;
+
+        if (currentIndex >= equipments.length) {
+            currentIndex = 0;
+        }
+
+        updateEquipment();
+
+    });
+
+
+    document.getElementById("prev").addEventListener("click", () => {
+
+        currentIndex--;
+
+        if (currentIndex < 0) {
+            currentIndex = equipments.length - 1;
+        }
+
+        updateEquipment();
+
+    });
+
+
+    /*
+       Teclas ← →
+    */
+
+    document.addEventListener("keydown", (event) => {
+
+        if (event.key === "ArrowRight") {
+            document.getElementById("next").click();
+        }
+
+        if (event.key === "ArrowLeft") {
+            document.getElementById("prev").click();
+        }
+
+    });
+
+
+    /*
+       Swipe no celular
+    */
+
+    let touchStartX = 0;
+
+    equipment.addEventListener("touchstart", (event) => {
+        touchStartX = event.touches[0].clientX;
+    });
+
+    equipment.addEventListener("touchend", (event) => {
+
+        const touchEndX = event.changedTouches[0].clientX;
+        const difference = touchStartX - touchEndX;
+
+        if (Math.abs(difference) < 40) return;
+
+        if (difference > 0) {
+            document.getElementById("next").click();
+        } else {
+            document.getElementById("prev").click();
+        }
+
+    });
+
+
+    updateEquipment();
+
+</script>
+
+</body>
+</html>
