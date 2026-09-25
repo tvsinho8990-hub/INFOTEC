@@ -263,7 +263,15 @@
         return map[status] || 'available';
     }
 
+    function isAdmin() {
+        return appState.currentUser && appState.currentUser.tipo === 'admin';
+    }
+
     function excluirPatrimonio(codigo) {
+        if (!isAdmin()) {
+            alert('Acesso negado. Apenas o Administrador pode excluir patrimónios.');
+            return;
+        }
         if (!confirm(`Tem certeza que deseja excluir o patrimônio ${codigo}?`)) return;
         appState.patrimonios = appState.patrimonios.filter(p => p.codigo !== codigo);
         saveState();
@@ -271,6 +279,10 @@
     }
 
     function excluirUsuario(nome) {
+        if (!isAdmin()) {
+            alert('Acesso negado. Apenas o Administrador pode excluir usuários.');
+            return;
+        }
         if (!confirm(`Tem certeza que deseja excluir o usuário ${nome}?`)) return;
         appState.usuarios = appState.usuarios.filter(u => u.nome !== nome);
         saveState();
@@ -280,6 +292,8 @@
     function renderPatrimonios() {
         const table = document.getElementById('patrimonioTable');
         if (!table) return;
+
+        const admin = isAdmin();
 
         table.innerHTML = appState.patrimonios.map((item) => `
             <tr>
@@ -291,7 +305,7 @@
                     <span class="status ${getStatusBadge(item.status)}">${item.status}</span>
                 </td>
                 <td>
-                    <button class="btn btn-secondary" style="padding: 4px 8px; font-size: 12px;" onclick="excluirPatrimonio('${item.codigo}')">Excluir</button>
+                    ${admin ? `<button class="btn btn-secondary" style="padding: 4px 8px; font-size: 12px;" onclick="excluirPatrimonio('${item.codigo}')">Excluir</button>` : '<span style="color: var(--text-muted); font-size: 12px;">Restrito</span>'}
                 </td>
             </tr>
         `).join('');
@@ -300,6 +314,8 @@
     function renderUsuarios() {
         const table = document.querySelector('#usuarios tbody');
         if (!table) return;
+
+        const admin = isAdmin();
 
         table.innerHTML = appState.usuarios.map((usuario) => `
             <tr>
@@ -310,7 +326,7 @@
                     <span class="status ${getStatusBadge(usuario.status)}">${usuario.status}</span>
                 </td>
                 <td>
-                    <button class="btn btn-secondary" style="padding: 4px 8px; font-size: 12px;" onclick="excluirUsuario('${usuario.nome}')">Excluir</button>
+                    ${admin ? `<button class="btn btn-secondary" style="padding: 4px 8px; font-size: 12px;" onclick="excluirUsuario('${usuario.nome}')">Excluir</button>` : '<span style="color: var(--text-muted); font-size: 12px;">Restrito</span>'}
                 </td>
             </tr>
         `).join('');
@@ -406,7 +422,6 @@
             `).join('');
         }
 
-        // Garante que o contador do card exibe estritamente a quantidade de patrimónios do cliente logado
         const totalCards = document.querySelectorAll('#client-dashboard .stat-card strong');
         if (totalCards[0]) {
             totalCards[0].textContent = clientBens.length;
@@ -439,7 +454,7 @@
         renderMovimentacoes();
         renderDashboardTotals();
         syncDateField();
-        renderClientPortal(); // Executado por último para garantir o valor correto do cliente no card
+        renderClientPortal();
     }
 
     function openApp() {
@@ -456,6 +471,7 @@
         navigationHistory = [];
         currentScreen = 'dashboard';
         showScreen('dashboard');
+        renderAll();
     }
 
     function showScreen(screen) {
