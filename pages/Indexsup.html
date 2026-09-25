@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contatar suporte | StockFlow</title>
+    <meta name="description" content="Entre em contato com o suporte do StockFlow.">
+    <link rel="stylesheet" href="../assets/css/theme.css">
+</head>
+<body>
+    <header class="header"><div class="header-container">
+        <a href="index.html" class="logo" aria-label="Ir para o dashboard StockFlow"><span class="logo-icon">S</span><span>StockFlow</span></a>
+        <nav class="navigation" aria-label="Navegação principal"><a href="index.html">Dashboard</a><a href="index.html#estoque">Estoque</a><a href="index.html#patrimonios">Patrimônios</a><a href="infotec.html">Sobre a empresa</a><a href="Indexsup.html" class="active" aria-current="page">Suporte</a></nav>
+        <div class="user-area"><button class="notification-button" type="button" id="notificationButton" aria-label="Ver notificações">🔔</button><div class="user-profile"><div class="user-avatar">GM</div><div class="user-info"><strong>Guto Medeiros</strong><span>Administrador</span></div></div></div>
+    </div></header>
+    <main class="support-page"><div class="support-container">
+        <section class="page-header"><div><span class="page-badge">SUPORTE</span><h1>Contatar suporte</h1><p>Envie sua solicitação e nossa equipe entrará em contato com você.</p></div><a href="index.html" class="back-button">← Voltar para o dashboard</a></section>
+        <section class="support-grid">
+            <div class="support-card"><div class="card-header"><div class="card-icon" aria-hidden="true">✉</div><div><h2>Envie uma solicitação</h2><p>Preencha os campos abaixo para entrar em contato com nossa equipe.</p></div></div>
+                <form id="supportForm" class="support-form" novalidate>
+                    <div class="form-group"><label for="name">Nome completo <span>*</span></label><input type="text" id="name" name="name" placeholder="Digite seu nome completo" autocomplete="name" required></div>
+                    <div class="form-group"><label for="email">E-mail <span>*</span></label><input type="email" id="email" name="email" placeholder="seuemail@exemplo.com" autocomplete="email" required></div>
+                    <div class="form-row"><div class="form-group"><label for="category">Categoria <span>*</span></label><select id="category" name="category" required><option value="">Selecione uma categoria</option><option>Problema no estoque</option><option>Patrimônios</option><option>Conta e acesso</option><option>Problema no sistema</option><option>Dúvida</option><option>Outro</option></select></div><div class="form-group"><label for="priority">Prioridade <span>*</span></label><select id="priority" name="priority" required><option value="">Selecione a prioridade</option><option>Baixa</option><option>Média</option><option>Alta</option><option>Urgente</option></select></div></div>
+                    <div class="form-group"><label for="subject">Assunto <span>*</span></label><input type="text" id="subject" name="subject" placeholder="Ex.: Não consigo cadastrar um patrimônio" maxlength="120" required></div>
+                    <div class="form-group"><label for="message">Descrição do problema <span>*</span></label><textarea id="message" name="message" maxlength="1000" placeholder="Descreva detalhadamente o que aconteceu..." required></textarea><div class="textarea-footer"><small>Quanto mais detalhes, mais rápido poderemos ajudar.</small><span id="characterCount">0/1000</span></div></div>
+                    <div class="form-group"><label for="attachment">Anexo</label><div class="file-upload"><input type="file" id="attachment" name="attachment" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx"><label for="attachment" class="file-label"><span aria-hidden="true">📎</span><span><strong>Adicionar arquivo</strong><small>PNG, JPG, PDF ou DOCX, até 10 MB</small></span></label></div><small id="fileName" class="file-name"></small></div>
+                    <div class="form-checkbox"><input type="checkbox" id="terms" name="terms" required><label for="terms">Confirmo que as informações são verdadeiras e autorizo a equipe de suporte a entrar em contato comigo.</label></div>
+                    <div id="formStatus" class="form-status" role="status" aria-live="polite"></div><div class="form-actions"><button type="reset" class="btn btn-secondary">Limpar</button><button type="submit" class="btn btn-primary">Enviar solicitação <span aria-hidden="true">→</span></button></div>
+                </form>
+            </div>
+            <aside class="support-sidebar" aria-label="Informações de suporte"><div class="info-card"><div class="info-icon" aria-hidden="true">🕐</div><div><h3>Horário de atendimento</h3><p>Segunda a sexta-feira</p><strong>08:00 às 18:00</strong></div></div><div class="info-card"><div class="info-icon" aria-hidden="true">✉</div><div><h3>E-mail</h3><p>Nossa equipe também atende por e-mail.</p><a href="mailto:suporte@stockflow.com">suporte@stockflow.com</a></div></div><div class="info-card"><div class="info-icon" aria-hidden="true">⚡</div><div><h3>Tempo de resposta</h3><p>Normalmente respondemos em até <strong>1 dia útil.</strong></p></div></div><div class="faq-card"><div class="faq-icon" aria-hidden="true">?</div><h3>Talvez sua dúvida já tenha resposta</h3><p>Consulte o sistema antes de abrir uma solicitação.</p><a href="index.html" class="faq-link">Acessar o sistema →</a></div></aside>
+        </section>
+        <section class="security-notice"><div class="security-icon" aria-hidden="true">🔒</div><div><h3>Seus dados estão protegidos</h3><p>As informações ficam armazenadas apenas neste navegador para simular o atendimento local.</p></div></section>
+    </div></main>
+    <footer class="footer"><div class="footer-container"><div class="footer-brand"><a href="index.html" class="logo"><span class="logo-icon">S</span><span>StockFlow</span></a><p>Gestão de bens simples, inteligente e eficiente.</p></div><div class="footer-links"><div><h4>Sistema</h4><a href="index.html">Dashboard</a><a href="index.html#patrimonios">Patrimônios</a><a href="infotec.html">Sobre a empresa</a></div><div><h4>Suporte</h4><a href="Indexsup.html">Contatar suporte</a><a href="mailto:suporte@stockflow.com">Enviar e-mail</a></div></div></div><div class="footer-bottom"><span>© 2026 StockFlow. Todos os direitos reservados.</span><span>Sistema de gestão patrimonial</span></div></footer>
+    <script src="../assets/js/support.js"></script>
+</body>
+</html>
