@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documentação | StockFlow</title>
+    <title>Documentação Institucional | INFOTEC</title>
     <link rel="stylesheet" href="../assets/css/theme.css">
     <style>
         body { margin: 0; background: var(--sf-soft); }
@@ -11,40 +11,70 @@
         .docs-header, .docs-section { background: var(--sf-white); border: 1px solid var(--sf-line); border-radius: 12px; box-shadow: var(--sf-shadow); }
         .docs-header { padding: clamp(28px, 6vw, 56px); margin-bottom: 20px; }
         .eyebrow { color: var(--sf-blue); font-size: 12px; font-weight: 800; letter-spacing: .14em; }
-        h1, h2 { color: var(--sf-navy); font-family: "Manrope", sans-serif; }
-        h1 { margin: 10px 0 12px; font-size: clamp(32px, 6vw, 54px); line-height: 1.08; }
-        h2 { margin: 0 0 12px; font-size: 22px; }
-        p, li { color: var(--sf-muted); line-height: 1.7; }
+        h1, h2, h3 { color: var(--sf-navy); font-family: "Manrope", sans-serif; }
+        h1 { margin: 10px 0 12px; font-size: clamp(30px, 5vw, 48px); line-height: 1.08; }
+        h2 { margin: 0 0 16px; font-size: 22px; border-bottom: 2px solid var(--sf-line); padding-bottom: 8px; }
+        h3 { margin: 16px 0 8px; font-size: 16px; color: var(--sf-blue-dark); }
+        p, li { color: var(--sf-muted); line-height: 1.7; font-size: 15px; }
+        ul, ol { padding-left: 20px; margin-bottom: 16px; }
+        li { margin-bottom: 8px; }
         .docs-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
-        .docs-button { display: inline-flex; align-items: center; min-height: 44px; padding: 0 17px; border-radius: 7px; color: var(--sf-white); background: var(--sf-blue); font-weight: 700; text-decoration: none; }
-        .docs-section { padding: 28px; margin-top: 20px; }
-        .docs-section + .docs-section { margin-top: 14px; }
-        code { padding: 2px 6px; border-radius: 4px; color: var(--sf-blue-dark); background: #eaf2ff; }
+        .docs-button { display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; border-radius: 7px; color: var(--sf-white); background: var(--sf-blue); font-weight: 700; text-decoration: none; }
+        .docs-section { padding: 32px; margin-top: 20px; }
+        .docs-section + .docs-section { margin-top: 16px; }
+        .compliance-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 16px; }
+        .compliance-card { background: #f8fbff; border: 1px solid #e1ecfc; border-radius: 8px; padding: 20px; }
         @media (max-width: 560px) { .docs-shell { width: calc(100% - 28px); padding-top: 28px; } .docs-section { padding: 22px; } }
     </style>
 </head>
 <body>
     <main class="docs-shell">
         <header class="docs-header">
-            <span class="eyebrow">TRANSPARÊNCIA CORPORATIVA / PORTAL DE DOCUMENTAÇÃO</span>
-            <h1>Manuais de conformidade e normativas de uso.</h1>
-            <p>Consulte os manuais de conformidade, normativas de uso e o registro oficial de bens patrimoniais do sistema StockFlow.</p>
+            <span class="eyebrow">INFOTEC SYSTEMS / TRANSPARÊNCIA CORPORATIVA</span>
+            <h1>Portal de Documentação e Governança Tecnológica.</h1>
+            <p>Manuais de conformidade, normativas de uso, padrões de engenharia e diretrizes de governança de ativos da INFOTEC.</p>
             <div class="docs-actions">
-                <a class="docs-button" href="Indexsup.html" target="_top">Falar com suporte</a>
+                <a class="docs-button" href="Indexsup.html" target="_top">Falar com a nossa equipe</a>
             </div>
         </header>
+
         <section class="docs-section">
-            <h2>Fluxo principal</h2>
-            <ol>
-                <li>Cadastre produtos, usuários e patrimônios.</li>
-                <li>Acompanhe disponibilidade, cautelas e movimentações.</li>
-                <li>Registre transferências, devoluções e manutenções.</li>
-                <li>Consulte históricos para auditoria e tomada de decisão.</li>
-            </ol>
+            <h2>1. Visão Geral e Missão Corporativa</h2>
+            <p>A INFOTEC atua na vanguarda do desenvolvimento de sistemas de alta performance e infraestrutura digital. Este portal consolida as diretrizes operacionais, os padrões de conformidade técnica e os protocolos normativos aplicados aos nossos softwares, com destaque para a governança do ecossistema <strong>StockFlow</strong>.</p>
         </section>
+
         <section class="docs-section">
-            <h2>Estrutura do projeto</h2>
-            <p>As páginas ficam em <code>pages/</code>, os estilos compartilhados em <code>assets/css/</code>, os scripts em <code>assets/js/</code> e a documentação em <code>docs/</code>.</p>
+            <h2>2. Normativas de Uso e Conformidade Operacional</h2>
+            <p>O uso dos sistemas desenvolvidos pela INFOTEC rege-se por rigorosos padrões de segurança da informação e auditoria:</p>
+            <ul>
+                <li><strong>Autenticação e Permissões:</strong> O acesso ao painel administrativo e aos portais de clientes exige credenciais validadas, garantindo o isolamento estrito de dados corporativos e patrimoniais.</li>
+                <li><strong>Rastreabilidade de Ativos:</strong> Toda e qualquer movimentação de bens, cautela ou alteração de inventário gera logs imutáveis para efeitos de auditoria interna.</li>
+                <li><strong>Conformidade LGPD:</strong> Os dados armazenados localmente ou em servidores dedicados respeitam estritamente as normativas de proteção de dados e privacidade corporativa.</li>
+            </ul>
+        </section>
+
+        <section class="docs-section">
+            <h2>3. Padrões de Engenharia de Software</h2>
+            <p>Os produtos tecnológicos da INFOTEC são concebidos sob premissas modernas de desenvolvimento:</p>
+            <div class="compliance-grid">
+                <div class="compliance-card">
+                    <h3>Arquitetura Limpa</h3>
+                    <p>Separação clara entre camadas de interface, lógica de negócio e persistência de dados para assegurar manutenibilidade e escalabilidade.</p>
+                </div>
+                <div class="compliance-card">
+                    <h3>Performance e Resiliência</h3>
+                    <p>Interfaces otimizadas para carregamento instantâneo, gestão de estado reativa e tolerância a falhas operacionais.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="docs-section">
+            <h2>4. Suporte, SLA e Contratação</h2>
+            <p>Para garantir a continuidade dos negócios dos nossos clientes, a INFOTEC disponibiliza canais oficiais de atendimento técnico e comercial:</p>
+            <ul>
+                <li><strong>Canais de Atendimento:</strong> Solicitações de suporte técnico e propostas comerciais são geridas centralmente através da nossa central de atendimento.</li>
+                <li><strong>Tempo de Resposta (SLA):</strong> Compromisso de resposta e triagem inicial em até 1 dia útil para chamados críticos e evolutivos.</li>
+            </ul>
         </section>
     </main>
 </body>
