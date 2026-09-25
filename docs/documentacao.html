@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação | StockFlow</title>
+    <link rel="stylesheet" href="../assets/css/theme.css">
+    <style>
+        body { margin: 0; background: var(--sf-soft); }
+        .docs-shell { width: min(960px, calc(100% - 32px)); margin: 0 auto; padding: 48px 0 72px; }
+        .docs-header, .docs-section { background: var(--sf-white); border: 1px solid var(--sf-line); border-radius: 12px; box-shadow: var(--sf-shadow); }
+        .docs-header { padding: clamp(28px, 6vw, 56px); margin-bottom: 20px; }
+        .eyebrow { color: var(--sf-blue); font-size: 12px; font-weight: 800; letter-spacing: .14em; }
+        h1, h2 { color: var(--sf-navy); font-family: "Manrope", sans-serif; }
+        h1 { margin: 10px 0 12px; font-size: clamp(32px, 6vw, 54px); line-height: 1.08; }
+        h2 { margin: 0 0 12px; font-size: 22px; }
+        p, li { color: var(--sf-muted); line-height: 1.7; }
+        .docs-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+        .docs-button { display: inline-flex; align-items: center; min-height: 44px; padding: 0 17px; border-radius: 7px; color: var(--sf-white); background: var(--sf-blue); font-weight: 700; text-decoration: none; }
+        .docs-button.secondary { color: var(--sf-navy); background: #eef2f6; }
+        .docs-section { padding: 28px; margin-top: 20px; }
+        .docs-section + .docs-section { margin-top: 14px; }
+        code { padding: 2px 6px; border-radius: 4px; color: var(--sf-blue-dark); background: #eaf2ff; }
+        @media (max-width: 560px) { .docs-shell { width: calc(100% - 28px); padding-top: 28px; } .docs-section { padding: 22px; } }
+    </style>
+</head>
+<body>
+    <main class="docs-shell">
+        <header class="docs-header">
+            <span class="eyebrow">STOCKFLOW / DOCUMENTAÇÃO</span>
+            <h1>Gestão patrimonial com clareza operacional.</h1>
+            <p>Consulte a visão geral dos módulos, do fluxo de patrimônio e da organização técnica do sistema StockFlow.</p>
+            <div class="docs-actions">
+                <a class="docs-button" href="../pages/index.html">Abrir plataforma</a>
+                <a class="docs-button secondary" href="../pages/Indexsup.html">Falar com suporte</a>
+            </div>
+        </header>
+        <section class="docs-section">
+            <h2>Fluxo principal</h2>
+            <ol>
+                <li>Cadastre produtos, usuários e patrimônios.</li>
+                <li>Acompanhe disponibilidade, cautelas e movimentações.</li>
+                <li>Registre transferências, devoluções e manutenções.</li>
+                <li>Consulte históricos para auditoria e tomada de decisão.</li>
+            </ol>
+        </section>
+        <section class="docs-section">
+            <h2>Estrutura do projeto</h2>
+            <p>As páginas ficam em <code>pages/</code>, os estilos compartilhados em <code>assets/css/</code>, os scripts em <code>assets/js/</code> e a documentação em <code>docs/</code>.</p>
+        </section>
+    </main>
+</body>
+</html>

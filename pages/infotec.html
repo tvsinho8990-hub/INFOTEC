@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infotec - Soluções Tecnológicas</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --navy-dark: #050b14; 
+            --navy-main: #0a1128; 
+            --blue-primary: #2563eb; 
+            --blue-accent: #60a5fa; 
+            --bg-light: #f8fafc; 
+            --bg-white: #ffffff;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --text-light: #f1f5f9;
+            --border-color: #e2e8f0;
+            --font-main: 'Inter', sans-serif;
+            --font-title: 'Space Grotesk', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-white);
+            color: var(--text-dark);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* HEADER */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 8%;
+            background-color: var(--navy-dark);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+        }
+
+        /* LOGO PROFISSIONAL */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        /* Ícone geométrico da logo */
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--blue-accent), var(--blue-primary));
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Detalhe interno do ícone */
+        .logo-icon::after {
+            content: '';
+            width: 16px;
+            height: 16px;
+            background-color: var(--navy-dark);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        }
+
+        .logo-text {
+            font-family: var(--font-title);
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--bg-white);
+            letter-spacing: 2px;
+        }
+
+        .logo-text span {
+            color: var(--blue-accent);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 35px;
+        }
+
+        .nav-menu a {
+            font-size: 13px;
+            font-weight: 600;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: var(--bg-white);
+        }
+
+        /* BOTÕES */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--blue-primary);
+            color: #ffffff;
+            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.5);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--bg-white);
+            border: 2px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--blue-accent);
+            background-color: rgba(96, 165, 250, 0.1);
+        }
+
+        /* SEÇÕES GERAIS */
+        section {
+            padding: 120px 8%;
+        }
+
+        .section-title {
+            font-family: var(--font-title);
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--navy-main);
+            letter-spacing: -1px;
+            line-height: 1.2;
+        }
+
+        .section-subtitle {
+            display: inline-block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--blue-primary);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 6px 12px;
+            background-color: #eff6ff;
+            border-radius: 4px;
+        }
+
+        .text-content {
+            color: var(--text-muted);
+            font-size: 18px;
+            max-width: 800px;
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background-color: var(--navy-main);
+            /* Grade mais sutil e elegante */
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            padding-top: 80px;
+        }
+
+        .hero h1 {
+            font-family: var(--font-title);
+            font-size: 68px;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-top: 25px;
+            margin-bottom: 30px;
+            color: var(--bg-white);
+            letter-spacing: -2px;
+            max-width: 850px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: #94a3b8;
+            margin-bottom: 50px;
+            max-width: 650px;
+            line-height: 1.7;
+        }
+
+        /* SOBRE (BRANCO) */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .bullet-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .bullet-list li {
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 25px;
+            background: var(--bg-light);
+            border-left: 4px solid var(--blue-primary);
+            border-radius: 0 12px 12px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+
+        /* STOCKFLOW (AZUL VIBRANTE) */
+        .stockflow-section {
+            background: linear-gradient(135deg, var(--navy-main) 0%, #1e3a8a 100%);
+            padding: 120px 8%;
+            color: var(--bg-white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stockflow-section .section-title {
+            color: var(--bg-white);
+        }
+
+        .stockflow-section .section-subtitle {
+            background-color: rgba(96, 165, 250, 0.2);
+            color: #93c5fd;
+        }
+
+        .stockflow-section .text-content {
+            color: #bfdbfe;
+        }
+
+        .stockflow-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 50px 0;
+        }
+
+        .sf-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--bg-white);
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+        }
+        
+        .sf-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* DIFERENCIAIS */
+        .bg-light-section {
+            background-color: var(--bg-light);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .differentials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .card {
+            background-color: var(--bg-white);
+            padding: 45px 35px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: var(--blue-accent);
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+        }
+
+        .icon-badge {
+            width: 55px;
+            height: 55px;
+            background-color: #eff6ff;
+            color: var(--blue-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            font-size: 26px;
+            margin-bottom: 25px;
+        }
+
+        .card h3 {
+            font-family: var(--font-title);
+            font-size: 22px;
+            color: var(--navy-main);
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        /* PROJETOS E SOLUÇÕES */
+        .grid-projetos {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .projeto-item {
+            padding: 30px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 17px;
+            color: var(--navy-main);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: background 0.3s;
+        }
+
+        .projeto-item:hover {
+            background-color: var(--bg-light);
+        }
+
+        .projeto-item::before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background-color: var(--blue-primary);
+            border-radius: 50%;
+        }
+
+        /* DOCUMENTAÇÃO */
+        .doc-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: var(--bg-white);
+            padding: 25px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 50px rgba(15, 23, 42, 0.06);
+        }
+
+        /* FOOTER */
+        .footer {
+            background-color: var(--navy-dark);
+            padding: 100px 8% 40px;
+            color: var(--text-light);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer p {
+            color: #94a3b8;
+            font-size: 15px;
+            margin-top: 20px;
+            line-height: 1.8;
+            max-width: 300px;
+        }
+
+        .footer-links h4 {
+            font-family: var(--font-title);
+            color: var(--bg-white);
+            margin-bottom: 25px;
+            font-size: 18px;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 15px;
+        }
+
+        .footer-links ul a {
+            color: #94a3b8;
+            font-size: 15px;
+            transition: color 0.3s;
+        }
+
+        .footer-links ul a:hover {
+            color: var(--blue-accent);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        @media (max-width: 900px) {
+            .hero h1 { font-size: 48px; }
+            .about-grid, .grid-projetos { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; gap: 50px; }
+            .nav-menu { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <!-- Logo Nova e Profissional -->
+        <div class="logo-container" onclick="window.scrollTo(0,0)">
+            <div class="logo-icon"></div>
+            <div class="logo-text">INFO<span>TEC</span></div>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="#hero">Início</a>
+            <a href="#sobre">Empresa</a>
+            <!-- Link Direto para o Sistema StockFlow -->
+            <a href="index.html">StockFlow</a>
+            <a href="#projetos">Soluções</a>
+            <a href="#documentacao">Docs</a>
+        </nav>
+    </header>
+
+    <section id="hero" class="hero">
+        <div>
+            <h1>Soluções Tecnológicas para o Futuro</h1>
+            <p>Desenvolvimento de infraestrutura digital, sistemas de gestão inteligente e automação para escalar empresas e modernizar órgãos públicos.</p>
+            
+            <!-- Link Direto para o Sistema StockFlow -->
+            <a href="index.html" class="btn btn-primary">Acessar Plataforma StockFlow</a>
+        </div>
+    </section>
+
+    <section id="sobre">
+        <div class="about-grid">
+            <div>
+                <div class="section-subtitle">Identidade</div>
+                <h2 class="section-title">Tecnologia com Propósito</h2>
+                <p class="text-content">
+                    A INFOTEC é uma software house corporativa focada na estruturação de soluções digitais de alto desempenho. 
+                    Nossa especialidade é transformar processos manuais e isolados em sistemas totalmente integrados, 
+                    garantindo controle absoluto e gestão baseada em dados reais.
+                </p>
+                <p class="text-content">
+                    Operamos com rigorosos padrões de qualidade, entregando arquiteturas seguras, códigos limpos e interfaces preparadas para otimizar o tempo do usuário final.
+                </p>
+            </div>
+            <div>
+                <ul class="bullet-list">
+                    <li>Ecossistemas tecnológicos de alta estabilidade e performance.</li>
+                    <li>Sistemas moldados exclusivamente para a regra de negócio do cliente.</li>
+                    <li>Segurança de dados multicamadas e infraestrutura escalável.</li>
+                    <li>Suporte técnico ágil e implantação corporativa guiada.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <div id="stockflow" class="stockflow-section">
+        <div class="section-subtitle">Core Product</div>
+        <h2 class="section-title">StockFlow Tecnologia</h2>
+        
+        <p class="text-content" style="max-width: 900px;">
+            Uma plataforma definitiva para governança de estoque e gestão de bens patrimoniais. O StockFlow foi desenhado do zero para eliminar falhas operacionais, rastrear movimentações em tempo real e fornecer um panorama gerencial exato para tomadas de decisão.
+        </p>
+
+        <div class="stockflow-features">
+            <div class="sf-item">Registro estruturado de bens patrimoniais.</div>
+            <div class="sf-item">Monitoramento em tempo real de entradas e saídas.</div>
+            <div class="sf-item">Gestão inteligente de cautelas de responsabilidade.</div>
+            <div class="sf-item">Auditoria completa de histórico e logs de uso.</div>
+            <div class="sf-item">Alertas automatizados de estoque em nível crítico.</div>
+            <div class="sf-item">Dashboards analíticos com indicadores de performance.</div>
+        </div>
+
+        <!-- Link Direto para o Sistema StockFlow -->
+        <a href="index.html" class="btn btn-outline" style="margin-top: 10px;">Abrir Plataforma StockFlow</a>
+    </div>
+
+    <section id="diferenciais" class="bg-light-section">
+        <div class="section-subtitle">Pilares de Atuação</div>
+        <h2 class="section-title">O padrão INFOTEC</h2>
+        
+        <div class="differentials-grid">
+            <div class="card">
+                <div class="icon-badge">⚡</div>
+                <h3>Inovação Contínua</h3>
+                <p>Arquiteturas de software modernas, utilizando stacks tecnológicas sólidas para garantir longevidade e robustez ao seu projeto.</p>
+            </div>
+            <div class="card">
+                <div class="icon-badge">⚙️</div>
+                <h3>Engenharia de Qualidade</h3>
+                <p>Foco estrito em código escalável, testes automatizados e interfaces (UI/UX) projetadas para máxima eficiência produtiva.</p>
+            </div>
+            <div class="card">
+                <div class="icon-badge">🔒</div>
+                <h3>Segurança da Informação</h3>
+                <p>Proteção de dados, criptografia avançada e conformidade total com as normas vigentes de privacidade corporativa (LGPD).</p>
+            </div>
+            <div class="card">
+                <div class="icon-badge">🤝</div>
+                <h3>Parceria Estratégica</h3>
+                <p>Muito além da entrega do código. Atuamos como o braço tecnológico do cliente, fornecendo consultoria e evolução contínua.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="projetos">
+        <div class="section-subtitle">Nosso Escopo</div>
+        <h2 class="section-title">Outras Frentes de Atuação</h2>
+        <p class="text-content">
+            A infraestrutura tecnológica ideal exige soluções diversificadas. A INFOTEC desenvolve, integra e mantém sistemas complexos para diversas verticais do mercado corporativo.
+        </p>
+        
+        <div class="grid-projetos">
+            <div class="projeto-item">Sistemas ERP (Gestão Empresarial Integrada)</div>
+            <div class="projeto-item">Plataformas SaaS e Aplicações Web Escaláveis</div>
+            <div class="projeto-item">Automação de Processos Internos (BPA)</div>
+            <div class="projeto-item">Desenvolvimento de APIs e Integrações de Dados</div>
+        </div>
+    </section>
+
+    <section id="documentacao" class="bg-light-section" style="text-align: center;">
+        <div class="section-subtitle" style="justify-content: center; display: flex;">Transparência Corporativa</div>
+        <h2 class="section-title">Portal de Documentação</h2>
+        <p class="text-content" style="margin: 0 auto 40px;">
+            Consulte os manuais de conformidade, normativas de uso e o registro oficial de bens patrimoniais.
+        </p>
+        
+        <div class="doc-container">
+            <iframe src="../docs/documentacao.html" title="Documentação StockFlow" width="100%" height="700px" style="border: 1px solid var(--border-color); background-color: #fff; border-radius: 8px;"></iframe>
+            <div style="margin-top: 30px; text-align: center;">
+                    <a href="../docs/documentacao.html" class="btn btn-primary">
+                        Abrir documentação StockFlow
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="contato" style="text-align: center; padding-bottom: 160px;">
+        <h2 class="section-title">Pronto para escalar sua operação?</h2>
+        <p class="text-content" style="margin: 0 auto 40px;">
+            Agende uma reunião técnica com nossos engenheiros e descubra como a INFOTEC pode reestruturar a tecnologia da sua empresa.
+        </p>
+        <a class="btn btn-primary" href="Indexsup.html">Falar com um Engenheiro de Software</a>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-grid">
+            <div>
+                <!-- Logo no Footer -->
+                <div class="logo-container" style="margin-bottom: 20px;">
+                    <div class="logo-icon"></div>
+                    <div class="logo-text">INFO<span>TEC</span></div>
+                </div>
+                <p>Engenharia de software voltada para resultados reais, escalabilidade de sistemas e controle absoluto de dados.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Mapa do Site</h4>
+                <ul>
+                    <li><a href="#hero">Página Inicial</a></li>
+                    <li><a href="#sobre">Institucional</a></li>
+                    <!-- Link Direto para o Sistema StockFlow -->
+                    <li><a href="index.html">Acessar StockFlow</a></li>
+                    <li><a href="#documentacao">Documentações</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Atendimento</h4>
+                <p style="margin-bottom: 8px;">Suporte Comercial e Técnico</p>
+                <p style="color: var(--blue-accent); font-weight: 600; font-size: 16px;">contato@infotec.com.br</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2026 INFOTEC SYSTEMS. Todos os direitos reservados.
+        </div>
+    </footer>
+
+</body>
+</html>
