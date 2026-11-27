@@ -365,6 +365,19 @@
             <td>${esc(m.responsavel || SEM_RESPONSAVEL)}</td><td>${esc(m.registradoPor)}</td></tr>`), 5);
     }
 
+    function renderEstoqueMovimentos() {
+        const movimentos = [...appState.estoqueMovimentos]
+            .sort((a, b) => String(b.data).localeCompare(String(a.data)));
+
+        setRows($('#estoqueMovimentosTable'), movimentos.map((m) => `
+            <tr>
+                <td>${toBR(m.data)}</td>
+                <td>${esc(m.produto)}</td>
+                <td><span class="status ${m.tipo === 'Entrada' ? 'available' : 'maintenance'}">${esc(m.tipo)}</span></td>
+                <td>${Number(m.quantidade).toLocaleString('pt-BR')}</td>
+            </tr>`), 4);
+    }
+
     function renderLanding() {
         const r = resumoPatrimonios();
         const campos = { liveTotal: r.total, liveCautelados: r.cautelados, liveDisponiveis: r.disponiveis, liveManutencao: r.manutencao };
@@ -438,6 +451,7 @@
         renderUsuarios();
         renderEstoque();
         renderMovimentacoes();
+        renderEstoqueMovimentos();
         renderDashboardTotals();
         renderLanding();
         renderClientPortal();
