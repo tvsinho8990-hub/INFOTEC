@@ -21,3 +21,6 @@ Thumbs.db
 *.db
 *.db-*
 stockflow-appstate.json
+
+# Backups locais de manutencao
+*.backup*
