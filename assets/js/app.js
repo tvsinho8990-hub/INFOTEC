@@ -115,7 +115,9 @@
         try {
             if (conta && conta.tipo === 'admin') sessionStorage.setItem(SESSION_KEY, JSON.stringify(conta));
             else sessionStorage.removeItem(SESSION_KEY);
-        } catch (error) { /* sessão só em memória */ }
+        } catch (error) {
+            console.warn('Não foi possível salvar a sessão neste navegador:', error);
+        }
     }
 
     let currentUser = lerSessao();
@@ -523,16 +525,21 @@
     }
 
     function renderAll() {
-        renderPatrimonios();
-        renderUsuarios();
-        renderEstoque();
-        renderMovimentacoes();
-        renderEstoqueMovimentos();
-        renderDashboardTotals();
-        renderLanding();
-        renderClientPortal();
-        renderForms();
-        syncDateField();
+        try {
+            renderPatrimonios();
+            renderUsuarios();
+            renderEstoque();
+            renderMovimentacoes();
+            renderEstoqueMovimentos();
+            renderDashboardTotals();
+            renderLanding();
+            renderClientPortal();
+            renderForms();
+            syncDateField();
+        } catch (error) {
+            console.error('Falha ao atualizar as telas do StockFlow:', error);
+            showAlert('dashboard', 'Ocorreu um erro ao atualizar o sistema. Recarregue a página e tente novamente.', true);
+        }
     }
 
     /* ---------- avisos ---------- */
@@ -544,10 +551,12 @@
         if (!box) {
             box = document.createElement('div');
             box.className = 'alert js-alert';
-            box.setAttribute('role', 'status');
             const header = $('.page-header', section);
             if (header) header.after(box); else section.prepend(box);
         }
+        box.setAttribute('role', erro ? 'alert' : 'status');
+        box.setAttribute('aria-live', erro ? 'assertive' : 'polite');
+        box.setAttribute('aria-atomic', 'true');
         box.textContent = message;
         box.style.background = erro ? '#fdecea' : '#e7f6ed';
         box.style.color = erro ? '#8e2b20' : '#11653e';
@@ -1032,6 +1041,16 @@
     }
 
     function bootstrap() {
+        window.addEventListener('error', (event) => {
+            console.error('Erro inesperado no StockFlow:', event.error || event.message);
+            showAlert('dashboard', 'Ocorreu um erro inesperado. Recarregue a página e tente novamente.', true);
+        });
+
+        window.addEventListener('unhandledrejection', (event) => {
+            console.error('Operação assíncrona não concluída:', event.reason);
+            showAlert('dashboard', 'Uma operação não pôde ser concluída. Tente novamente.', true);
+        });
+
         Object.assign(window, {
             openApp, navigate, goBack, showScreen, loginCliente, showClientScreen, logoutCliente,
             logoutAdmin: logoutCliente, backToLanding, cadastrarPatrimonio, cadastrarUsuario, openClientLogin
