@@ -503,7 +503,7 @@
             <div class="logo-text">INFO<span>TEC</span></div>
         </div>
 
-        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+        <button type="button" class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Abrir menu de navegação" aria-expanded="false" aria-controls="navMenu">
             ☰
         </button>
 
@@ -672,18 +672,35 @@
     <!-- Script para gerenciar o menu mobile da INFOTEC -->
     <script>
         function toggleMobileMenu() {
-            const navMenu = document.getElementById('navMenu');
-            if (navMenu) {
-                navMenu.classList.toggle('active');
-            }
-        }
+    const navMenu = document.getElementById('navMenu');
+    const menuButton = document.querySelector('.mobile-menu-btn');
 
-        function closeMobileMenu() {
-            const navMenu = document.getElementById('navMenu');
-            if (navMenu) {
-                navMenu.classList.remove('active');
-            }
+    if (navMenu) {
+        const isOpen = navMenu.classList.toggle('active');
+
+        if (menuButton) {
+            menuButton.setAttribute('aria-expanded', String(isOpen));
+            menuButton.setAttribute(
+                'aria-label',
+                isOpen ? 'Fechar menu de navegação' : 'Abrir menu de navegação'
+            );
         }
+    }
+}
+
+function closeMobileMenu() {
+    const navMenu = document.getElementById('navMenu');
+    const menuButton = document.querySelector('.mobile-menu-btn');
+
+    if (navMenu) {
+        navMenu.classList.remove('active');
+    }
+
+    if (menuButton) {
+        menuButton.setAttribute('aria-expanded', 'false');
+        menuButton.setAttribute('aria-label', 'Abrir menu de navegação');
+    }
+}
     </script>
 </body>
 </html>
