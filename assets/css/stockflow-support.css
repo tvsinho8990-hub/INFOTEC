@@ -1,5 +1,5 @@
 /* StockFlow - estilos da página de suporte (Indexsup.html).
-   Carregue DEPOIS de theme.css. Fica separado para não afetar index.html,
+   Carregue DEPOIS de stockflow-theme.css. Fica separado para não afetar index.html,
    que tem seus próprios .header, .logo, .page-header, .back-button etc. */
 
 /* Complementos compartilhados das páginas do produto. */
