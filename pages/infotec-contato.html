@@ -133,10 +133,49 @@
             color: #64748b;
             font-size: 14px;
         }
+        .infotec-menu-toggle {
+            display: none;
+            width: 42px;
+            height: 42px;
+            padding: 9px;
+            border: 1px solid rgba(255,255,255,.2);
+            border-radius: 8px;
+            background: transparent;
+            cursor: pointer;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+        }
+        .infotec-menu-toggle span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background: #fff;
+            border-radius: 2px;
+        }
         @media (max-width: 900px) {
-            .infotec-header .navigation { display: none; }
+            .infotec-header { padding: 14px 5%; }
+            .infotec-menu-toggle { display: flex; }
+            .infotec-header .navigation {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                padding: 20px 5%;
+                background: #050b14;
+                border-top: 1px solid rgba(255,255,255,.1);
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 22px;
+            }
+            .infotec-header .navigation.active { display: flex; }
             .footer-custom-grid { grid-template-columns: 1fr; gap: 40px; }
         }
+        @media (max-width: 480px) {
+            .infotec-header .header-action-btn { display: none; }
+        }
+
     </style>
 </head>
 <body>
@@ -145,12 +184,17 @@
             <div class="logo-icon"></div>
             <div class="logo-text">INFO<span>TEC</span></div>
         </a>
-        <nav class="navigation" aria-label="Navegação principal">
+        <nav id="infotecNavigation" class="navigation" aria-label="Navegação principal">
             <a href="infotec.html">Início</a>
             <a href="infotec.html#sobre">Empresa</a>
             <a href="index.html">StockFlow</a>
             <a href="infotec-contato.html" class="active" aria-current="page">Contato</a>
         </nav>
+        <button type="button" class="infotec-menu-toggle"
+                id="infotecMenuToggle" aria-label="Abrir menu"
+                aria-expanded="false" aria-controls="infotecNavigation">
+            <span></span><span></span><span></span>
+        </button>
         <div>
             <a href="infotec.html" class="header-action-btn">Voltar à INFOTEC</a>
         </div>
@@ -273,5 +317,37 @@
             <span>© 2026 INFOTEC SYSTEMS. Todos os direitos reservados.</span>
         </div>
     </footer>
+<script>
+(function () {
+    const botao = document.getElementById("infotecMenuToggle");
+    const menu = document.getElementById("infotecNavigation");
+    if (!botao || !menu) return;
+
+    function alternar(aberto) {
+        menu.classList.toggle("active", aberto);
+        botao.setAttribute("aria-expanded", String(aberto));
+        botao.setAttribute("aria-label", aberto ? "Fechar menu" : "Abrir menu");
+    }
+
+    botao.addEventListener("click", function () {
+        alternar(!menu.classList.contains("active"));
+    });
+
+    menu.addEventListener("click", function (event) {
+        if (event.target.closest("a")) alternar(false);
+    });
+
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && menu.classList.contains("active")) {
+            alternar(false);
+            botao.focus();
+        }
+    });
+
+    window.addEventListener("resize", function () {
+        if (window.innerWidth > 900) alternar(false);
+    });
+})();
+</script>
 </body>
 </html>

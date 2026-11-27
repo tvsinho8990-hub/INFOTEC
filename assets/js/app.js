@@ -667,14 +667,30 @@
         const botao = document.getElementById('menuToggle');
         const nav = document.getElementById('siteNav');
         if (!botao || !nav) return;
+
         const alternar = (aberto) => {
             nav.classList.toggle('open', aberto);
             botao.setAttribute('aria-expanded', String(aberto));
             botao.setAttribute('aria-label', aberto ? 'Fechar menu' : 'Abrir menu');
         };
-        botao.addEventListener('click', () => alternar(!nav.classList.contains('open')));
+
+        botao.addEventListener('click', () => {
+            alternar(!nav.classList.contains('open'));
+        });
+
         nav.addEventListener('click', (event) => {
             if (event.target.closest('a, button')) alternar(false);
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && nav.classList.contains('open')) {
+                alternar(false);
+                botao.focus();
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 900) alternar(false);
         });
     }
 
