@@ -62,7 +62,7 @@
         if (!arquivoValido(file)) {
             attachment.value = '';
             fileName.textContent = '';
-            showStatus('error', 'Escolha um arquivo JPG, PNG, PDF ou DOCX de até 10 MB.');
+            showStatus('error', 'Escolha um arquivo JPG, PNG, PDF, DOC ou DOCX de até 10 MB.');
             return;
         }
         fileName.textContent = `Arquivo selecionado: ${file.name}`;
