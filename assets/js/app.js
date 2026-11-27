@@ -564,48 +564,72 @@
         window.scrollTo(0, 0);
     }
 
-    function loginCliente(event) {
-        event.preventDefault();
+    async function loginCliente(event) {
+    event.preventDefault();
 
-        const usuario = document.getElementById('loginUsuario').value.trim().toLowerCase();
-        const senha = document.getElementById('loginSenha').value;
-        const erro = document.getElementById('loginError');
+    const usuario = document
+        .getElementById('loginUsuario')
+        .value.trim().toLowerCase();
 
-        const validAdmin = usuario === 'admin' && senha === 'admin';
-        const validClient = appState.clientes.some((cliente) => cliente.usuario === usuario && cliente.senha === senha);
+    const senha = document
+        .getElementById('loginSenha').value;
 
-        if (!validAdmin && !validClient) {
-            if (erro) erro.style.display = 'block';
-            return;
+    const erro = document.getElementById('loginError');
+
+    try {
+        const resposta = await fetch('/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'same-origin',
+            body: JSON.stringify({ usuario, senha })
+        });
+
+        const dados = await resposta.json();
+
+        if (!resposta.ok) {
+            throw new Error(dados.erro || 'Login inválido');
         }
 
-        appState.currentUser = validAdmin
-            ? { nome: 'Administrador', tipo: 'admin', usuario: 'admin' }
-            : appState.clientes.find((cliente) => cliente.usuario === usuario);
+        appState.currentUser = dados;
 
-        const clientLogin = document.getElementById('client-login');
-        const clientPortal = document.getElementById('client-portal');
-        const landing = document.getElementById('landing');
-        const app = document.getElementById('app');
+        if (erro) {
+            erro.style.display = 'none';
+        }
 
-        if (validAdmin) {
-            if (clientLogin) clientLogin.style.display = 'none';
-            if (landing) landing.style.display = 'none';
-            if (clientPortal) clientPortal.style.display = 'none';
+        if (dados.tipo === 'admin' || dados.tipo === 'ti') {
             openApp();
             return;
         }
 
-        if (clientLogin) clientLogin.style.display = 'none';
-        if (landing) clientLogin.style.display = 'none';
-        if (app) app.style.display = 'none';
-        if (clientPortal) clientPortal.style.display = 'block';
+        document.getElementById('client-login')
+            .style.display = 'none';
 
-        if (erro) erro.style.display = 'none';
+        document.getElementById('landing')
+            .style.display = 'none';
+
+        document.getElementById('app')
+            .style.display = 'none';
+
+        document.getElementById('client-portal')
+            .style.display = 'block';
+
         showClientScreen('client-dashboard');
+
         renderAll();
+
         window.scrollTo(0, 0);
+
+    } catch (error) {
+        if (erro) {
+            erro.textContent = error.message;
+            erro.style.display = 'block';
+        }
+
+        console.error('Erro no login:', error);
     }
+}
 
     function logoutCliente() {
         appState.currentUser = null;
@@ -818,6 +842,18 @@
         window.goBack = goBack;
         window.showScreen = showScreen;
         window.loginCliente = loginCliente;
+        window.stockflowUsuarioAtual = function() {
+    const usuario = appState.currentUser;
+
+    if (!usuario) return null;
+
+    return {
+        usuario: usuario.usuario,
+        nome: usuario.nome,
+        departamento: usuario.departamento,
+        tipo: usuario.tipo || 'cliente'
+    };
+};
         window.showClientScreen = showClientScreen;
         window.logoutCliente = logoutCliente;
         window.logoutAdmin = logoutAdmin;
