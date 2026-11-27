@@ -194,7 +194,9 @@
         if (!/^PT-\d{4}$/.test(codigo)) return { ok: false, erro: 'Use o formato PT-0000 para o número do patrimônio.' };
         if (findPatrimonio(codigo)) return { ok: false, erro: `O patrimônio ${codigo} já está cadastrado.` };
         if (descricao.length < 3 || descricao.length > 150) return { ok: false, erro: 'A descricao deve ter entre 3 e 150 caracteres.' };
-        if (!categoria) return { ok: false, erro: 'Selecione a categoria.' };
+        if (!['Informática', 'Mobiliário', 'Equipamentos', 'Veículos'].includes(categoria)) {
+            return { ok: false, erro: 'Selecione uma categoria válida.' };
+        }
         if (!CONSERVACOES.includes(conservacao)) return { ok: false, erro: 'Estado de conservação inválido.' };
         if (!dataValida(dataCadastro)) return { ok: false, erro: 'Data de cadastro inválida.' };
         if (dataCadastro > hojeISO()) return { ok: false, erro: 'A data de cadastro não pode ser futura.' };
@@ -210,10 +212,13 @@
 
     function cadastrarUsuarioCore({ nome, departamento, matricula }) {
         nome = String(nome || '').trim();
+        departamento = String(departamento || '').trim();
         matricula = String(matricula || '').trim();
 
         if (nome.length < 3 || nome.length > 100) return { ok: false, erro: 'O nome deve ter entre 3 e 100 caracteres.' };
-        if (!departamento) return { ok: false, erro: 'Selecione o departamento.' };
+        if (!['Administrativo', 'Financeiro', 'Recursos Humanos', 'Tecnologia da Informação'].includes(departamento)) {
+            return { ok: false, erro: 'Selecione um departamento válido.' };
+        }
         if (!/^\d{6}$/.test(matricula)) return { ok: false, erro: 'A matrícula deve ter 6 dígitos.' };
         if (appState.usuarios.some((u) => norm(u.nome) === norm(nome))) return { ok: false, erro: `Já existe um usuário chamado ${nome}.` };
         if (appState.usuarios.some((u) => u.matricula === matricula)) return { ok: false, erro: `A matrícula ${matricula} já está em uso.` };

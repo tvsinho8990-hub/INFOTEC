@@ -16,10 +16,18 @@
 
     const readRequests = () => {
         try {
-            const saved = JSON.parse(localStorage.getItem(requestsKey) || '[]');
-            return Array.isArray(saved) ? saved : [];
+            const raw = localStorage.getItem(requestsKey);
+            if (raw === null) return [];
+
+            const saved = JSON.parse(raw);
+            if (!Array.isArray(saved) ||
+                saved.some((item) => !item || typeof item !== 'object' || Array.isArray(item))) {
+                return null;
+            }
+
+            return saved;
         } catch (error) {
-            return [];
+            return null;
         }
     };
 
@@ -76,6 +84,20 @@
 
         const campo = (id) => document.getElementById(id).value.trim();
         const requests = readRequests();
+
+        if (requests === null) {
+            showStatus('error', 'O histórico de solicitações está inválido ou inacessível. Os dados anteriores foram preservados; não é possível registrar uma nova solicitação.');
+            return;
+        }
+
+        const arquivo = attachment.files[0];
+        if (arquivo && !arquivoValido(arquivo)) {
+            attachment.value = '';
+            fileName.textContent = '';
+            showStatus('error', 'Escolha um arquivo JPG, PNG, PDF, DOC ou DOCX de até 10 MB.');
+            return;
+        }
+
         const protocolo = gerarProtocolo(requests.length);
 
         requests.push({
@@ -119,7 +141,15 @@
     const notification = document.getElementById('notificationButton');
     if (notification) {
         notification.addEventListener('click', () => {
-            const count = readRequests().length;
+            const requests = readRequests();
+
+            if (requests === null) {
+                showStatus('error', 'Não foi possível ler o histórico de solicitações. Os dados existentes foram preservados.');
+                formStatus.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                return;
+            }
+
+            const count = requests.length;
             showStatus('success', count
                 ? `Você tem ${count} solicitação(ões) registrada(s) neste navegador.`
                 : 'Nenhuma solicitação registrada neste navegador.');
