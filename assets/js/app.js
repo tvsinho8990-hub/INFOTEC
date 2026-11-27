@@ -1,464 +1,356 @@
+/*
+ * StockFlow - aplicação (front-end estático).
+ * Os dados iniciais vêm de data.js (espelho de seed.sql).
+ * Persistência: localStorage (chave "stockflowAppState").
+ * ATENÇÃO: as credenciais abaixo são apenas de demonstração local.
+ */
 (() => {
+    'use strict';
+
     const STORAGE_KEY = 'stockflowAppState';
-
-    const defaultState = {
-        patrimonios: [
-            {
-                codigo: 'PT-0001',
-                descricao: 'Notebook Dell Latitude',
-                categoria: 'Informática',
-                responsavel: 'João Silva',
-                status: 'Cautelado',
-                dataCadastro: '2026-09-01',
-                conservacao: 'Bom'
-            },
-            {
-                codigo: 'PT-0002',
-                descricao: 'Monitor 24"',
-                categoria: 'Informática',
-                responsavel: '—',
-                status: 'Disponível',
-                dataCadastro: '2026-09-03',
-                conservacao: 'Bom'
-            },
-            {
-                codigo: 'PT-0003',
-                descricao: 'Impressora HP',
-                categoria: 'Equipamentos',
-                responsavel: 'Carla Souza',
-                status: 'Cautelado',
-                dataCadastro: '2026-09-04',
-                conservacao: 'Regular'
-            },
-            {
-                codigo: 'PT-0004',
-                descricao: 'Computador Desktop',
-                categoria: 'Informática',
-                responsavel: 'Carla Souza',
-                status: 'Manutenção',
-                dataCadastro: '2026-09-05',
-                conservacao: 'Necessita manutenção'
-            },
-            {
-                codigo: 'PT-0108',
-                descricao: 'Notebook Lenovo ThinkPad',
-                categoria: 'Informática',
-                responsavel: 'Anderson',
-                status: 'Cautelado',
-                dataCadastro: '2026-08-12',
-                conservacao: 'Bom'
-            },
-            {
-                codigo: 'PT-0114',
-                descricao: 'Monitor Dell 24"',
-                categoria: 'Informática',
-                responsavel: 'Anderson',
-                status: 'Cautelado',
-                dataCadastro: '2026-08-12',
-                conservacao: 'Bom'
-            },
-            {
-                codigo: 'PT-0121',
-                descricao: 'Teclado Logitech',
-                categoria: 'Informática',
-                responsavel: 'Anderson',
-                status: 'Cautelado',
-                dataCadastro: '2026-08-12',
-                conservacao: 'Bom'
-            },
-            {
-                codigo: 'PT-0122',
-                descricao: 'Mouse Logitech',
-                categoria: 'Informática',
-                responsavel: 'Anderson',
-                status: 'Cautelado',
-                dataCadastro: '2026-08-12',
-                conservacao: 'Bom'
-            },
-            {
-                codigo: 'PT-0130',
-                descricao: 'Notebook Dell Latitude',
-                categoria: 'Informática',
-                responsavel: 'Anderson',
-                status: 'Cautelado',
-                dataCadastro: '2026-08-15',
-                conservacao: 'Bom'
-            },
-            {
-                codigo: 'PT-0134',
-                descricao: 'Webcam Logitech',
-                categoria: 'Equipamentos',
-                responsavel: 'Anderson',
-                status: 'Cautelado',
-                dataCadastro: '2026-08-20',
-                conservacao: 'Bom'
-            },
-            {
-                codigo: 'PT-0140',
-                descricao: 'Headset profissional',
-                categoria: 'Equipamentos',
-                responsavel: 'Anderson',
-                status: 'Cautelado',
-                dataCadastro: '2026-08-20',
-                conservacao: 'Bom'
-            },
-            {
-                codigo: 'PT-0148',
-                descricao: 'Monitor LG 27"',
-                categoria: 'Informática',
-                responsavel: 'Anderson',
-                status: 'Cautelado',
-                dataCadastro: '2026-08-25',
-                conservacao: 'Bom'
-            }
-        ],
-        usuarios: [
-            {
-                nome: 'João Silva',
-                departamento: 'Tecnologia da Informação',
-                matricula: '001245',
-                patrimonioCount: 4,
-                status: 'Ativo'
-            },
-            {
-                nome: 'Carla Souza',
-                departamento: 'Administrativo',
-                matricula: '001266',
-                patrimonioCount: 2,
-                status: 'Ativo'
-            },
-            {
-                nome: 'Carlos Oliveira',
-                departamento: 'Financeiro',
-                matricula: '001288',
-                patrimonioCount: 1,
-                status: 'Ativo'
-            },
-            {
-                nome: 'Anderson',
-                departamento: 'Financeiro',
-                matricula: '001299',
-                patrimonioCount: 8,
-                status: 'Ativo'
-            }
-        ],
-        estoque: [
-            {
-                produto: 'Papel A4',
-                categoria: 'Material de escritório',
-                quantidade: 320,
-                minimo: 100,
-                situacao: 'Normal'
-            },
-            {
-                produto: 'Caneta azul',
-                categoria: 'Material de escritório',
-                quantidade: 42,
-                minimo: 50,
-                situacao: 'Estoque baixo'
-            },
-            {
-                produto: 'Mouse USB',
-                categoria: 'Informática',
-                quantidade: 87,
-                minimo: 30,
-                situacao: 'Normal'
-            }
-        ],
-        movimentacoes: [
-            {
-                data: '25/08/2026',
-                patrimonio: 'PT-0148',
-                acao: 'Cautela',
-                responsavel: 'Anderson',
-                registradoPor: 'Administrador'
-            },
-            {
-                data: '20/08/2026',
-                patrimonio: 'PT-0140',
-                acao: 'Cautela',
-                responsavel: 'Anderson',
-                registradoPor: 'Administrador'
-            },
-            {
-                data: '20/08/2026',
-                patrimonio: 'PT-0134',
-                acao: 'Cautela',
-                responsavel: 'Anderson',
-                registradoPor: 'Administrador'
-            },
-            {
-                data: '12/08/2026',
-                patrimonio: 'PT-0108',
-                acao: 'Cautela',
-                responsavel: 'Anderson',
-                registradoPor: 'Administrador'
-            },
-            {
-                data: '04/09/2026',
-                patrimonio: 'PT-0001',
-                acao: 'Cautela',
-                responsavel: 'João Silva',
-                registradoPor: 'Administrador'
-            }
-        ],
-        clientes: [
-            {
-                usuario: 'carlasouza',
-                senha: '123',
-                nome: 'Carla Souza',
-                departamento: 'Administrativo',
-                patrimonios: ['PT-0003', 'PT-0004']
-            },
-            {
-                usuario: 'anderson',
-                senha: '123456',
-                nome: 'Anderson',
-                departamento: 'Financeiro',
-                patrimonios: ['PT-0108', 'PT-0114', 'PT-0121', 'PT-0122', 'PT-0130', 'PT-0134', 'PT-0140', 'PT-0148']
-            }
-        ],
-        currentUser: null
+    const STATE_VERSION = 2;
+    const DEMO_ADMINS = {
+        guto: { senha: 'guto123', nome: 'Guto Medeiros' },
+        thiago: { senha: 'thiago123', nome: 'Thiago' }
     };
+    const SESSION_KEY = 'stockflowSession';
+    const DEMO_CLIENT_PASSWORDS = { anderson: '123456' };
+    const REGISTRADO_POR = 'Administrador';
+    const SEM_RESPONSAVEL = '—';
+    const CONSERVACOES = ['Bom', 'Regular', 'Necessita manutenção'];
+    const ACOES = ['Cautela', 'Transferência', 'Devolução', 'Manutenção', 'Baixa'];
+    const APP_SCREENS = ['dashboard', 'patrimonios', 'cadastro-patrimonio', 'usuarios', 'cadastro-usuario', 'estoque', 'movimentacoes'];
 
-    let appState = loadState();
-    let currentScreen = 'dashboard';
-    let navigationHistory = [];
+    const DEFAULT_STATE = window.STOCKFLOW_DEFAULT_STATE;
+
+    /* ---------- utilitários ---------- */
+
+    const clone = (obj) => JSON.parse(JSON.stringify(obj));
+    const pad = (n) => String(n).padStart(2, '0');
+    const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (c) => (
+        { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+    ));
+    const hojeISO = () => {
+        const d = new Date();
+        return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+    };
+    const dataValida = (iso) => /^\d{4}-\d{2}-\d{2}$/.test(iso || '')
+        && !Number.isNaN(Date.parse(`${iso}T00:00:00Z`))
+        && new Date(`${iso}T00:00:00Z`).toISOString().slice(0, 10) === iso;
+    const toBR = (iso) => {
+        const [y, m, d] = String(iso).split('-');
+        return y && m && d ? `${d}/${m}/${y}` : String(iso);
+    };
+    const norm = (s) => String(s ?? '').trim().toLowerCase();
+    const $ = (selector, root = document) => root.querySelector(selector);
+    const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
+
+    /* ---------- estado ---------- */
+
+    function estadoValido(saved) {
+        return Boolean(saved) && saved.version === STATE_VERSION
+            && ['patrimonios', 'usuarios', 'estoque', 'movimentacoes', 'estoqueMovimentos', 'clientes']
+                .every((key) => Array.isArray(saved[key]));
+    }
 
     function loadState() {
         try {
             const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-            if (saved && Array.isArray(saved.patrimonios)) {
-                return { ...JSON.parse(JSON.stringify(defaultState)), ...saved };
-            }
+            if (estadoValido(saved)) return saved;
         } catch (error) {
             console.warn('Estado local não carregado:', error);
         }
-
-        return JSON.parse(JSON.stringify(defaultState));
+        return { ...clone(DEFAULT_STATE), version: STATE_VERSION };
     }
 
-    function saveState() {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
-    }
+    let appState = loadState();
 
-    function syncDateField() {
-        const dateField = document.getElementById('dataCadastro');
-        if (!dateField) return;
-        if (!dateField.value) {
-            dateField.value = new Date().toISOString().split('T')[0];
+    // Sessão do administrador (some ao fechar a aba). Só Guto e Thiago têm acesso ao painel.
+    function lerSessao() {
+        try {
+            const s = JSON.parse(sessionStorage.getItem(SESSION_KEY));
+            return s && s.tipo === 'admin' && DEMO_ADMINS[s.usuario] ? { tipo: 'admin', usuario: s.usuario, nome: DEMO_ADMINS[s.usuario].nome } : null;
+        } catch (error) {
+            return null;
         }
     }
+    function gravarSessao(conta) {
+        try {
+            if (conta && conta.tipo === 'admin') sessionStorage.setItem(SESSION_KEY, JSON.stringify(conta));
+            else sessionStorage.removeItem(SESSION_KEY);
+        } catch (error) { /* sessão só em memória */ }
+    }
+
+    let currentUser = lerSessao();
+    let telaPendente = null;
+    const isAdmin = () => Boolean(currentUser && currentUser.tipo === 'admin');
+    const autor = () => (isAdmin() ? currentUser.nome : REGISTRADO_POR);
+    let currentScreen = 'dashboard';
+    let navigationHistory = [];
+
+    function saveState() {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+        } catch (error) {
+            console.warn('Não foi possível salvar os dados neste navegador:', error);
+        }
+    }
+
+    function resetState() {
+        appState = { ...clone(DEFAULT_STATE), version: STATE_VERSION };
+        saveState();
+        renderAll();
+    }
+
+    /* ---------- regras de negócio (espelham as regras do banco) ---------- */
+
+    const findPatrimonio = (codigo) => appState.patrimonios.find((p) => p.codigo === codigo);
+    const countByResponsavel = (nome) => appState.patrimonios.filter((p) => p.responsavel === nome).length;
+    const situacaoEstoque = (item) => (item.quantidade < item.minimo ? 'Estoque baixo' : 'Normal');
+    const usuariosAtivos = () => appState.usuarios.filter((u) => u.status === 'Ativo');
+
+    function resumoPatrimonios() {
+        const conta = (status) => appState.patrimonios.filter((p) => p.status === status).length;
+        return {
+            total: appState.patrimonios.length,
+            disponiveis: conta('Disponível'),
+            cautelados: conta('Cautelado'),
+            manutencao: conta('Manutenção'),
+            baixados: conta('Baixado')
+        };
+    }
+
+    function resumoEstoque(mesISO = hojeISO().slice(0, 7)) {
+        const soma = (tipo) => appState.estoqueMovimentos
+            .filter((m) => m.tipo === tipo && String(m.data).slice(0, 7) === mesISO)
+            .reduce((total, m) => total + m.quantidade, 0);
+        return {
+            totalItens: appState.estoque.reduce((total, i) => total + i.quantidade, 0),
+            entradasMes: soma('Entrada'),
+            saidasMes: soma('Saída'),
+            estoqueBaixo: appState.estoque.filter((i) => i.quantidade < i.minimo).length
+        };
+    }
+
+    function cadastrarPatrimonioCore({ codigo, descricao, categoria, conservacao = 'Bom', dataCadastro }) {
+        codigo = String(codigo || '').trim().toUpperCase();
+        descricao = String(descricao || '').trim();
+        categoria = String(categoria || '').trim();
+        dataCadastro = dataCadastro || hojeISO();
+
+        if (!/^PT-\d{4}$/.test(codigo)) return { ok: false, erro: 'Use o formato PT-0000 para o número do patrimônio.' };
+        if (findPatrimonio(codigo)) return { ok: false, erro: `O patrimônio ${codigo} já está cadastrado.` };
+        if (!descricao) return { ok: false, erro: 'Informe a descrição do patrimônio.' };
+        if (!categoria) return { ok: false, erro: 'Selecione a categoria.' };
+        if (!CONSERVACOES.includes(conservacao)) return { ok: false, erro: 'Estado de conservação inválido.' };
+        if (!dataValida(dataCadastro)) return { ok: false, erro: 'Data de cadastro inválida.' };
+
+        appState.patrimonios.unshift({
+            codigo, descricao, categoria, responsavel: SEM_RESPONSAVEL, status: 'Disponível', conservacao, dataCadastro
+        });
+        appState.movimentacoes.unshift({
+            data: dataCadastro, patrimonio: codigo, acao: 'Cadastro', responsavel: SEM_RESPONSAVEL, registradoPor: autor()
+        });
+        return { ok: true, codigo };
+    }
+
+    function cadastrarUsuarioCore({ nome, departamento, matricula }) {
+        nome = String(nome || '').trim();
+        matricula = String(matricula || '').trim();
+
+        if (!nome) return { ok: false, erro: 'Informe o nome completo.' };
+        if (!departamento) return { ok: false, erro: 'Selecione o departamento.' };
+        if (!/^\d{6}$/.test(matricula)) return { ok: false, erro: 'A matrícula deve ter 6 dígitos.' };
+        if (appState.usuarios.some((u) => norm(u.nome) === norm(nome))) return { ok: false, erro: `Já existe um usuário chamado ${nome}.` };
+        if (appState.usuarios.some((u) => u.matricula === matricula)) return { ok: false, erro: `A matrícula ${matricula} já está em uso.` };
+
+        appState.usuarios.push({ nome, departamento, matricula, status: 'Ativo' });
+        return { ok: true, nome };
+    }
+
+    function registrarMovimentacaoCore({ patrimonio, acao, responsavel, data }) {
+        const bem = findPatrimonio(patrimonio);
+        data = data || hojeISO();
+
+        if (!bem) return { ok: false, erro: 'Selecione um patrimônio.' };
+        if (!ACOES.includes(acao)) return { ok: false, erro: 'Selecione a ação.' };
+        if (!dataValida(data)) return { ok: false, erro: 'Data da movimentação inválida.' };
+        if (bem.status === 'Baixado') return { ok: false, erro: `${bem.codigo} está baixado e não pode ser movimentado.` };
+        if (data < bem.dataCadastro) return { ok: false, erro: 'A movimentação não pode ser anterior ao cadastro do patrimônio.' };
+
+        const exigeResponsavel = acao === 'Cautela' || acao === 'Transferência';
+        if (exigeResponsavel) {
+            const pessoa = usuariosAtivos().find((u) => u.nome === responsavel);
+            if (!pessoa) return { ok: false, erro: 'Selecione um responsável ativo.' };
+        }
+
+        if (acao === 'Cautela' && bem.status !== 'Disponível') return { ok: false, erro: 'A cautela exige um patrimônio disponível.' };
+        if (acao === 'Transferência' && bem.status !== 'Cautelado') return { ok: false, erro: 'A transferência exige um patrimônio cautelado.' };
+        if (acao === 'Transferência' && bem.responsavel === responsavel) return { ok: false, erro: 'O patrimônio já está com este responsável.' };
+        if (acao === 'Devolução' && bem.status !== 'Cautelado' && bem.status !== 'Manutenção') {
+            return { ok: false, erro: 'A devolução só vale para patrimônio cautelado ou em manutenção.' };
+        }
+        if (acao === 'Manutenção' && bem.status === 'Manutenção') return { ok: false, erro: 'O patrimônio já está em manutenção.' };
+
+        if (exigeResponsavel) {
+            bem.status = 'Cautelado';
+            bem.responsavel = responsavel;
+        } else {
+            bem.status = { Devolução: 'Disponível', Manutenção: 'Manutenção', Baixa: 'Baixado' }[acao];
+            bem.responsavel = SEM_RESPONSAVEL;
+        }
+
+        appState.movimentacoes.unshift({
+            data, patrimonio: bem.codigo, acao,
+            responsavel: exigeResponsavel ? responsavel : SEM_RESPONSAVEL,
+            registradoPor: autor()
+        });
+        return { ok: true, status: bem.status };
+    }
+
+    function registrarEstoqueCore({ produto, tipo, quantidade, data }) {
+        const item = appState.estoque.find((i) => i.produto === produto);
+        quantidade = Number(quantidade);
+        data = data || hojeISO();
+
+        if (!item) return { ok: false, erro: 'Selecione um produto.' };
+        if (tipo !== 'Entrada' && tipo !== 'Saída') return { ok: false, erro: 'Selecione entrada ou saída.' };
+        if (!dataValida(data)) return { ok: false, erro: 'Data da movimentação inválida.' };
+        if (!Number.isInteger(quantidade) || quantidade <= 0) return { ok: false, erro: 'Informe uma quantidade inteira maior que zero.' };
+        if (tipo === 'Saída' && quantidade > item.quantidade) return { ok: false, erro: `Saída maior que o saldo (${item.quantidade}).` };
+
+        item.quantidade += tipo === 'Entrada' ? quantidade : -quantidade;
+        appState.estoqueMovimentos.unshift({ produto, tipo, quantidade, data });
+        return { ok: true, saldo: item.quantidade };
+    }
+
+    function patrimoniosDoCliente(cliente) {
+        return cliente ? appState.patrimonios.filter((p) => p.responsavel === cliente.nome) : [];
+    }
+
+    function dataCautela(codigo, nome) {
+        const mov = appState.movimentacoes.find((m) => m.patrimonio === codigo
+            && m.responsavel === nome && (m.acao === 'Cautela' || m.acao === 'Transferência'));
+        return mov ? mov.data : '';
+    }
+
+    function movimentacoesDoCliente(cliente) {
+        if (!cliente) return [];
+        return appState.movimentacoes.filter((m) => m.responsavel === cliente.nome);
+    }
+
+    /* ---------- renderização ---------- */
 
     function getStatusBadge(status) {
         const map = {
-            Disponível: 'available',
-            Cautelado: 'cautioned',
-            Manutenção: 'maintenance',
-            Ativo: 'available',
-            'Estoque baixo': 'maintenance',
-            Normal: 'available'
+            'Disponível': 'available', 'Cautelado': 'cautioned', 'Manutenção': 'maintenance', 'Baixado': 'maintenance',
+            'Ativo': 'available', 'Inativo': 'maintenance', 'Estoque baixo': 'maintenance', 'Normal': 'available',
+            'Em uso': 'cautioned', 'Devolvido': 'available'
         };
-
         return map[status] || 'available';
     }
 
-    function isAdmin() {
-        return appState.currentUser && appState.currentUser.tipo === 'admin';
-    }
-
-    function excluirPatrimonio(codigo) {
-        if (!isAdmin()) {
-            alert('Acesso negado. Apenas o Administrador pode excluir patrimónios.');
-            return;
-        }
-        if (!confirm(`Tem certeza que deseja excluir o patrimônio ${codigo}?`)) return;
-        appState.patrimonios = appState.patrimonios.filter(p => p.codigo !== codigo);
-        saveState();
-        renderAll();
-    }
-
-    function excluirUsuario(nome) {
-        if (!isAdmin()) {
-            alert('Acesso negado. Apenas o Administrador pode excluir usuários.');
-            return;
-        }
-        if (!confirm(`Tem certeza que deseja excluir o usuário ${nome}?`)) return;
-        appState.usuarios = appState.usuarios.filter(u => u.nome !== nome);
-        saveState();
-        renderAll();
-    }
+    const badge = (status) => `<span class="status ${getStatusBadge(status)}">${esc(status)}</span>`;
+    const setRows = (tbody, rows, colspan) => {
+        if (!tbody) return;
+        tbody.innerHTML = rows.length
+            ? rows.join('')
+            : `<tr><td colspan="${colspan}" style="text-align:center;color:#68778d">Nenhum registro.</td></tr>`;
+    };
 
     function renderPatrimonios() {
-        const table = document.getElementById('patrimonioTable');
-        if (!table) return;
-
-        const admin = isAdmin();
-
-        table.innerHTML = appState.patrimonios.map((item) => `
-            <tr>
-                <td>${item.codigo}</td>
-                <td>${item.descricao}</td>
-                <td>${item.categoria}</td>
-                <td>${item.responsavel || '—'}</td>
-                <td>
-                    <span class="status ${getStatusBadge(item.status)}">${item.status}</span>
-                </td>
-                <td>
-                    ${admin ? `<button class="btn btn-secondary" style="padding: 4px 8px; font-size: 12px;" onclick="excluirPatrimonio('${item.codigo}')">Excluir</button>` : '<span style="color: var(--text-muted); font-size: 12px;">Restrito</span>'}
-                </td>
-            </tr>
-        `).join('');
+        setRows($('#patrimonioTable'), appState.patrimonios.map((item) => `
+            <tr><td>${esc(item.codigo)}</td><td>${esc(item.descricao)}</td><td>${esc(item.categoria)}</td>
+            <td>${esc(item.responsavel || SEM_RESPONSAVEL)}</td><td>${badge(item.status)}</td></tr>`), 5);
     }
 
     function renderUsuarios() {
-        const table = document.querySelector('#usuarios tbody');
-        if (!table) return;
-
-        const admin = isAdmin();
-
-        table.innerHTML = appState.usuarios.map((usuario) => `
-            <tr>
-                <td>${usuario.nome}</td>
-                <td>${usuario.departamento}</td>
-                <td>${usuario.patrimonioCount}</td>
-                <td>
-                    <span class="status ${getStatusBadge(usuario.status)}">${usuario.status}</span>
-                </td>
-                <td>
-                    ${admin ? `<button class="btn btn-secondary" style="padding: 4px 8px; font-size: 12px;" onclick="excluirUsuario('${usuario.nome}')">Excluir</button>` : '<span style="color: var(--text-muted); font-size: 12px;">Restrito</span>'}
-                </td>
-            </tr>
-        `).join('');
+        setRows($('#usuarios tbody'), appState.usuarios.map((u) => `
+            <tr><td>${esc(u.nome)}</td><td>${esc(u.departamento)}</td><td>${countByResponsavel(u.nome)}</td>
+            <td>${badge(u.status)}</td></tr>`), 4);
     }
 
     function renderEstoque() {
-        const table = document.querySelector('#estoque tbody');
-        if (!table) return;
+        setRows($('#estoque tbody'), appState.estoque.map((i) => `
+            <tr><td>${esc(i.produto)}</td><td>${esc(i.categoria)}</td><td>${i.quantidade}</td><td>${i.minimo}</td>
+            <td>${badge(situacaoEstoque(i))}</td></tr>`), 5);
 
-        table.innerHTML = appState.estoque.map((item) => `
-            <tr>
-                <td>${item.produto}</td>
-                <td>${item.categoria}</td>
-                <td>${item.quantidade}</td>
-                <td>${item.minimo}</td>
-                <td>
-                    <span class="status ${getStatusBadge(item.situacao)}">${item.situacao}</span>
-                </td>
-            </tr>
-        `).join('');
+        const valores = $$('#estoque .stat-card strong');
+        const r = resumoEstoque();
+        const dados = [r.totalItens, r.entradasMes, r.saidasMes, r.estoqueBaixo];
+        valores.forEach((el, index) => { if (index < dados.length) el.textContent = dados[index].toLocaleString('pt-BR'); });
     }
 
     function renderMovimentacoes() {
-        const table = document.querySelector('#movimentacoes tbody');
-        if (!table) return;
-
-        table.innerHTML = appState.movimentacoes.map((item) => `
-            <tr>
-                <td>${item.data}</td>
-                <td>${item.patrimonio}</td>
-                <td>${item.acao}</td>
-                <td>${item.responsavel || '—'}</td>
-                <td>${item.registradoPor}</td>
-            </tr>
-        `).join('');
+        setRows($('#movimentacoes tbody'), appState.movimentacoes.map((m) => `
+            <tr><td>${toBR(m.data)}</td><td>${esc(m.patrimonio)}</td><td>${esc(m.acao)}</td>
+            <td>${esc(m.responsavel || SEM_RESPONSAVEL)}</td><td>${esc(m.registradoPor)}</td></tr>`), 5);
     }
 
-    function renderClientPortal() {
-        const clientName = document.querySelector('#client-portal strong');
-        if (clientName) {
-            clientName.textContent = appState.currentUser?.nome || 'Cliente';
-        }
-
-        const clientTopUser = document.querySelector('.client-top-user');
-        if (clientTopUser) {
-            clientTopUser.textContent = `${appState.currentUser?.nome || 'Cliente'} · Cliente`;
-        }
-
-        const clientWelcome = document.querySelector('#client-dashboard h1');
-        if (clientWelcome && appState.currentUser?.nome) {
-            clientWelcome.textContent = `Olá, ${appState.currentUser.nome}.`;
-        }
-
-        const currentClientName = appState.currentUser?.nome || 'Carla Souza';
-        const clientBens = appState.patrimonios.filter(p => p.responsavel === currentClientName);
-
-        const dashTable = document.getElementById('clientDashTable');
-        if (dashTable) {
-            dashTable.innerHTML = clientBens.slice(0, 4).map(item => `
-                <tr>
-                    <td>${item.codigo}</td>
-                    <td>${item.descricao}</td>
-                    <td>${item.categoria}</td>
-                    <td><span class="status cautioned">Em uso</span></td>
-                    <td>—</td>
-                </tr>
-            `).join('');
-        }
-
-        const patrimoniosTable = document.getElementById('clientPatrimoniosTable');
-        if (patrimoniosTable) {
-            patrimoniosTable.innerHTML = clientBens.map(item => `
-                <tr>
-                    <td>${item.codigo}</td>
-                    <td>${item.descricao}</td>
-                    <td>${item.categoria}</td>
-                    <td>${item.dataCadastro || '12/08/2026'}</td>
-                    <td><span class="status cautioned">Em uso</span></td>
-                </tr>
-            `).join('');
-        }
-
-        const movsTable = document.getElementById('clientMovsTable');
-        if (movsTable) {
-            const clientMovs = appState.movimentacoes.filter(m => m.responsavel === currentClientName);
-            movsTable.innerHTML = clientMovs.map(mov => `
-                <tr>
-                    <td>${mov.data}</td>
-                    <td>${mov.patrimonio}</td>
-                    <td>${mov.acao}</td>
-                    <td><span class="status cautioned">Em uso</span></td>
-                </tr>
-            `).join('');
-        }
-
-        const statCards = document.querySelectorAll('#client-dashboard .stat-card');
-        if (statCards.length >= 3) {
-            const totalBens = clientBens.length;
-            const disponiveis = clientBens.filter(item => item.status === 'Disponível').length;
-            const manutencao = clientBens.filter(item => item.status === 'Manutenção').length;
-
-            const card1 = statCards[0].querySelector('strong');
-            const card2 = statCards[1].querySelector('strong');
-            const card3 = statCards[2].querySelector('strong');
-
-            if (card1) card1.textContent = totalBens;
-            if (card2) card2.textContent = disponiveis;
-            if (card3) card3.textContent = manutencao;
-        }
+    function renderLanding() {
+        const r = resumoPatrimonios();
+        const campos = { liveTotal: r.total, liveCautelados: r.cautelados, liveDisponiveis: r.disponiveis, liveManutencao: r.manutencao };
+        Object.keys(campos).forEach((id) => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = campos[id];
+        });
     }
 
     function renderDashboardTotals() {
-        const dashboardValues = [
-            document.querySelectorAll('.stat-card strong')[0],
-            document.querySelectorAll('.stat-card strong')[1],
-            document.querySelectorAll('.stat-card strong')[2],
-            document.querySelectorAll('.stat-card strong')[3]
-        ];
+        const r = resumoPatrimonios();
+        const dados = [r.total, r.disponiveis, r.cautelados, r.manutencao];
+        $$('#dashboard .stat-card strong').forEach((el, index) => { if (index < dados.length) el.textContent = dados[index]; });
+    }
 
-        if (appState.currentUser && appState.currentUser.tipo !== 'admin') {
-            return;
-        }
+    function renderClientPortal() {
+        const cliente = currentUser && currentUser.tipo === 'cliente' ? currentUser : null;
+        const nome = cliente ? cliente.nome : '';
+        if (!cliente) return;
 
-        const totalPatrimonios = appState.patrimonios.length;
-        const disponiveis = appState.patrimonios.filter((item) => item.status === 'Disponível').length;
-        const cautelados = appState.patrimonios.filter((item) => item.status === 'Cautelado').length;
-        const manutencao = appState.patrimonios.filter((item) => item.status === 'Manutenção').length;
+        const nameEl = $('#client-portal strong');
+        if (nameEl) nameEl.textContent = nome;
+        const top = $('.client-top-user');
+        if (top) top.textContent = `${nome} · Cliente`;
+        const welcome = $('#client-dashboard h1');
+        if (welcome) welcome.textContent = `Olá, ${nome}.`;
 
-        if (dashboardValues[0]) dashboardValues[0].textContent = totalPatrimonios;
-        if (dashboardValues[1]) dashboardValues[1].textContent = disponiveis;
-        if (dashboardValues[2]) dashboardValues[2].textContent = cautelados;
-        if (dashboardValues[3]) dashboardValues[3].textContent = manutencao;
+        const meus = patrimoniosDoCliente(cliente);
+        const r = resumoPatrimonios();
+        const stats = $$('#client-dashboard .client-stat strong');
+        [meus.length, r.disponiveis, r.manutencao].forEach((v, i) => { if (stats[i]) stats[i].textContent = v; });
+
+        const linhaResumo = (p) => `<tr><td>${esc(p.codigo)}</td><td>${esc(p.descricao)}</td><td>${esc(p.categoria)}</td><td>${badge('Em uso')}</td></tr>`;
+        setRows($('#client-dashboard tbody'), meus.slice(0, 3).map(linhaResumo), 4);
+
+        setRows($('#client-patrimonios tbody'), meus.map((p) => `
+            <tr><td>${esc(p.codigo)}</td><td>${esc(p.descricao)}</td><td>${esc(p.categoria)}</td>
+            <td>${toBR(dataCautela(p.codigo, nome))}</td><td>${badge('Em uso')}</td></tr>`), 5);
+
+        const codigosMeus = new Set(meus.map((p) => p.codigo));
+        setRows($('#client-movimentacoes tbody'), movimentacoesDoCliente(cliente).map((m) => `
+            <tr><td>${toBR(m.data)}</td><td>${esc(m.patrimonio)}</td><td>${esc(m.acao)}</td>
+            <td>${badge(codigosMeus.has(m.patrimonio) ? 'Em uso' : 'Devolvido')}</td></tr>`), 4);
+    }
+
+    function syncDateField() {
+        const field = document.getElementById('dataCadastro');
+        if (field && !field.value) field.value = hojeISO();
+    }
+
+    function setSelectOptions(select, options, placeholder) {
+        if (!select) return;
+        const atual = select.value;
+        select.innerHTML = (placeholder ? `<option value="">${esc(placeholder)}</option>` : '')
+            + options.map((o) => `<option value="${esc(o)}">${esc(o)}</option>`).join('');
+        if (options.includes(atual)) select.value = atual;
+    }
+
+    function renderForms() {
+        setSelectOptions(document.getElementById('movPatrimonio'),
+            appState.patrimonios.filter((p) => p.status !== 'Baixado').map((p) => p.codigo), 'Selecione');
+        setSelectOptions(document.getElementById('movResponsavel'), usuariosAtivos().map((u) => u.nome), 'Selecione');
+        setSelectOptions(document.getElementById('estProduto'), appState.estoque.map((i) => i.produto), 'Selecione');
+        toggleResponsavel();
     }
 
     function renderAll() {
@@ -466,373 +358,344 @@
         renderUsuarios();
         renderEstoque();
         renderMovimentacoes();
-        syncDateField();
-        renderClientPortal();
         renderDashboardTotals();
+        renderLanding();
+        renderClientPortal();
+        renderForms();
+        syncDateField();
     }
 
-    function openApp() {
-        const landing = document.getElementById('landing');
-        const app = document.getElementById('app');
-        const clientLogin = document.getElementById('client-login');
-        const clientPortal = document.getElementById('client-portal');
+    /* ---------- avisos ---------- */
 
-        if (landing) landing.style.display = 'none';
-        if (app) app.style.display = 'block';
-        if (clientLogin) clientLogin.style.display = 'none';
-        if (clientPortal) clientPortal.style.display = 'none';
+    function showAlert(sectionId, message, erro = false) {
+        const section = document.getElementById(sectionId);
+        if (!section) return;
+        let box = $('.alert.js-alert', section);
+        if (!box) {
+            box = document.createElement('div');
+            box.className = 'alert js-alert';
+            box.setAttribute('role', 'status');
+            const header = $('.page-header', section);
+            if (header) header.after(box); else section.prepend(box);
+        }
+        box.textContent = message;
+        box.style.background = erro ? '#fdecea' : '#e7f6ed';
+        box.style.color = erro ? '#8e2b20' : '#11653e';
+        box.style.display = 'block';
+        clearTimeout(box._timer);
+        box._timer = setTimeout(() => { box.style.display = 'none'; }, 4000);
+    }
 
-        navigationHistory = [];
-        currentScreen = 'dashboard';
-        showScreen('dashboard');
-        renderAll();
+    /* ---------- navegação ---------- */
+
+    function setDisplay(ids, active) {
+        ['landing', 'app', 'client-login', 'client-portal'].forEach((id) => {
+            const el = document.getElementById(id);
+            if (el) el.style.display = id === active ? 'block' : 'none';
+        });
+    }
+
+    function scrollTop() {
+        if (typeof window.scrollTo === 'function') window.scrollTo(0, 0);
     }
 
     function showScreen(screen) {
-        const pages = document.querySelectorAll('.page');
-        pages.forEach((page) => page.classList.remove('active'));
-
+        $$('.page').forEach((page) => page.classList.remove('active'));
         const target = document.getElementById(screen);
         if (target) target.classList.add('active');
+        $$('.menu-button').forEach((button) => button.classList.toggle('active', button.dataset.screen === screen));
+        scrollTop();
+    }
 
-        document.querySelectorAll('.menu-button').forEach((button) => {
-            button.classList.toggle('active', button.dataset.screen === screen);
-        });
-
-        if (screen === 'nova-movimentacao') {
-            carregarSelectsMovimentacao();
+    // Painel administrativo: exige login de administrador
+    function openApp(tela = 'dashboard') {
+        if (!isAdmin()) {
+            telaPendente = tela;
+            openClientLogin();
+            return;
         }
+        abrirPainel();
+        if (tela !== 'dashboard') navigate(tela);
+    }
 
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+    function abrirPainel() {
+        const nome = document.getElementById('adminNome');
+        if (nome) nome.textContent = `${currentUser.nome} · Administrador`;
+        setDisplay(null, 'app');
+        navigationHistory = [];
+        currentScreen = 'dashboard';
+        showScreen('dashboard');
     }
 
     function navigate(screen) {
-        if (!screen) return;
+        if (!screen || screen === currentScreen) return;
         navigationHistory.push(currentScreen);
+        currentScreen = screen;
+        showScreen(screen);
+    }
+
+    // Troca de tela sem deixar o formulário concluído no histórico
+    function replaceWith(screen) {
+        if (navigationHistory[navigationHistory.length - 1] === screen) navigationHistory.pop();
         currentScreen = screen;
         showScreen(screen);
     }
 
     function goBack() {
         if (navigationHistory.length === 0) {
-            const app = document.getElementById('app');
-            const landing = document.getElementById('landing');
-            if (app) app.style.display = 'none';
-            if (landing) landing.style.display = 'block';
-            window.scrollTo(0, 0);
+            setDisplay(null, 'landing');
+            scrollTop();
             return;
         }
-
-        const previousScreen = navigationHistory.pop();
-        currentScreen = previousScreen;
-        showScreen(previousScreen);
+        currentScreen = navigationHistory.pop();
+        showScreen(currentScreen);
     }
 
     function openClientLogin() {
-        const landing = document.getElementById('landing');
-        const app = document.getElementById('app');
-        const clientPortal = document.getElementById('client-portal');
-        const clientLogin = document.getElementById('client-login');
-
-        if (landing) landing.style.display = 'none';
-        if (app) app.style.display = 'none';
-        if (clientPortal) clientPortal.style.display = 'none';
-        if (clientLogin) clientLogin.style.display = 'block';
-
-        const loginUsuario = document.getElementById('loginUsuario');
-        const loginSenha = document.getElementById('loginSenha');
-        const loginError = document.getElementById('loginError');
-
-        if (loginUsuario) loginUsuario.value = '';
-        if (loginSenha) loginSenha.value = '';
-        if (loginError) loginError.style.display = 'none';
-
-        window.scrollTo(0, 0);
+        setDisplay(null, 'client-login');
+        ['loginUsuario', 'loginSenha'].forEach((id) => { const el = document.getElementById(id); if (el) el.value = ''; });
+        const erro = document.getElementById('loginError');
+        if (erro) erro.style.display = 'none';
+        scrollTop();
     }
 
     function backToLanding() {
-        const clientLogin = document.getElementById('client-login');
-        const clientPortal = document.getElementById('client-portal');
-        const app = document.getElementById('app');
-        const landing = document.getElementById('landing');
+        setDisplay(null, 'landing');
+        scrollTop();
+    }
 
-        if (clientLogin) clientLogin.style.display = 'none';
-        if (clientPortal) clientPortal.style.display = 'none';
-        if (app) app.style.display = 'none';
-        if (landing) landing.style.display = 'block';
+    function showClientScreen(screen) {
+        $$('.client-page').forEach((page) => page.classList.remove('active'));
+        const target = document.getElementById(screen);
+        if (target) target.classList.add('active');
+        $$('.client-menu').forEach((button) => button.classList.toggle('active', button.dataset.clientScreen === screen));
+        scrollTop();
+    }
 
-        window.scrollTo(0, 0);
+    function autenticar(usuario, senha) {
+        usuario = norm(usuario);
+        const admin = DEMO_ADMINS[usuario];
+        if (admin && admin.senha === senha) return { tipo: 'admin', nome: admin.nome, usuario };
+        const cliente = appState.clientes.find((c) => c.usuario === usuario);
+        if (cliente && DEMO_CLIENT_PASSWORDS[usuario] === senha) return { ...cliente, tipo: 'cliente' };
+        return null;
     }
 
     function loginCliente(event) {
         event.preventDefault();
-
-        const usuario = document.getElementById('loginUsuario').value.trim().toLowerCase();
+        const usuario = document.getElementById('loginUsuario').value;
         const senha = document.getElementById('loginSenha').value;
         const erro = document.getElementById('loginError');
+        const conta = autenticar(usuario, senha);
 
-        const validAdmin = usuario === 'admin' && senha === 'admin';
-        const validClient = appState.clientes.some((cliente) => cliente.usuario === usuario && cliente.senha === senha);
-
-        if (!validAdmin && !validClient) {
+        if (!conta) {
             if (erro) erro.style.display = 'block';
             return;
         }
+        if (erro) erro.style.display = 'none';
+        currentUser = conta;
+        gravarSessao(conta);
 
-        appState.currentUser = validAdmin
-            ? { nome: 'Administrador', tipo: 'admin', usuario: 'admin' }
-            : appState.clientes.find((cliente) => cliente.usuario === usuario);
-
-        const clientLogin = document.getElementById('client-login');
-        const clientPortal = document.getElementById('client-portal');
-        const landing = document.getElementById('landing');
-        const app = document.getElementById('app');
-
-        if (validAdmin) {
-            if (clientLogin) clientLogin.style.display = 'none';
-            if (landing) landing.style.display = 'none';
-            if (clientPortal) clientPortal.style.display = 'none';
-            openApp();
+        if (conta.tipo === 'admin') {
+            const destino = telaPendente || 'dashboard';
+            telaPendente = null;
+            openApp(destino);
             return;
         }
-
-        if (clientLogin) clientLogin.style.display = 'none';
-        if (landing) clientLogin.style.display = 'none';
-        if (app) app.style.display = 'none';
-        if (clientPortal) clientPortal.style.display = 'block';
-
-        if (erro) erro.style.display = 'none';
+        setDisplay(null, 'client-portal');
         showClientScreen('client-dashboard');
-        renderAll();
-        window.scrollTo(0, 0);
+        renderClientPortal();
+        scrollTop();
     }
 
     function logoutCliente() {
-        appState.currentUser = null;
-        const clientPortal = document.getElementById('client-portal');
-        const clientLogin = document.getElementById('client-login');
-        const landing = document.getElementById('landing');
-
-        if (clientPortal) clientPortal.style.display = 'none';
-        if (clientLogin) clientLogin.style.display = 'none';
-        if (landing) landing.style.display = 'block';
-
-        const loginUsuario = document.getElementById('loginUsuario');
-        const loginSenha = document.getElementById('loginSenha');
-        if (loginUsuario) loginUsuario.value = '';
-        if (loginSenha) loginSenha.value = '';
-
-        window.scrollTo(0, 0);
+        currentUser = null;
+        telaPendente = null;
+        gravarSessao(null);
+        ['loginUsuario', 'loginSenha'].forEach((id) => { const el = document.getElementById(id); if (el) el.value = ''; });
+        backToLanding();
     }
 
-    function logoutAdmin() {
-        appState.currentUser = null;
-        const app = document.getElementById('app');
-        const landing = document.getElementById('landing');
-        if (app) app.style.display = 'none';
-        if (landing) landing.style.display = 'block';
-        window.scrollTo(0, 0);
-    }
-
-    function showClientScreen(screen) {
-        const pages = document.querySelectorAll('.client-page');
-        pages.forEach((page) => page.classList.remove('active'));
-
-        const target = document.getElementById(screen);
-        if (target) target.classList.add('active');
-
-        document.querySelectorAll('.client-menu').forEach((button) => {
-            button.classList.toggle('active', button.dataset.clientScreen === screen);
-        });
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function carregarSelectsMovimentacao() {
-        const selectPatrimonio = document.getElementById('movPatrimonio');
-        const selectUsuario = document.getElementById('movUsuario');
-
-        if (selectPatrimonio) {
-            selectPatrimonio.innerHTML = '<option value="">Selecione o patrimônio</option>';
-            appState.patrimonios.forEach(p => {
-                selectPatrimonio.innerHTML += `<option value="${p.codigo}">${p.codigo} - ${p.descricao}</option>`;
-            });
-        }
-
-        if (selectUsuario) {
-            selectUsuario.innerHTML = '<option value="">Selecione o usuário</option>';
-            appState.usuarios.forEach(u => {
-                selectUsuario.innerHTML += `<option value="${u.nome}">${u.nome} (${u.departamento})</option>`;
-            });
-        }
-    }
-
-    function criarMovimentacao(event) {
-        event.preventDefault();
-        const patId = document.getElementById('movPatrimonio').value;
-        const userName = document.getElementById('movUsuario').value;
-
-        if (!patId || !userName) return;
-
-        const dataAtual = new Date().toLocaleDateString('pt-BR');
-
-        appState.movimentacoes.unshift({
-            data: dataAtual,
-            patrimonio: patId,
-            acao: 'Cautela',
-            responsavel: userName,
-            registradoPor: 'Administrador'
-        });
-
-        const patObj = appState.patrimonios.find(p => p.codigo === patId);
-        if (patObj) {
-            patObj.responsavel = userName;
-            patObj.status = 'Cautelado';
-        }
-
-        saveState();
-        renderAll();
-
-        alert('Movimentação registrada com sucesso!');
-        navigate('movimentacoes');
-    }
+    /* ---------- formulários ---------- */
 
     function cadastrarPatrimonio(event) {
         event.preventDefault();
-
-        const codigo = document.getElementById('numeroPatrimonio').value.trim();
-        const descricao = document.getElementById('descricaoPatrimonio').value.trim();
-        const categoria = document.getElementById('categoriaPatrimonio').value.trim();
-
-        if (!codigo || !descricao || !categoria) return;
-
-        const novoPatrimonio = {
-            codigo,
-            descricao,
-            categoria,
-            responsavel: '—',
-            status: 'Disponível',
-            dataCadastro: document.getElementById('dataCadastro')?.value || new Date().toISOString().split('T')[0],
-            conservacao: 'Bom'
-        };
-
-        appState.patrimonios.unshift(novoPatrimonio);
-        appState.movimentacoes.unshift({
-            data: new Date().toLocaleDateString('pt-BR'),
-            patrimonio: codigo,
-            acao: 'Cadastro',
-            responsavel: '—',
-            registradoPor: 'Administrador'
+        const val = (id) => (document.getElementById(id) ? document.getElementById(id).value : '');
+        const resultado = cadastrarPatrimonioCore({
+            codigo: val('numeroPatrimonio'),
+            descricao: val('descricaoPatrimonio'),
+            categoria: val('categoriaPatrimonio'),
+            conservacao: val('conservacaoPatrimonio') || 'Bom',
+            dataCadastro: val('dataCadastro')
         });
 
+        if (!resultado.ok) {
+            showAlert('cadastro-patrimonio', resultado.erro, true);
+            return;
+        }
         saveState();
         renderAll();
-
         event.target.reset();
         syncDateField();
-
-        const alertBox = document.getElementById('patrimonioAlert');
-        if (alertBox) {
-            alertBox.style.display = 'block';
-            setTimeout(() => {
-                alertBox.style.display = 'none';
-            }, 3000);
-        }
-
-        navigationHistory.push('cadastro-patrimonio');
-        currentScreen = 'patrimonios';
-        showScreen('patrimonios');
+        replaceWith('patrimonios');
+        showAlert('patrimonios', `Patrimônio ${resultado.codigo} cadastrado com sucesso.`);
     }
 
     function cadastrarUsuario(event) {
         event.preventDefault();
+        const val = (id) => (document.getElementById(id) ? document.getElementById(id).value : '');
+        const resultado = cadastrarUsuarioCore({
+            nome: val('nomeUsuario'),
+            departamento: val('departamentoUsuario'),
+            matricula: val('matriculaUsuario')
+        });
 
-        const nome = document.getElementById('nomeUsuario').value.trim();
-        const formFields = event.target.querySelectorAll('input, select');
-        const departamento = formFields[1]?.value || 'Administrativo';
-
-        if (!nome) return;
-
-        const novoUsuario = {
-            nome,
-            departamento,
-            matricula: `00${Math.floor(Math.random() * 900 + 100)}`,
-            patrimonioCount: 0,
-            status: 'Ativo'
-        };
-
-        appState.usuarios.push(novoUsuario);
+        if (!resultado.ok) {
+            showAlert('cadastro-usuario', resultado.erro, true);
+            return;
+        }
         saveState();
         renderAll();
-
-        alert(`Usuário ${nome} cadastrado com sucesso!`);
         event.target.reset();
-
-        navigationHistory.push('cadastro-usuario');
-        currentScreen = 'usuarios';
-        showScreen('usuarios');
+        replaceWith('usuarios');
+        showAlert('usuarios', `Usuário ${resultado.nome} cadastrado com sucesso.`);
     }
 
-    // Funções de controlo do menu mobile
-    function toggleLandingNav() {
-        const nav = document.getElementById('landingNav');
-        if (nav) nav.classList.toggle('active');
+    function toggleResponsavel() {
+        const acao = document.getElementById('movAcao');
+        const campo = document.getElementById('movResponsavelCampo');
+        if (!acao || !campo) return;
+        campo.style.display = acao.value === 'Cautela' || acao.value === 'Transferência' ? '' : 'none';
     }
 
-    function closeLandingNav() {
-        const nav = document.getElementById('landingNav');
-        if (nav) nav.classList.remove('active');
+    function injetarFormularios() {
+        const movs = document.getElementById('movimentacoes');
+        const boxMov = movs && $('.content-box', movs);
+        if (boxMov && !document.getElementById('formMovimentacao')) {
+            const wrap = document.createElement('div');
+            wrap.className = 'content-box';
+            wrap.style.cssText = 'padding:24px;margin-bottom:24px';
+            wrap.innerHTML = `
+                <div class="box-header"><h3>Registrar movimentação</h3></div>
+                <form id="formMovimentacao" novalidate>
+                    <div class="form-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px">
+                        <div class="field"><label for="movPatrimonio">Patrimônio</label><select id="movPatrimonio" required></select></div>
+                        <div class="field"><label for="movAcao">Ação</label>
+                            <select id="movAcao" required>${ACOES.map((a) => `<option>${a}</option>`).join('')}</select></div>
+                        <div class="field" id="movResponsavelCampo"><label for="movResponsavel">Responsável</label><select id="movResponsavel"></select></div>
+                    </div>
+                    <div class="form-actions" style="margin-top:16px"><button type="submit" class="action-button">Registrar</button></div>
+                </form>`;
+            boxMov.before(wrap);
+            document.getElementById('movAcao').addEventListener('change', toggleResponsavel);
+            document.getElementById('formMovimentacao').addEventListener('submit', (event) => {
+                event.preventDefault();
+                const resultado = registrarMovimentacaoCore({
+                    patrimonio: document.getElementById('movPatrimonio').value,
+                    acao: document.getElementById('movAcao').value,
+                    responsavel: document.getElementById('movResponsavel').value
+                });
+                if (!resultado.ok) { showAlert('movimentacoes', resultado.erro, true); return; }
+                saveState();
+                renderAll();
+                showAlert('movimentacoes', `Movimentação registrada. Novo status: ${resultado.status}.`);
+            });
+        }
+
+        const est = document.getElementById('estoque');
+        const boxEst = est && $('.content-box', est);
+        if (boxEst && !document.getElementById('formEstoque')) {
+            const wrap = document.createElement('div');
+            wrap.className = 'content-box';
+            wrap.style.cssText = 'padding:24px;margin-bottom:24px';
+            wrap.innerHTML = `
+                <div class="box-header"><h3>Registrar entrada ou saída</h3></div>
+                <form id="formEstoque" novalidate>
+                    <div class="form-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px">
+                        <div class="field"><label for="estProduto">Produto</label><select id="estProduto" required></select></div>
+                        <div class="field"><label for="estTipo">Tipo</label>
+                            <select id="estTipo" required><option>Entrada</option><option>Saída</option></select></div>
+                        <div class="field"><label for="estQuantidade">Quantidade</label>
+                            <input id="estQuantidade" type="number" min="1" step="1" required></div>
+                    </div>
+                    <div class="form-actions" style="margin-top:16px"><button type="submit" class="action-button">Registrar</button></div>
+                </form>`;
+            boxEst.before(wrap);
+            document.getElementById('formEstoque').addEventListener('submit', (event) => {
+                event.preventDefault();
+                const resultado = registrarEstoqueCore({
+                    produto: document.getElementById('estProduto').value,
+                    tipo: document.getElementById('estTipo').value,
+                    quantidade: document.getElementById('estQuantidade').value
+                });
+                if (!resultado.ok) { showAlert('estoque', resultado.erro, true); return; }
+                document.getElementById('estQuantidade').value = '';
+                saveState();
+                renderAll();
+                showAlert('estoque', `Movimento registrado. Saldo atual: ${resultado.saldo}.`);
+            });
+        }
     }
 
-    function toggleAdminSidebar() {
-        const sidebar = document.getElementById('adminSidebar');
-        const overlay = document.getElementById('sidebarOverlay');
-        if (sidebar) sidebar.classList.toggle('mobile-open');
-        if (overlay) overlay.classList.toggle('active');
+    function ligarRotulos() {
+        $$('.field').forEach((field) => {
+            const label = $('label', field);
+            const control = $('input, select, textarea', field);
+            if (label && control && control.id && !label.htmlFor) label.htmlFor = control.id;
+        });
+        const codigo = document.getElementById('numeroPatrimonio');
+        if (codigo) codigo.addEventListener('input', () => { codigo.value = codigo.value.toUpperCase(); });
     }
 
-    function toggleClientSidebar() {
-        const sidebar = document.getElementById('clientSidebar');
-        const overlay = document.getElementById('sidebarOverlay');
-        if (sidebar) sidebar.classList.toggle('mobile-open');
-        if (overlay) overlay.classList.toggle('active');
+    const LANDING_ANCHORS = ['produto', 'como-funciona', 'sobre', 'equipe'];
+
+    function routeFromHash() {
+        const hash = (window.location && window.location.hash ? window.location.hash : '').slice(1);
+        if (APP_SCREENS.includes(hash)) {
+            openApp(hash);
+        } else if (hash === 'login') {
+            openClientLogin();
+        } else if (LANDING_ANCHORS.includes(hash)) {
+            const landing = document.getElementById('landing');
+            if (landing && landing.style.display === 'none') setDisplay(null, 'landing');
+            const alvo = document.getElementById(hash);
+            if (alvo && typeof alvo.scrollIntoView === 'function') alvo.scrollIntoView();
+        }
     }
 
-    function closeAllSidebars() {
-        const adminSidebar = document.getElementById('adminSidebar');
-        const clientSidebar = document.getElementById('clientSidebar');
-        const overlay = document.getElementById('sidebarOverlay');
-        const landingNav = document.getElementById('landingNav');
-
-        if (adminSidebar) adminSidebar.classList.remove('mobile-open');
-        if (clientSidebar) clientSidebar.classList.remove('mobile-open');
-        if (overlay) overlay.classList.remove('active');
-        if (landingNav) landingNav.classList.remove('active');
+    function ligarMenuMovel() {
+        const botao = document.getElementById('menuToggle');
+        const nav = document.getElementById('siteNav');
+        if (!botao || !nav) return;
+        const alternar = (aberto) => {
+            nav.classList.toggle('open', aberto);
+            botao.setAttribute('aria-expanded', String(aberto));
+            botao.setAttribute('aria-label', aberto ? 'Fechar menu' : 'Abrir menu');
+        };
+        botao.addEventListener('click', () => alternar(!nav.classList.contains('open')));
+        nav.addEventListener('click', (event) => {
+            if (event.target.closest('a, button')) alternar(false);
+        });
     }
 
     function bootstrap() {
+        Object.assign(window, {
+            openApp, navigate, goBack, showScreen, loginCliente, showClientScreen, logoutCliente,
+            logoutAdmin: logoutCliente, backToLanding, cadastrarPatrimonio, cadastrarUsuario, openClientLogin
+        });
+        injetarFormularios();
+        ligarRotulos();
+        ligarMenuMovel();
         renderAll();
-
-        window.openApp = openApp;
-        window.navigate = navigate;
-        window.goBack = goBack;
-        window.showScreen = showScreen;
-        window.loginCliente = loginCliente;
-        window.showClientScreen = showClientScreen;
-        window.logoutCliente = logoutCliente;
-        window.logoutAdmin = logoutAdmin;
-        window.backToLanding = backToLanding;
-        window.cadastrarPatrimonio = cadastrarPatrimonio;
-        window.cadastrarUsuario = cadastrarUsuario;
-        window.openClientLogin = openClientLogin;
-        window.criarMovimentacao = criarMovimentacao;
-        window.excluirPatrimonio = excluirPatrimonio;
-        window.excluirUsuario = excluirUsuario;
-        window.toggleLandingNav = toggleLandingNav;
-        window.closeLandingNav = closeLandingNav;
-        window.toggleAdminSidebar = toggleAdminSidebar;
-        window.toggleClientSidebar = toggleClientSidebar;
-        window.closeAllSidebars = closeAllSidebars;
+        routeFromHash();
+        if (typeof window.addEventListener === 'function') window.addEventListener('hashchange', routeFromHash);
+        window.StockFlow = {
+            core: { cadastrarPatrimonioCore, cadastrarUsuarioCore, registrarMovimentacaoCore, registrarEstoqueCore,
+                    resumoPatrimonios, resumoEstoque, autenticar, patrimoniosDoCliente, dataCautela, esc, toBR },
+            getState: () => appState,
+            setCurrentUser: (conta) => { currentUser = conta; },
+            resetState
+        };
     }
 
     bootstrap();
