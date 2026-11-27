@@ -16,3 +16,8 @@ dist/
 Thumbs.db
 .vscode/*
 !.vscode/settings.json
+
+# Dados locais do StockFlow
+*.db
+*.db-*
+stockflow-appstate.json
