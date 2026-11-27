@@ -122,3 +122,31 @@ ON chamados(status);
 
 CREATE INDEX IF NOT EXISTS idx_historico_chamado
 ON historico_chamados(chamado_id);
+
+CREATE TABLE IF NOT EXISTS manutencoes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    codigo_solicitacao TEXT NOT NULL UNIQUE,
+    patrimonio_id INTEGER NOT NULL,
+    status_anterior TEXT NOT NULL
+        CHECK (status_anterior IN ('Disponível', 'Cautelado')),
+    problema TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'Em espera'
+        CHECK (status IN ('Em espera', 'Em manutenção', 'Concluído')),
+    data_abertura DATE DEFAULT CURRENT_DATE,
+    data_conclusao DATE,
+    registrado_por INTEGER,
+    criado_em DATETIME DEFAULT CURRENT_TIMESTAMP,
+    atualizado_em DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (patrimonio_id) REFERENCES patrimonios(id),
+    FOREIGN KEY (registrado_por) REFERENCES usuarios(id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_manutencoes_patrimonio
+ON manutencoes(patrimonio_id);
+
+CREATE INDEX IF NOT EXISTS idx_manutencoes_status
+ON manutencoes(status);
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_manutencoes_aberta_unica
+ON manutencoes(patrimonio_id)
+WHERE status != 'Concluído';

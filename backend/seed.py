@@ -97,6 +97,32 @@ with conectar() as banco:
             conservacao
         ))
 
+    pt0004 = banco.execute(
+        "SELECT id, status FROM patrimonios WHERE codigo = 'PT-0004'"
+    ).fetchone()
+
+    if pt0004 and pt0004["status"] == "Manutenção":
+        manutencao_aberta = banco.execute("""
+            SELECT id FROM manutencoes
+            WHERE patrimonio_id = ? AND status != 'Concluído'
+        """, (pt0004["id"],)).fetchone()
+
+        if not manutencao_aberta:
+            banco.execute("""
+                INSERT OR IGNORE INTO manutencoes (
+                    codigo_solicitacao, patrimonio_id, status_anterior,
+                    problema, status, data_abertura
+                )
+                VALUES (?, ?, ?, ?, ?, ?)
+            """, (
+                "MNT-0001",
+                pt0004["id"],
+                "Cautelado",
+                "Equipamento encaminhado para verificação técnica preventiva e revisão de hardware.",
+                "Em manutenção",
+                "2026-09-05"
+            ))
+
     produtos = [
         ("Papel A4", "Material de escritório", 320, 100),
         ("Caneta azul", "Material de escritório", 42, 50),
@@ -123,6 +149,7 @@ with conectar() as banco:
     for tabela in [
         "usuarios",
         "patrimonios",
+        "manutencoes",
         "estoque",
         "movimentacoes",
         "chamados"
