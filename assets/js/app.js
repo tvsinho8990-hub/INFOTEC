@@ -53,17 +53,54 @@
                 .every((key) => Array.isArray(saved[key]));
     }
 
+    const RECOVERY_KEY = `${STORAGE_KEY}.recoveryBackup`;
+    let storageRecoveryWarning = '';
+    let storageWriteBlocked = false;
+
     function loadState() {
+        let raw;
+
         try {
-            const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+            raw = localStorage.getItem(STORAGE_KEY);
+        } catch (error) {
+            storageWriteBlocked = true;
+            storageRecoveryWarning = 'O navegador não permitiu acessar os dados salvos. A gravação foi bloqueada para proteger suas informações.';
+            console.warn(storageRecoveryWarning, error);
+            return { ...clone(DEFAULT_STATE), version: STATE_VERSION };
+        }
+
+        if (raw === null) {
+            return { ...clone(DEFAULT_STATE), version: STATE_VERSION };
+        }
+
+        try {
+            const saved = JSON.parse(raw);
             if (estadoValido(saved)) return saved;
         } catch (error) {
-            console.warn('Estado local não carregado:', error);
+            console.warn('Estado local inválido:', error);
         }
+
+        storageRecoveryWarning = 'Os dados salvos estão inválidos ou usam outra versão. Uma cópia de recuperação foi preservada. Confira os dados antes de continuar.';
+
+        try {
+            const backupExistente = localStorage.getItem(RECOVERY_KEY);
+            if (backupExistente === null) {
+                localStorage.setItem(RECOVERY_KEY, raw);
+            } else {
+                storageWriteBlocked = true;
+                storageRecoveryWarning += ' Já existe uma cópia anterior; a gravação foi bloqueada para evitar sobrescrever dados.';
+            }
+        } catch (error) {
+            storageWriteBlocked = true;
+            storageRecoveryWarning += ' Não foi possível criar a cópia de segurança; a gravação foi bloqueada.';
+            console.warn('Falha ao preservar os dados locais:', error);
+        }
+
         return { ...clone(DEFAULT_STATE), version: STATE_VERSION };
     }
 
     let appState = loadState();
+    let lastSavedState = clone(appState);
 
     // Sessão do administrador (some ao fechar a aba). Só Guto e Thiago têm acesso ao painel.
     function lerSessao() {
@@ -89,16 +126,30 @@
     let navigationHistory = [];
 
     function saveState() {
+        if (storageWriteBlocked) {
+            appState = clone(lastSavedState);
+            return false;
+        }
+
         try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+            const serialized = JSON.stringify(appState);
+            localStorage.setItem(STORAGE_KEY, serialized);
+            lastSavedState = clone(appState);
+            return true;
         } catch (error) {
+            appState = clone(lastSavedState);
             console.warn('Não foi possível salvar os dados neste navegador:', error);
+            return false;
         }
     }
 
     function resetState() {
         appState = { ...clone(DEFAULT_STATE), version: STATE_VERSION };
-        saveState();
+        if (!saveState()) {
+            renderAll();
+            showAlert('dashboard', 'Não foi possível salvar a restauração. Os dados anteriores foram mantidos.', true);
+            return;
+        }
         renderAll();
     }
 
@@ -656,7 +707,11 @@
             showAlert('cadastro-patrimonio', resultado.erro, true);
             return;
         }
-        saveState();
+        if (!saveState()) {
+            renderAll();
+            showAlert('cadastro-patrimonio', 'Não foi possível salvar. A alteração foi desfeita.', true);
+            return;
+        }
         renderAll();
         event.target.reset();
         syncDateField();
@@ -681,7 +736,11 @@
             showAlert('cadastro-usuario', resultado.erro, true);
             return;
         }
-        saveState();
+        if (!saveState()) {
+            renderAll();
+            showAlert('cadastro-usuario', 'Não foi possível salvar. A alteração foi desfeita.', true);
+            return;
+        }
         renderAll();
         event.target.reset();
         replaceWith('usuarios');
@@ -723,7 +782,11 @@
                     responsavel: document.getElementById('movResponsavel').value
                 });
                 if (!resultado.ok) { showAlert('movimentacoes', resultado.erro, true); return; }
-                saveState();
+                if (!saveState()) {
+                    renderAll();
+                    showAlert('movimentacoes', 'Não foi possível salvar. A movimentação foi desfeita.', true);
+                    return;
+                }
                 renderAll();
                 showAlert('movimentacoes', `Movimentação registrada. Novo status: ${resultado.status}.`);
             });
@@ -805,8 +868,12 @@
                     return;
                 }
 
+                if (!saveState()) {
+                    renderAll();
+                    showAlert('estoque', 'Não foi possível salvar. A alteração do produto foi desfeita.', true);
+                    return;
+                }
                 limparEdicaoProduto();
-                saveState();
                 renderAll();
                 showAlert('estoque', original ? 'Produto atualizado com sucesso.' : 'Produto cadastrado com sucesso.');
             });
@@ -849,7 +916,11 @@
                             return;
                         }
 
-                        saveState();
+                        if (!saveState()) {
+                            renderAll();
+                            showAlert('estoque', 'Não foi possível salvar. A exclusão foi desfeita.', true);
+                            return;
+                        }
                         renderAll();
                         showAlert('estoque', 'Produto excluído com sucesso.');
                     }
@@ -890,9 +961,13 @@
                     data: document.getElementById('estData').value
                 });
                 if (!resultado.ok) { showAlert('estoque', resultado.erro, true); return; }
+                if (!saveState()) {
+                    renderAll();
+                    showAlert('estoque', 'Não foi possível salvar. A movimentação de estoque foi desfeita.', true);
+                    return;
+                }
                 document.getElementById('estQuantidade').value = '';
                 document.getElementById('estData').value = hojeISO();
-                saveState();
                 renderAll();
                 showAlert('estoque', `Movimento registrado. Saldo atual: ${resultado.saldo}.`);
             });
@@ -965,6 +1040,9 @@
         ligarRotulos();
         ligarMenuMovel();
         renderAll();
+        if (storageRecoveryWarning) {
+            showAlert('dashboard', storageRecoveryWarning, true);
+        }
         routeFromHash();
         if (typeof window.addEventListener === 'function') window.addEventListener('hashchange', routeFromHash);
         window.StockFlow = {
