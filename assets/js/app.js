@@ -1093,7 +1093,7 @@
             `).join('');
         }
 
-        const statCards = document.querySelectorAll('#client-dashboard .stat-card');
+        const statCards = document.querySelectorAll('#client-dashboard .client-stat');
         if (statCards.length >= 3) {
             const totalBens = clientBens.length;
             const disponiveis = clientBens.filter(item => item.status === 'Disponível').length;
