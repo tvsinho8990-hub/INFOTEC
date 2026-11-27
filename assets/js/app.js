@@ -140,10 +140,11 @@
 
         if (!/^PT-\d{4}$/.test(codigo)) return { ok: false, erro: 'Use o formato PT-0000 para o número do patrimônio.' };
         if (findPatrimonio(codigo)) return { ok: false, erro: `O patrimônio ${codigo} já está cadastrado.` };
-        if (!descricao) return { ok: false, erro: 'Informe a descrição do patrimônio.' };
+        if (descricao.length < 3 || descricao.length > 150) return { ok: false, erro: 'A descricao deve ter entre 3 e 150 caracteres.' };
         if (!categoria) return { ok: false, erro: 'Selecione a categoria.' };
         if (!CONSERVACOES.includes(conservacao)) return { ok: false, erro: 'Estado de conservação inválido.' };
         if (!dataValida(dataCadastro)) return { ok: false, erro: 'Data de cadastro inválida.' };
+        if (dataCadastro > hojeISO()) return { ok: false, erro: 'A data de cadastro não pode ser futura.' };
 
         appState.patrimonios.unshift({
             codigo, descricao, categoria, responsavel: SEM_RESPONSAVEL, status: 'Disponível', conservacao, dataCadastro
@@ -158,7 +159,7 @@
         nome = String(nome || '').trim();
         matricula = String(matricula || '').trim();
 
-        if (!nome) return { ok: false, erro: 'Informe o nome completo.' };
+        if (nome.length < 3 || nome.length > 100) return { ok: false, erro: 'O nome deve ter entre 3 e 100 caracteres.' };
         if (!departamento) return { ok: false, erro: 'Selecione o departamento.' };
         if (!/^\d{6}$/.test(matricula)) return { ok: false, erro: 'A matrícula deve ter 6 dígitos.' };
         if (appState.usuarios.some((u) => norm(u.nome) === norm(nome))) return { ok: false, erro: `Já existe um usuário chamado ${nome}.` };
@@ -334,7 +335,9 @@
 
     function syncDateField() {
         const field = document.getElementById('dataCadastro');
-        if (field && !field.value) field.value = hojeISO();
+        if (!field) return;
+        field.max = hojeISO();
+        if (!field.value) field.value = hojeISO();
     }
 
     function setSelectOptions(select, options, placeholder) {
@@ -520,6 +523,10 @@
 
     function cadastrarPatrimonio(event) {
         event.preventDefault();
+        if (!event.target.checkValidity()) {
+            event.target.reportValidity();
+            return;
+        }
         const val = (id) => (document.getElementById(id) ? document.getElementById(id).value : '');
         const resultado = cadastrarPatrimonioCore({
             codigo: val('numeroPatrimonio'),
@@ -543,6 +550,10 @@
 
     function cadastrarUsuario(event) {
         event.preventDefault();
+        if (!event.target.checkValidity()) {
+            event.target.reportValidity();
+            return;
+        }
         const val = (id) => (document.getElementById(id) ? document.getElementById(id).value : '');
         const resultado = cadastrarUsuarioCore({
             nome: val('nomeUsuario'),
