@@ -353,6 +353,21 @@
                 </td>
             </tr>`), 6);
 
+        const alertas = $('#estoqueAlertas');
+        if (alertas) {
+            const produtosBaixos = appState.estoque.filter(
+                (item) => Number(item.quantidade) < Number(item.minimo)
+            );
+
+            alertas.innerHTML = produtosBaixos.length
+                ? `<strong>Atenção: ${produtosBaixos.length} produto(s) abaixo do estoque mínimo.</strong>
+                   <ul>${produtosBaixos.map((item) =>
+                       `<li>${esc(item.produto)} — atual: ${Number(item.quantidade).toLocaleString('pt-BR')}; mínimo: ${Number(item.minimo).toLocaleString('pt-BR')}</li>`
+                   ).join('')}</ul>`
+                : '';
+
+            alertas.style.display = produtosBaixos.length ? 'block' : 'none';
+        }
         const valores = $$('#estoque .stat-card strong');
         const r = resumoEstoque();
         const dados = [r.totalItens, r.entradasMes, r.saidasMes, r.estoqueBaixo];
