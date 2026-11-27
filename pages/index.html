@@ -1769,6 +1769,12 @@ footer{
         Novo patrimônio
     </button>
 
+    <button class="menu-button"
+            data-screen="manutencao"
+            onclick="navigate('manutencao'); closeAllSidebars();">
+        Manutenção
+    </button>
+
 
     <div class="menu-label">
         Pessoas
@@ -1952,6 +1958,21 @@ footer{
 
             </div>
 
+
+            <div class="module"
+                 onclick="navigate('manutencao')">
+
+                <span class="module-number">07</span>
+
+                <h3>Manutenção</h3>
+
+                <p>
+                    Acompanhe equipamentos em manutenção,
+                    status técnicos e histórico.
+                </p>
+
+            </div>
+
         </div>
 
     </section>
@@ -1978,6 +1999,16 @@ footer{
 
         <div class="alert" id="patrimonioAlert">
             Patrimônio cadastrado com sucesso.
+        </div>
+
+        <div class="selection-banner" id="selecaoManutencaoBanner">
+            <div>
+                <strong>Selecionar patrimônio para manutenção</strong>
+                <p>Escolha na lista abaixo o equipamento que deseja encaminhar para manutenção.</p>
+            </div>
+            <button type="button" class="cancel-button" onclick="cancelarSelecaoManutencao()">
+                Cancelar seleção
+            </button>
         </div>
 
 
@@ -2142,7 +2173,7 @@ footer{
 
                     <label>Estado de conservação</label>
 
-                    <select required>
+                    <select id="conservacaoPatrimonio" required>
 
                         <option>
                             Bom
@@ -2589,6 +2620,95 @@ footer{
     </section>
 
 
+    <!-- MANUTENÇÃO -->
+    <section class="page" id="manutencao">
+
+        <div class="page-header">
+
+            <div>
+                <h1>Manutenção</h1>
+                <p>Acompanhe equipamentos encaminhados para manutenção e consulte o histórico técnico.</p>
+            </div>
+
+            <button class="action-button"
+                    onclick="iniciarSelecaoManutencao()">
+                + Encaminhar patrimônio
+            </button>
+
+        </div>
+
+        <div class="alert" id="manutencaoAlert"></div>
+
+        <div class="stats">
+
+            <div class="stat-card">
+                <small>Total de solicitações</small>
+                <strong id="maintTotalCount">0</strong>
+            </div>
+
+            <div class="stat-card">
+                <small>Em espera</small>
+                <strong class="orange" id="maintWaitingCount">0</strong>
+            </div>
+
+            <div class="stat-card">
+                <small>Em manutenção</small>
+                <strong class="blue" id="maintProgressCount">0</strong>
+            </div>
+
+            <div class="stat-card">
+                <small>Concluídas</small>
+                <strong class="green" id="maintDoneCount">0</strong>
+            </div>
+
+        </div>
+
+        <div class="content-box">
+
+            <div class="box-header">
+                <h3>Equipamentos em manutenção e histórico</h3>
+
+                <div class="box-actions">
+                    <input type="search"
+                           id="filtroBuscaManutencao"
+                           class="filter-input"
+                           placeholder="Buscar tombo ou equipamento..."
+                           oninput="filtrarManutencoes()">
+
+                    <select id="filtroStatusManutencao"
+                            class="filter-select"
+                            onchange="filtrarManutencoes()">
+                        <option value="Todos">Todos os status</option>
+                        <option value="Abertas">Abertas (Em espera / Em manutenção)</option>
+                        <option value="Em espera">Em espera</option>
+                        <option value="Em manutenção">Em manutenção</option>
+                        <option value="Concluído">Concluído</option>
+                    </select>
+                </div>
+            </div>
+
+            <table class="table">
+
+                <thead>
+                    <tr>
+                        <th>Tombo</th>
+                        <th>Equipamento</th>
+                        <th>Categoria</th>
+                        <th>Status da manutenção</th>
+                        <th>Data de abertura</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody id="manutencaoTable"></tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
 </main>
 
 </div>
@@ -3015,6 +3135,265 @@ footer{
 
 </div>
 
+<!-- MODAL EDITAR PATRIMÔNIO -->
+<div class="modal-overlay" id="modalEditarPatrimonio" role="dialog" aria-modal="true" aria-labelledby="modalEditarTitulo" onclick="if(event.target === this) fecharModalEditarPatrimonio()">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <div>
+                <h2 id="modalEditarTitulo">Editar patrimônio</h2>
+                <p>Atualize as informações cadastradas mantendo a integridade dos registros.</p>
+            </div>
+            <button type="button" class="modal-close" aria-label="Fechar janela" onclick="fecharModalEditarPatrimonio()">×</button>
+        </div>
+
+        <form id="formEditarPatrimonio" onsubmit="salvarEdicaoPatrimonio(event)">
+            <input type="hidden" id="editarCodigoOriginal">
+
+            <div class="modal-body">
+                <div class="modal-alert" id="editarPatrimonioErro" role="alert"></div>
+
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="editarNumeroPatrimonio">Número de tombo</label>
+                        <input type="text" id="editarNumeroPatrimonio" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="editarCategoriaPatrimonio">Categoria</label>
+                        <select id="editarCategoriaPatrimonio" required>
+                            <option value="">Selecione</option>
+                            <option>Informática</option>
+                            <option>Mobiliário</option>
+                            <option>Equipamentos</option>
+                            <option>Veículos</option>
+                        </select>
+                    </div>
+
+                    <div class="field full">
+                        <label for="editarDescricaoPatrimonio">Nome / Descrição do equipamento</label>
+                        <input type="text" id="editarDescricaoPatrimonio" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="editarResponsavelPatrimonio">Responsável</label>
+                        <select id="editarResponsavelPatrimonio"></select>
+                    </div>
+
+                    <div class="field">
+                        <label for="editarConservacaoPatrimonio">Estado de conservação</label>
+                        <select id="editarConservacaoPatrimonio" required>
+                            <option>Bom</option>
+                            <option>Regular</option>
+                            <option>Necessita manutenção</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="editarDataCadastroPatrimonio">Data de cadastro</label>
+                        <input type="date" id="editarDataCadastroPatrimonio" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="editarStatusPatrimonio">Status do patrimônio</label>
+                        <select id="editarStatusPatrimonio" required>
+                            <option value="Disponível">Disponível</option>
+                            <option value="Cautelado">Cautelado</option>
+                            <option value="Manutenção">Manutenção</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="modal-note" id="editarStatusAviso"></div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="cancel-button" onclick="fecharModalEditarPatrimonio()">Cancelar</button>
+                <button type="submit" class="action-button">Salvar alterações</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL ENCAMINHAR PARA MANUTENÇÃO -->
+<div class="modal-overlay" id="modalEncaminharManutencao" role="dialog" aria-modal="true" aria-labelledby="modalEncaminharTitulo" onclick="if(event.target === this) fecharModalEncaminharManutencao()">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <div>
+                <h2 id="modalEncaminharTitulo">Encaminhar para manutenção</h2>
+                <p>Registre o problema técnico para iniciar o atendimento do patrimônio.</p>
+            </div>
+            <button type="button" class="modal-close" aria-label="Fechar janela" onclick="fecharModalEncaminharManutencao()">×</button>
+        </div>
+
+        <form id="formEncaminharManutencao" onsubmit="confirmarEncaminhamentoManutencao(event)">
+            <input type="hidden" id="encaminharCodigoPatrimonio">
+
+            <div class="modal-body">
+                <div class="modal-alert" id="encaminharManutencaoErro" role="alert"></div>
+
+                <div class="modal-section">
+                    <span class="modal-section-title">Informações do equipamento</span>
+                    <div class="modal-info-grid">
+                        <div class="modal-info-item">
+                            <small>Número de tombo</small>
+                            <strong id="encaminharTombo">—</strong>
+                        </div>
+                        <div class="modal-info-item">
+                            <small>Status atual do patrimônio</small>
+                            <div id="encaminharStatusAtual"></div>
+                        </div>
+                        <div class="modal-info-item full">
+                            <small>Nome do equipamento</small>
+                            <strong id="encaminharNomeEquipamento">—</strong>
+                        </div>
+                        <div class="modal-info-item full">
+                            <small>Setor / Responsável</small>
+                            <span id="encaminharResponsavelSetor">—</span>
+                        </div>
+                        <div class="modal-info-item full">
+                            <small>Descrição e características cadastradas</small>
+                            <span id="encaminharCaracteristicas">—</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-section">
+                    <span class="modal-section-title">Informações da manutenção</span>
+                    <div class="form-grid">
+                        <div class="field">
+                            <label>Status inicial da manutenção</label>
+                            <div>
+                                <span class="status maint-waiting">Em espera</span>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label for="manutencaoDataAbertura">Data de abertura</label>
+                            <input type="date" id="manutencaoDataAbertura" required>
+                        </div>
+
+                        <div class="field full">
+                            <label for="manutencaoProblema">Descrição do problema</label>
+                            <textarea id="manutencaoProblema"
+                                      placeholder="Descreva os defeitos, falhas técnicas ou motivos que levaram o equipamento à manutenção..."
+                                      required></textarea>
+                        </div>
+                    </div>
+
+                    <div class="modal-note">
+                        Ao confirmar, o status atual do patrimônio será armazenado individualmente e alterado automaticamente para <strong>Manutenção</strong>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="cancel-button" onclick="fecharModalEncaminharManutencao()">Cancelar</button>
+                <button type="submit" class="action-button">Encaminhar para manutenção</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL DETALHES DA MANUTENÇÃO -->
+<div class="modal-overlay" id="modalDetalhesManutencao" role="dialog" aria-modal="true" aria-labelledby="modalDetalhesTitulo" onclick="if(event.target === this) fecharModalDetalhesManutencao()">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <div>
+                <h2 id="modalDetalhesTitulo">Detalhes da manutenção</h2>
+                <p id="detalhesSubtitulo">Acompanhe as informações técnicas e atualize o andamento.</p>
+            </div>
+            <button type="button" class="modal-close" aria-label="Fechar janela" onclick="fecharModalDetalhesManutencao()">×</button>
+        </div>
+
+        <form id="formDetalhesManutencao" onsubmit="salvarAlteracaoManutencao(event)">
+            <input type="hidden" id="detalhesManutencaoId">
+
+            <div class="modal-body">
+                <div class="modal-alert" id="detalhesManutencaoErro" role="alert"></div>
+
+                <div class="modal-section">
+                    <span class="modal-section-title">Dados do patrimônio</span>
+                    <div class="modal-info-grid">
+                        <div class="modal-info-item">
+                            <small>Número de tombo</small>
+                            <strong id="detalhesTombo">—</strong>
+                        </div>
+                        <div class="modal-info-item">
+                            <small>Categoria</small>
+                            <span id="detalhesCategoria">—</span>
+                        </div>
+                        <div class="modal-info-item full">
+                            <small>Nome do equipamento</small>
+                            <strong id="detalhesNomeEquipamento">—</strong>
+                        </div>
+                        <div class="modal-info-item full">
+                            <small>Setor / Responsável</small>
+                            <span id="detalhesResponsavelSetor">—</span>
+                        </div>
+                        <div class="modal-info-item full">
+                            <small>Descrição e características</small>
+                            <span id="detalhesCaracteristicas">—</span>
+                        </div>
+                        <div class="modal-info-item">
+                            <small>Status atual do patrimônio</small>
+                            <div id="detalhesStatusPatrimonio"></div>
+                        </div>
+                        <div class="modal-info-item">
+                            <small>Status anterior do patrimônio</small>
+                            <div id="detalhesStatusAnterior"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-section">
+                    <span class="modal-section-title">Dados da manutenção</span>
+                    <div class="modal-info-grid">
+                        <div class="modal-info-item">
+                            <small>Solicitação</small>
+                            <strong id="detalhesCodigoSolicitacao">—</strong>
+                        </div>
+                        <div class="modal-info-item">
+                            <small>Status da manutenção</small>
+                            <div id="detalhesStatusManutencaoBadge"></div>
+                        </div>
+                        <div class="modal-info-item">
+                            <small>Data de abertura</small>
+                            <span id="detalhesDataAbertura">—</span>
+                        </div>
+                        <div class="modal-info-item">
+                            <small>Data de conclusão</small>
+                            <span id="detalhesDataConclusao">—</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label style="display:block; font-size:13px; font-weight:600; color:#45556d; margin-bottom:7px;">Descrição do problema</label>
+                        <div class="modal-problem-box" id="detalhesProblema">—</div>
+                    </div>
+                </div>
+
+                <div class="modal-section" id="detalhesControleAndamento">
+                    <span class="modal-section-title">Atualizar andamento</span>
+                    <div class="field">
+                        <label for="detalhesNovoStatus">Status da manutenção</label>
+                        <select id="detalhesNovoStatus" onchange="atualizarAvisoStatusDetalhes()">
+                            <option value="Em espera">Em espera</option>
+                            <option value="Em manutenção">Em manutenção</option>
+                            <option value="Concluído">Concluído</option>
+                        </select>
+                    </div>
+                    <div class="modal-note" id="detalhesAvisoIntegracao"></div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="cancel-button" onclick="fecharModalDetalhesManutencao()">Fechar</button>
+                <button type="submit" class="action-button" id="btnSalvarDetalhesManutencao">Atualizar andamento</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <!-- Scripts de controle para o menu mobile em todas as telas -->
 <script>
 function toggleLandingNav() {
@@ -3054,6 +3433,7 @@ function closeAllSidebars() {
 }
 </script>
 
+<script src="../assets/js/maintenance.js"></script>
 <script src="../assets/js/app.js"></script>
 <script src="../assets/js/chamados.js"></script>
 <script src="../assets/js/filtros.js"></script>
