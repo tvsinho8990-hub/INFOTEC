@@ -209,6 +209,68 @@
         return { ok: true, status: bem.status };
     }
 
+    function cadastrarProdutoCore({ produto, categoria, quantidade, minimo }) {
+        produto = String(produto ?? '').trim();
+        categoria = String(categoria ?? '').trim();
+        quantidade = Number(quantidade);
+        minimo = Number(minimo);
+
+        if (produto.length < 2 || produto.length > 100)
+            return { ok: false, erro: 'O nome deve ter entre 2 e 100 caracteres.' };
+        if (categoria.length < 2 || categoria.length > 80)
+            return { ok: false, erro: 'A categoria deve ter entre 2 e 80 caracteres.' };
+        if (!Number.isInteger(quantidade) || quantidade < 0)
+            return { ok: false, erro: 'A quantidade inicial deve ser um número inteiro igual ou maior que zero.' };
+        if (!Number.isInteger(minimo) || minimo < 0)
+            return { ok: false, erro: 'O estoque mínimo deve ser um número inteiro igual ou maior que zero.' };
+        if (appState.estoque.some((i) => norm(i.produto) === norm(produto)))
+            return { ok: false, erro: 'Já existe um produto com esse nome.' };
+
+        appState.estoque.push({ produto, categoria, quantidade, minimo });
+        return { ok: true };
+    }
+
+    function editarProdutoCore({ produtoAtual, produto, categoria, minimo }) {
+        const item = appState.estoque.find((i) => norm(i.produto) === norm(produtoAtual));
+        produto = String(produto ?? '').trim();
+        categoria = String(categoria ?? '').trim();
+        minimo = Number(minimo);
+
+        if (!item) return { ok: false, erro: 'Produto não encontrado.' };
+        if (produto.length < 2 || produto.length > 100)
+            return { ok: false, erro: 'O nome deve ter entre 2 e 100 caracteres.' };
+        if (categoria.length < 2 || categoria.length > 80)
+            return { ok: false, erro: 'A categoria deve ter entre 2 e 80 caracteres.' };
+        if (!Number.isInteger(minimo) || minimo < 0)
+            return { ok: false, erro: 'O estoque mínimo deve ser um número inteiro igual ou maior que zero.' };
+        if (appState.estoque.some((i) => i !== item && norm(i.produto) === norm(produto)))
+            return { ok: false, erro: 'Já existe outro produto com esse nome.' };
+
+        const nomeAnterior = item.produto;
+        item.produto = produto;
+        item.categoria = categoria;
+        item.minimo = minimo;
+
+        if (norm(nomeAnterior) !== norm(produto)) {
+            appState.estoqueMovimentos.forEach((mov) => {
+                if (norm(mov.produto) === norm(nomeAnterior)) mov.produto = produto;
+            });
+        }
+
+        return { ok: true };
+    }
+
+    function excluirProdutoCore({ produto }) {
+        const item = appState.estoque.find((i) => norm(i.produto) === norm(produto));
+        if (!item) return { ok: false, erro: 'Produto não encontrado.' };
+
+        if (appState.estoqueMovimentos.some((mov) => norm(mov.produto) === norm(item.produto)))
+            return { ok: false, erro: 'Este produto possui movimentações no histórico e não pode ser excluído.' };
+
+        appState.estoque = appState.estoque.filter((i) => i !== item);
+        return { ok: true };
+    }
+
     function registrarEstoqueCore({ produto, tipo, quantidade, data }) {
         const item = appState.estoque.find((i) => i.produto === produto);
         quantidade = Number(quantidade);
@@ -272,9 +334,24 @@
     }
 
     function renderEstoque() {
+        const cabecalho = $('#estoque thead tr');
+        if (cabecalho && !cabecalho.querySelector('[data-product-actions]')) {
+            const th = document.createElement('th');
+            th.textContent = 'Ações';
+            th.setAttribute('data-product-actions', '');
+            cabecalho.appendChild(th);
+        }
+
         setRows($('#estoque tbody'), appState.estoque.map((i) => `
-            <tr><td>${esc(i.produto)}</td><td>${esc(i.categoria)}</td><td>${i.quantidade}</td><td>${i.minimo}</td>
-            <td>${badge(situacaoEstoque(i))}</td></tr>`), 5);
+            <tr>
+                <td>${esc(i.produto)}</td><td>${esc(i.categoria)}</td>
+                <td>${i.quantidade}</td><td>${i.minimo}</td>
+                <td>${badge(situacaoEstoque(i))}</td>
+                <td>
+                    <button type="button" class="action-button" data-product-action="edit" data-product="${esc(i.produto)}">Editar</button>
+                    <button type="button" class="action-button" data-product-action="delete" data-product="${esc(i.produto)}">Excluir</button>
+                </td>
+            </tr>`), 6);
 
         const valores = $$('#estoque .stat-card strong');
         const r = resumoEstoque();
@@ -615,6 +692,132 @@
 
         const est = document.getElementById('estoque');
         const boxEst = est && $('.content-box', est);
+        if (boxEst && !document.getElementById('formProduto')) {
+            const wrapProduto = document.createElement('div');
+            wrapProduto.className = 'content-box';
+            wrapProduto.style.cssText = 'padding:24px;margin-bottom:24px';
+            wrapProduto.innerHTML = `
+                <div class="box-header"><h3 id="tituloFormProduto">Cadastrar produto</h3></div>
+                <form id="formProduto" novalidate>
+                    <input type="hidden" id="produtoOriginal">
+                    <div class="form-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px">
+                        <div class="field">
+                            <label for="produtoNome">Nome do produto</label>
+                            <input id="produtoNome" type="text" minlength="2" maxlength="100" required>
+                        </div>
+                        <div class="field">
+                            <label for="produtoCategoria">Categoria</label>
+                            <input id="produtoCategoria" type="text" minlength="2" maxlength="80" required>
+                        </div>
+                        <div class="field">
+                            <label for="produtoQuantidade">Quantidade inicial</label>
+                            <input id="produtoQuantidade" type="number" min="0" step="1" value="0" required>
+                        </div>
+                        <div class="field">
+                            <label for="produtoMinimo">Estoque mínimo</label>
+                            <input id="produtoMinimo" type="number" min="0" step="1" value="0" required>
+                        </div>
+                    </div>
+                    <div class="form-actions" style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+                        <button type="submit" class="action-button" id="produtoSalvar">Cadastrar produto</button>
+                        <button type="button" class="action-button" id="produtoCancelar" hidden>Cancelar edição</button>
+                    </div>
+                </form>`;
+            boxEst.before(wrapProduto);
+
+            const formProduto = document.getElementById('formProduto');
+            const campoOriginal = document.getElementById('produtoOriginal');
+
+            function limparEdicaoProduto() {
+                formProduto.reset();
+                campoOriginal.value = '';
+                document.getElementById('produtoQuantidade').value = '0';
+                document.getElementById('produtoQuantidade').readOnly = false;
+                document.querySelector('label[for="produtoQuantidade"]').textContent = 'Quantidade inicial';
+                document.getElementById('produtoMinimo').value = '0';
+                document.getElementById('tituloFormProduto').textContent = 'Cadastrar produto';
+                document.getElementById('produtoSalvar').textContent = 'Cadastrar produto';
+                document.getElementById('produtoCancelar').hidden = true;
+            }
+
+            document.getElementById('produtoCancelar').addEventListener('click', limparEdicaoProduto);
+
+            formProduto.addEventListener('submit', (event) => {
+                event.preventDefault();
+                if (!formProduto.checkValidity()) {
+                    formProduto.reportValidity();
+                    return;
+                }
+
+                const dados = {
+                    produto: document.getElementById('produtoNome').value,
+                    categoria: document.getElementById('produtoCategoria').value,
+                    quantidade: document.getElementById('produtoQuantidade').value,
+                    minimo: document.getElementById('produtoMinimo').value
+                };
+
+                const original = campoOriginal.value;
+                const resultado = original
+                    ? editarProdutoCore({ ...dados, produtoAtual: original })
+                    : cadastrarProdutoCore(dados);
+
+                if (!resultado.ok) {
+                    showAlert('estoque', resultado.erro, true);
+                    return;
+                }
+
+                limparEdicaoProduto();
+                saveState();
+                renderAll();
+                showAlert('estoque', original ? 'Produto atualizado com sucesso.' : 'Produto cadastrado com sucesso.');
+            });
+
+            const tabelaEstoque = $('#estoque tbody');
+            if (tabelaEstoque && !tabelaEstoque.dataset.productActionsBound) {
+                tabelaEstoque.dataset.productActionsBound = 'true';
+                tabelaEstoque.addEventListener('click', (event) => {
+                    const botao = event.target.closest('[data-product-action]');
+                    if (!botao) return;
+
+                    const produto = botao.getAttribute('data-product');
+                    const acao = botao.getAttribute('data-product-action');
+
+                    if (acao === 'edit') {
+                        const item = appState.estoque.find((i) => norm(i.produto) === norm(produto));
+                        if (!item) return;
+
+                        campoOriginal.value = item.produto;
+                        document.getElementById('produtoNome').value = item.produto;
+                        document.getElementById('produtoCategoria').value = item.categoria;
+                        document.getElementById('produtoQuantidade').value = item.quantidade;
+                        document.getElementById('produtoQuantidade').readOnly = true;
+                        document.querySelector('label[for="produtoQuantidade"]').textContent = 'Quantidade atual (somente leitura)';
+                        document.getElementById('produtoMinimo').value = item.minimo;
+                        document.getElementById('tituloFormProduto').textContent = 'Editar produto';
+                        document.getElementById('produtoSalvar').textContent = 'Salvar alterações';
+                        document.getElementById('produtoCancelar').hidden = false;
+                        formProduto.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        document.getElementById('produtoNome').focus();
+                        return;
+                    }
+
+                    if (acao === 'delete') {
+                        if (!window.confirm(`Deseja excluir o produto "${produto}"?`)) return;
+
+                        const resultado = excluirProdutoCore({ produto });
+                        if (!resultado.ok) {
+                            showAlert('estoque', resultado.erro, true);
+                            return;
+                        }
+
+                        saveState();
+                        renderAll();
+                        showAlert('estoque', 'Produto excluído com sucesso.');
+                    }
+                });
+            }
+        }
+
         if (boxEst && !document.getElementById('formEstoque')) {
             const wrap = document.createElement('div');
             wrap.className = 'content-box';
@@ -717,7 +920,7 @@
         routeFromHash();
         if (typeof window.addEventListener === 'function') window.addEventListener('hashchange', routeFromHash);
         window.StockFlow = {
-            core: { cadastrarPatrimonioCore, cadastrarUsuarioCore, registrarMovimentacaoCore, registrarEstoqueCore,
+            core: { cadastrarPatrimonioCore, cadastrarUsuarioCore, cadastrarProdutoCore, editarProdutoCore, excluirProdutoCore, registrarMovimentacaoCore, registrarEstoqueCore,
                     resumoPatrimonios, resumoEstoque, autenticar, patrimoniosDoCliente, dataCautela, esc, toBR },
             getState: () => appState,
             setCurrentUser: (conta) => { currentUser = conta; },
