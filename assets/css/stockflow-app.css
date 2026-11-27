@@ -1474,3 +1474,14 @@ a.back-button{text-decoration:none;display:inline-block}
     .nav{ gap:18px; }
     .header{ gap:20px; }
 }
+
+/* Indicadores do dashboard */
+#dashboard .stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 650px) {
+    #dashboard .stats {
+        grid-template-columns: 1fr;
+    }
+}

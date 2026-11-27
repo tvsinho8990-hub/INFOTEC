@@ -405,7 +405,17 @@
     function renderDashboardTotals() {
         const r = resumoPatrimonios();
         const dados = [r.total, r.disponiveis, r.cautelados, r.manutencao];
-        $$('#dashboard .stat-card strong').forEach((el, index) => { if (index < dados.length) el.textContent = dados[index]; });
+
+        $$('#dashboard .stat-card strong').forEach((el, index) => {
+            if (index < dados.length) el.textContent = dados[index];
+        });
+
+        const estoque = resumoEstoque();
+        const totalProdutos = document.getElementById('dashboardTotalProdutos');
+        const estoqueBaixo = document.getElementById('dashboardEstoqueBaixo');
+
+        if (totalProdutos) totalProdutos.textContent = appState.estoque.length;
+        if (estoqueBaixo) estoqueBaixo.textContent = estoque.estoqueBaixo;
     }
 
     function renderClientPortal() {
