@@ -272,18 +272,18 @@
     }
 
     function registrarEstoqueCore({ produto, tipo, quantidade, data }) {
-        const item = appState.estoque.find((i) => i.produto === produto);
+        const item = appState.estoque.find((i) => norm(i.produto) === norm(produto));
         quantidade = Number(quantidade);
         data = data || hojeISO();
 
         if (!item) return { ok: false, erro: 'Selecione um produto.' };
         if (tipo !== 'Entrada' && tipo !== 'Saída') return { ok: false, erro: 'Selecione entrada ou saída.' };
-        if (!dataValida(data)) return { ok: false, erro: 'Data da movimentação inválida.' };
+        if (!dataValida(data) || data > hojeISO()) return { ok: false, erro: 'Informe uma data válida, que não seja futura.' };
         if (!Number.isInteger(quantidade) || quantidade <= 0) return { ok: false, erro: 'Informe uma quantidade inteira maior que zero.' };
         if (tipo === 'Saída' && quantidade > item.quantidade) return { ok: false, erro: `Saída maior que o saldo (${item.quantidade}).` };
 
         item.quantidade += tipo === 'Entrada' ? quantidade : -quantidade;
-        appState.estoqueMovimentos.unshift({ produto, tipo, quantidade, data });
+        appState.estoqueMovimentos.unshift({ produto: item.produto, tipo, quantidade, data });
         return { ok: true, saldo: item.quantidade };
     }
 
@@ -831,19 +831,28 @@
                             <select id="estTipo" required><option>Entrada</option><option>Saída</option></select></div>
                         <div class="field"><label for="estQuantidade">Quantidade</label>
                             <input id="estQuantidade" type="number" min="1" step="1" required></div>
+                        <div class="field"><label for="estData">Data da movimentação</label>
+                            <input id="estData" type="date" required max="${hojeISO()}" value="${hojeISO()}"></div>
                     </div>
                     <div class="form-actions" style="margin-top:16px"><button type="submit" class="action-button">Registrar</button></div>
                 </form>`;
             boxEst.before(wrap);
             document.getElementById('formEstoque').addEventListener('submit', (event) => {
                 event.preventDefault();
+                const formulario = document.getElementById('formEstoque');
+                if (!formulario.checkValidity()) {
+                    formulario.reportValidity();
+                    return;
+                }
                 const resultado = registrarEstoqueCore({
                     produto: document.getElementById('estProduto').value,
                     tipo: document.getElementById('estTipo').value,
-                    quantidade: document.getElementById('estQuantidade').value
+                    quantidade: document.getElementById('estQuantidade').value,
+                    data: document.getElementById('estData').value
                 });
                 if (!resultado.ok) { showAlert('estoque', resultado.erro, true); return; }
                 document.getElementById('estQuantidade').value = '';
+                document.getElementById('estData').value = hojeISO();
                 saveState();
                 renderAll();
                 showAlert('estoque', `Movimento registrado. Saldo atual: ${resultado.saldo}.`);
