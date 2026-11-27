@@ -134,10 +134,24 @@
         credentials: "same-origin"
     });
 
-    const dados = await resposta.json();
+    const texto = await resposta.text();
+    let dados = null;
+
+    try {
+        dados = texto ? JSON.parse(texto) : null;
+    } catch (_erroParse) {
+        dados = null;
+    }
 
     if (!resposta.ok) {
-        throw new Error(dados.erro || "Erro de comunicação com o servidor.");
+        throw new Error(
+            dados?.erro ||
+            "Servidor backend indisponível neste ambiente. Inicie o servidor Flask para gerenciar chamados."
+        );
+    }
+
+    if (dados === null) {
+        throw new Error("Resposta inválida recebida do servidor de chamados.");
     }
 
     return dados;
